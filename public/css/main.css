@@ -1,0 +1,80 @@
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.cursor{
+    cursor: pointer;
+}
+
+.error{
+    font-size: 12px !important;
+}
+
+.fileLink{
+    color: rgb(5, 121, 223) !important;
+}
+
+.fileLink:hover{
+    color: rgb(4, 93, 172) !important;
+}
+
+.scoreTitle{
+    font-size: 12px !important;
+}
+
+.chairmanScore{
+    background-color: transparent !important;
+    border: none !important;
+    width: 100px !important;
+}
+
+.card-table {
+    width: 100%;
+}
+
+.card-table-header {
+    color: rgba(13,27,62,0.7);
+}
+
+table, th, td {
+    border: 1px solid rgba(13,27,62,0.7);
+    border-collapse: collapse;
+}
+td, th {
+    text-align: center;
+}
+
+#adjudication-btn {
+    min-width: 9rem;
+}
+
+#nav-btn {
+    min-width: 7rem;
+}
+
+#view-nav {
+    margin: .5rem;
+}
+
+#data-table-rule {
+    margin-top: 0;
+}
+
+#application-form {
+    padding: 3em;
+}
+
+#application-form h3 {
+    font-size: 1.2em;;
+}
+
+#application-form label {
+    display: block;
+    font-weight: bold;
+}
+
+@media screen and (min-width: 1200px) {
+    #application-form {
+        padding: 3em 20%;
+    }
+}
