@@ -14,8 +14,7 @@ class CreateSourcesTable extends Migration
     public function up()
     {
         Schema::create('sources', function (Blueprint $table) {
-            $table->id();
-            $table->string("SRC_Code", 5);
+            $table->string("SRC_Code", 5)->primary();
             $table->string("SRC_Desc", 90);
             $table->timestamps();
         });

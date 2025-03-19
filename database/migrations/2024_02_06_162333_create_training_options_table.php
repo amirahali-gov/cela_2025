@@ -14,8 +14,7 @@ class CreateTrainingOptionsTable extends Migration
     public function up()
     {
         Schema::create('training_options', function (Blueprint $table) {
-            $table->id();
-            $table->string("TRN_Code", 5);
+            $table->string("TRN_Code", 5)->primary();
             $table->string("TRN_Status", 90);
             $table->timestamps();
         });

@@ -14,8 +14,7 @@ class CreateMaritalsTable extends Migration
     public function up()
     {
         Schema::create('maritals', function (Blueprint $table) {
-            $table->id();
-            $table->string("MAR_Code", 3)->unique();
+            $table->string("MAR_Code", 3)->primary();
             $table->string("MAR_Status", 30);
             $table->timestamps();
         });

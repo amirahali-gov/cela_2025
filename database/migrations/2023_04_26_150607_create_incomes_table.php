@@ -14,8 +14,7 @@ class CreateIncomesTable extends Migration
     public function up()
     {
         Schema::create('incomes', function (Blueprint $table) {
-            $table->id();
-            $table->string('INC_Code', 8);
+            $table->string('INC_Code', 8)->primary();
             $table->string('INC_Desc', 30);
             $table->timestamps();
         });

@@ -14,8 +14,7 @@ class CreateAgeGroupsTable extends Migration
     public function up()
     {
         Schema::create('age_groups', function (Blueprint $table) {
-            $table->id();
-            $table->string("AGE_Code", 5);
+            $table->string("AGE_Code", 5)->primary();
             $table->string("AGE_Desc");
             $table->timestamps();
         });

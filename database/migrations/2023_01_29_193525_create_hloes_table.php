@@ -14,8 +14,7 @@ class CreateHloesTable extends Migration
     public function up()
     {
         Schema::create('hloes', function (Blueprint $table) {
-            $table->id();
-            $table->string("Hloe_Code", 4)->unique();
+            $table->string("Hloe_Code", 4)->primary();
             $table->string("Hloe_Desc",30);
             $table->timestamps();
         });
