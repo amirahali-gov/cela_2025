@@ -11,7 +11,7 @@ class Select extends Component
      *
      * @return void
      */
-    public function __construct(public $id, public $label, public $options, public $required=true)
+    public function __construct(public $id, public $label, public $options, public $required = true)
     {
         //
     }
@@ -25,14 +25,21 @@ class Select extends Component
     {
         return <<<'blade'
         <x-form.wrapper>
-            <label for="{{$id}}">{{$label}}@if($required) <x-form.required-label /> @endif</label>
-            <select class="form-control" id="{{$id}}" name="{{$id}}">
-                <option value=""></option>
-                @foreach($options as $option)
-                    <option value="{{ $option[1] }}" @if(old($id) == $option[1]) selected @endif>{{ $option[0] }}</option>
-                @endforeach
-            </select>
-            <x-form.input-error-message id="{{$id}}" />
+            <div class="row">
+                <div class="col-12">
+                    <label for="{{$id}}" class="fw-bold">{{$label}} @if($required) <x-form.required-label /> @endif</label>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <select class="form-control" id="{{$id}}" name="{{$id}}">
+                        <option value=""></option>
+                        @foreach($options as $option)
+                            <option value="{{ $option[1] }}" @if(old($id) == $option[1]) selected @endif>{{ $option[0] }}</option>
+                        @endforeach
+                    </select>
+                    <x-form.input-error-message id="{{$id}}" />
+                </div>
+            </div>
         </x-form.wrapper>
         blade;
     }

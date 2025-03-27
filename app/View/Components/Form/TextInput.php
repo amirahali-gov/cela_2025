@@ -11,8 +11,13 @@ class TextInput extends Component
      *
      * @return void
      */
-    public function __construct(public $id, public $label, public $placeholder=null, public $type="text", public $required=true)
-    {
+    public function __construct(
+        public $id,
+        public $label,
+        public $placeholder = null,
+        public $type = "text",
+        public $required = true
+    ) {
     }
 
     /**
@@ -22,12 +27,20 @@ class TextInput extends Component
      */
     public function render()
     {
-        $placeholder = $placeholder ?? $this->label;
+        $placeholder = $this->placeholder ?? $this->label;
         return <<<'blade'
             <x-form.wrapper>
-                <label for="{{$id}}">{{$label}} @if($required) <x-form.required-label /> @endif</label>
-                <input class="form-control" type="{{$type}}" name="{{$id}}" id="{{$id}}" placeholder="{{$placeholder}}" value="{{ old($id) }}">
-                <x-form.input-error-message id="{{$id}}" />
+                <div class="row align-items-center">
+                    <!-- Label taking 12 columns -->
+                    <div class="col-12">
+                        <label for="{{$id}}" class="fw-bold">{{$label}} @if($required) <x-form.required-label /> @endif</label>
+                    </div>
+                    <!-- Input field taking 6 columns -->
+                    <div class="col-md-6 mb-4">
+                        <input class="form-control" type="{{$type}}" name="{{$id}}" id="{{$id}}" placeholder="{{$placeholder}}" value="{{ old($id) }}">
+                        <x-form.input-error-message id="{{$id}}" />
+                    </div>
+                </div>
             </x-form.wrapper>
         blade;
     }

@@ -27,7 +27,7 @@ class MultiTextInput extends Component
             <x-form.wrapper>
                 <label for="{{$id}}">{{$label}}@if($required) <x-form.required-label /> @endif</label>
                 @for($i=1; $i<=$count; $i++)
-                    <input class="form-control mb-2" type="text" name="{{$id}}[]" id="{{$id}}{{$i}}" placeholder="{{$placeholder}}" value="{{ old($id)[$i-1] ?? '' }}">
+                    <input class="form-control mb-2 col-md-6" type="text" name="{{$id}}[]" id="{{$id}}{{$i}}" placeholder="{{$placeholder}}" value="{{ old($id)[$i-1] ?? '' }}">
                 @endfor
                 <x-form.input-error-message id="{{$id}}" />
             </x-form.wrapper>
