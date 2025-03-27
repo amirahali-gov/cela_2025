@@ -15,8 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix(env('APP_NAME'))->group(function () {
-    Route::get('/', [ApplicationController::class, 'getFormView'])->name('application.view');
-    Route::post('/apply', [ApplicationController::class, 'apply'])->name('application.apply');
-    Route::post('/upload', [ApplicationController::class, 'upload'])->name('application.upload');
-});
+// Route::prefix(env('APP_NAME'))->group(function () {
+//     Route::get('/', [ApplicationController::class, 'getFormView'])->name('application.view');
+//     Route::post('/apply', [ApplicationController::class, 'apply'])->name('application.apply');
+//     Route::post('/upload', [ApplicationController::class, 'upload'])->name('application.upload');
+// });
+
+Route::get('/', [ApplicationController::class, 'getFormView'])->name('application.view');
+Route::post('/apply', [ApplicationController::class, 'apply'])->name('application.apply');
+Route::post('/upload', [ApplicationController::class, 'upload'])->name('application.upload');

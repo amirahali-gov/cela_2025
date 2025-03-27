@@ -313,9 +313,15 @@
 
                     <x-form.radio id="APL_Accepts" label="I have read and accept the above" :options="$yesNoOptions" />
 
+                    {{-- <x-form.wrapper>
+                        <div class="d-grid gap-2 col-3 mx-auto">
+                            <button type="submit" class="btn btn-success" disabled>Submit</button>
+                        </div>
+                    </x-form.wrapper> --}}
+
                     <x-form.wrapper>
                         <div class="d-grid gap-2 col-3 mx-auto">
-                            <button type="submit" class="btn btn-success">Submit</button>
+                            <button type="button" class="btn btn-success">Submit</button>
                         </div>
                     </x-form.wrapper>
                 </form>
