@@ -121,13 +121,13 @@ class ApplicationController extends Controller
             'APL_Expectations' => 'Expectations',
             'APL_NoK_Name' => 'Next of Kin Name',
             'APL_NoK_Contact' => 'Next of Kin Contact',
-            'APL_COC_Choice' => 'Choice of Certification',
-            // 'File_Character_Certificate' => 'Character Certificate',
-            // 'File_Recommender_Statement' => 'Recommender Statement',
-            // 'File_Birth_Certificate' => 'Birth Certificate',
-            // 'File_National_ID' => 'National ID',
-            // 'Texts_Links' => 'Supporting Links',
-            // 'APL_Accepts' => 'Acceptance of Terms',
+            'APL_COC_Choice' => 'Certificate of Character',
+            'File_Character_Certificate' => 'Character Certificate',
+            'File_Recommender_Statement' => 'Recommender Statement',
+            'File_Birth_Certificate' => 'Birth Certificate',
+            'File_National_ID' => 'National ID',
+            'Texts_Links' => 'Supporting Links',
+            'APL_Accepts' => 'Acceptance of Terms',
         ];
     }
 
