@@ -7,14 +7,14 @@
             <img src="https://apps.mydns.gov.tt/images/nltp_banner.jpg" alt="Banner" class="img-fluid min-width-100">
             <section>
                 <div class="text-center">
-                    <h1>NATIONAL LEADERSHIP PROGRAMME 2025</h1>
+                    <h1>NATIONAL SERVICE LEADERSHIP PROGRAMME 2025</h1>
                     <h3>Application Form</h3>
                 </div><br>
                 <p>The Ministry of Youth Development and National Service, recognizes the need across all age groups and sectors, for shared responsibility, common values and positive experiences, as well as improvement within communities.  As such the Ministry creates opportunities for youth activists, non-profit organizations, youth-led and youth-serving organizations, as well as the national community to contribute to the National Service platform/agenda for Trinidad and Tobago.<br><br>
 
                     The Ministry envisages that National Service will allow citizens to connect with social issues, come together to accomplish common goals, help individuals develop different skills and increase volunteerism, which will ultimately address the unrealized social, educational and environmental needs of communities across Trinidad and Tobago.<br><br>
                     
-                   This form is intended to collect information about potential registrants for the National Leadership Training Programme 2025. This training is facilitated by the Ministry of Youth Development and National Service (MYDNS) in collaboration with The University of the West Indies, St. Augustine Campus. The information collected will only be used for the registration, reporting and analysis of participants for this training programme. This form will take 10 minutes to complete. Thank you!</p>
+                   This form is intended to collect information about potential registrants for the National Service Leadership Training Programme 2025. This training is facilitated by the Ministry of Youth Development and National Service (MYDNS) in collaboration with The University of the West Indies, St. Augustine Campus. The information collected will only be used for the registration, reporting and analysis of participants for this training programme. This form will take 10 minutes to complete. Thank you!</p>
     
                 @if(session('submissionError'))
                     <div class="alert alert-danger alert-dismissible" role="alert">

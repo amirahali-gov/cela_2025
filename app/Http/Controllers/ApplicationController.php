@@ -335,17 +335,17 @@ class ApplicationController extends Controller
                 'Authorization' => 'Bearer ' . env('SWIFT_TOKEN'), 
             ])->post('https://swift.mydns.gov.tt/api/general', [
                 'email' => $application->APL_Email,
-                'title' => 'National Leadership Training Programme 2025 Management System',
-                'subject' => 'National Leadership Training Programme 2025 APPLICATION',
+                'title' => 'National Service Leadership Training Programme 2025 Management System',
+                'subject' => 'National Service Leadership Training Programme 2025 APPLICATION',
                 'name' => $name,
-                'body' => 'This email serves to inform you that your application for The National Leadership Training Programme 2025 has been received.',
+                'body' => 'This email serves to inform you that your application for The National Service Leadership Training Programme 2025 has been received.',
                 'app' => 'NLTP 2025',
                 'header' => "Thank you {$name}",
                 'fromAddress' => 'youthinfo.mydns@gov.tt',
                 'fromName' => 'MYDNS',
             ]);
     
-            return redirect("https://mydns.gov.tt/thank-you/?FirstName={$name}&ProgrammeName=NATIONAL%20LEADERSHIP%20TRAINING%20PROGRAMME%202025%20");
+            return redirect("https://mydns.gov.tt/thank-you/?FirstName={$name}&ProgrammeName=NATIONAL%20SERVICE%20LEADERSHIP%20TRAINING%20PROGRAMME%202025%20");
         } catch (Exception $e){
             DB::rollBack();
             return redirect(route('application.view'))->withInput($request->all())->with('submissionError', "There was an error in submission. {$e->getMessage()}");
