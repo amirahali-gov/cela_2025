@@ -31,15 +31,20 @@ class FileInput extends Component
         return <<<'blade'
             <x-form.wrapper>
                 <div class="row">
+                    <div class="col-12">
+                        <label for="{{$id}}" class="fw-bold">{{$label}} @if($required) <x-form.required-label /> @endif</label>
+                    </div>
 
-                <div class="col-12">
-                    <label for="{{$id}}" class="fw-bold">{{$label}} @if($required) <x-form.required-label /> @endif</label>
-                </div>
-
-                <div class="col-md-6 mb-4">
+                    <div class="col-md-6 mb-4">
                         <div class="input-group mb-3">
                             <input type="file" class="form-control" accept="{{ $accept }}" name="{{ $id }}" id="{{ $id }}">
                         </div>
+                        
+                        <!-- Display previously uploaded file -->
+                        @if(session("uploadedFiles.{$id}"))
+                            <p>Previously uploaded: <a href="{{ asset('storage/' . session("uploadedFiles.{$id}")) }}" target="_blank">View File</a></p>
+                        @endif
+                        
                         <small class="d-block form-text text-muted">{{ $helperText }}</small>
                         <x-form.input-error-message id="{{ $id }}" />
                     </div>

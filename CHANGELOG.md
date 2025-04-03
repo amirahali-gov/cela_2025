@@ -6,6 +6,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## 1.0.3 - 02 APRIL 2025
+### Added
+
+- Fixed conditonal rendering to retain data on reload/validation
+- Fixed document uploads
+- Updated URL processing and storage
+- Added validation naming conventions
+- Fixed radio input null on submission
+- Updated validations mainly on files and conditional rendering
+- Included new questions and changes based on review
 
 ## 1.0.2 - 26 MARCH 2025
 ### Added
