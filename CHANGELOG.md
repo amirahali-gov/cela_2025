@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed radio input null on submission
 - Updated validations mainly on files and conditional rendering
 - Included new questions and changes based on review
+- updated swift tokens
 
 ## 1.0.2 - 26 MARCH 2025
 ### Added
