@@ -69,14 +69,14 @@ class ApplicationController extends Controller
         'APL_PG_Name' => 'nullable',
         'APL_PG_Contact' => 'nullable',
         'APL_COC_Choice' => 'required',
-        'File_Character_Certificate' => 'nullable|required_if:APL_COC_Choice,COC|file|mimes:pdf,jpg,png',
+        'File_Character_Certificate' => 'nullable|required_if:APL_COC_Choice,COC|file|mimes:pdf,jpg,png,jpeg,gif,bmp|max:2048',
         'APL_CRN' => 'nullable|required_if:APL_COC_Choice,CRN',
-        'File_Character_Certificate' => 'nullable|required_if:APL_COC_Choice,COC|file|mimes:pdf,jpg,png|max:2048', // 2MB limit
-        'File_Recommender_Statement' => 'required|file|mimes:pdf,jpg,png|max:2048', 
-        'File_Birth_Certificate' => 'required|file|mimes:pdf,jpg,png|max:2048',
-        'File_National_ID' => 'required|file|mimes:pdf,jpg,png|max:2048',
+        'File_Character_Certificate' => 'nullable|required_if:APL_COC_Choice,COC|file|mimes:pdf,jpg,png,jpeg,gif,bmp|max:2048', // 2MB limit
+        'File_Recommender_Statement' => 'required|file|mimes:pdf,jpg,png,jpeg,gif,bmp|max:2048', 
+        'File_Birth_Certificate' => 'required|file|mimes:pdf,jpg,png,jpeg,gif,bmp|max:2048',
+        'File_National_ID' => 'required|file|mimes:pdf,jpg,png,jpeg,gif,bmp|max:2048',
         'Files_Academic_Certificates' => 'nullable|array',
-        'Files_Academic_Certificates.*' => 'file|mimes:pdf,jpg,png|max:2048',
+        'Files_Academic_Certificates.*' => 'file|mimes:pdf,jpg,png,jpeg,gif,bmp|max:2048',
         'Texts_Links' => 'nullable',
         'APL_Accepts' => 'required|in:Y',
     ];
@@ -126,6 +126,7 @@ class ApplicationController extends Controller
             'File_Recommender_Statement' => 'Recommender Statement',
             'File_Birth_Certificate' => 'Birth Certificate',
             'File_National_ID' => 'National ID',
+            'APL_CRN' => 'Certificate Receipt Number',
             'Texts_Links' => 'Supporting Links',
             'APL_Accepts' => 'Acceptance of Terms',
         ];
