@@ -39,7 +39,7 @@ class FileInput extends Component
                     <label for="{{$id}}" class="fw-bold">{{$displayLabel}} @if($required) <x-form.required-label /> @endif</label>
                 </div>
 
-                    <div class="col-md-6 mb-4">
+                    <div class="mb-4">
                         <div class="input-group mb-3">
                             <input type="file" class="form-control" accept="{{ $accept }}" name="{{ $id }}" id="{{ $id }}">
                         </div>

@@ -8,56 +8,113 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('applications', function (Blueprint $table) {
-            $table->id();
-            $table->string('APL_FName');
-            $table->string('APL_LName');
-            $table->string('APL_Title');
-            $table->string('APL_Address1');
-            $table->string('APL_Address2');
-            $table->string('APL_Address3');
-            $table->string('APL_Municipality');
-            $table->string('APL_Gender');
-            $table->date('APL_DOB');
-            $table->string('APL_PPhone');
-            $table->string('APL_APhone')->nullable();
-            $table->string('APL_Email')->unique();
-            $table->string('APL_Marital');
-            $table->string('APL_NID');
-            $table->string('APL_NID_Number');
-            $table->string('APL_BPN')->unique();
-            $table->string('APL_HLOE');
-            $table->string('APL_HLOE_Other')->nullable();
-            $table->string('APL_Employment_Status');
-            $table->string('APL_Employment_Status_Other')->nullable();
-            $table->string('APL_Field')->nullable();
-            $table->string('APL_Accommodation');
-            $table->text('APL_Accommodation_Details')->nullable();
-            $table->text('APL_Interest_Details');
-            $table->string('APL_Youth_Group_Member');
-            $table->string('APL_Organization_Name')->nullable();
-            $table->string('APL_Role')->nullable();
-            $table->string('APL_Membership_Length')->nullable();
-            $table->string('APL_Availability_Virtual');
-            $table->string('APL_Availability_InPerson');
-            $table->string('APL_Internet');
-            $table->string('APL_Obligations');
-            $table->text('APL_Obligations_Details')->nullable();
-            $table->string('APL_MYDNS_Participant');
-            $table->text('APL_MYDNS_Participant_Details')->nullable();
-            $table->text('APL_Expectations');
-            $table->string('APL_NoK_Name');
-            $table->string('APL_NoK_Contact');
-            $table->string('APL_PG_Name')->nullable();
-            $table->string('APL_PG_Contact')->nullable();
-            $table->string('APL_COC_Choice');
-            $table->string('APL_CRN')->nullable();
-            // $table->string('File_Character_Certificate')->nullable();
-            // $table->string('File_Recommender_Statement');
-            // $table->string('File_Birth_Certificate');
-            // $table->string('File_National_ID');
-            // $table->json('Files_Academic_Certificates')->nullable();
-            // $table->json('urlInput')->nullable();
-            // $table->enum('APL_Accepts', ['Y']);
+            $table->bigIncrements('APL_ID');
+            
+            // Administrative fields - small sizes
+            $table->string('APL_Dup', 50)->nullable();
+            $table->string('APL_DupUser', 100)->nullable();
+            $table->tinyInteger('APL_Cycle')->nullable();
+            $table->string('APL_Invalid', 50)->nullable();
+            $table->string('APL_Judged', 50)->nullable();
+            $table->string('APL_Scored', 50)->nullable();
+            $table->tinyInteger('APL_Group_Num')->nullable();
+            $table->tinyInteger('APL_Sort_Num')->nullable();
+            $table->string('APL_ShortList', 50)->nullable();
+            
+            // Personal information - moderate sizes
+            $table->string('APL_FName', 100)->nullable();
+            $table->string('APL_MName', 100)->nullable();
+            $table->string('APL_LName', 100)->nullable();
+            $table->text('APL_Address_1')->nullable();
+            $table->text('APL_Address_2')->nullable();
+            $table->text('APL_Address_3')->nullable();
+            $table->string('APL_Area', 100)->nullable();
+            $table->string('APL_Gender', 20)->nullable();
+            $table->date('APL_DOB')->nullable();
+            $table->integer('APL_Age')->nullable();
+            
+            // Contact information
+            $table->string('APL_PPhone', 50)->nullable();
+            $table->string('APL_APhone', 50)->nullable();
+            $table->string('APL_Email', 150)->nullable();
+            $table->string('APL_TT', 50)->nullable();
+            
+            // Identification
+            $table->string('APL_ID_TYP', 50)->nullable();
+            $table->string('APL_ID_Number', 100)->nullable();
+            $table->string('APL_BIRTH_PIN', 100)->nullable();
+            $table->string('APL_Has_NIS', 20)->nullable();
+            $table->string('APL_NIS_Number', 100)->nullable();
+            
+            // Banking information
+            $table->string('APL_BANK', 100)->nullable();
+            $table->text('APL_BANK_Name')->nullable();
+            $table->text('APL_BANK_Other')->nullable();
+            $table->string('APL_BANK_ACC', 100)->nullable();
+            
+            // Service and qualification information
+            $table->text('APL_Service_Area')->nullable();
+            $table->string('APL_2_CXC_Passes', 20)->nullable();
+            $table->string('APL_Geriatric_Certif', 20)->nullable();
+            $table->string('APL_Graduate', 20)->nullable();
+            $table->text('APL_Available_Weekdays')->nullable();
+            $table->string('APL_Available_GAPP', 20)->nullable();
+            $table->text('APL_Experience')->nullable();
+            
+            // Professional reference
+            $table->string('APL_Prof_Rec_FName', 100)->nullable();
+            $table->string('APL_Prof_Rec_LName', 100)->nullable();
+            $table->text('APL_Prof_Rec_Designation')->nullable();
+            $table->string('APL_Prof_Rec_Phone', 50)->nullable();
+            
+            // Personal reference
+            $table->string('APL_Pers_Rec_FName', 100)->nullable();
+            $table->string('APL_Pers_Rec_LName', 100)->nullable();
+            $table->string('APL_Pers_Rec_Phone', 50)->nullable();
+            $table->text('APL_Pers_Rec_Relationship')->nullable();
+            
+            $table->text('APL_Character_Selection')->nullable();
+            $table->string('APL_CRN', 100)->nullable();
+            
+            // New fields from form-fields.txt
+            $table->string('APL_HLOE', 100)->nullable();
+            $table->text('APL_HLOE_Specify')->nullable();
+            $table->string('APL_Employment_Status', 50)->nullable();
+            $table->text('APL_Job_Title')->nullable();
+            $table->string('APL_Employment_Type', 50)->nullable();
+            $table->string('APL_Has_Bank_Account', 20)->nullable();
+            $table->text('APL_Preferred_Region')->nullable();
+            $table->text('APL_Certification_Institution')->nullable();
+            $table->text('APL_Motivation_Expectations')->nullable();
+            $table->string('APL_Post_Training_Intent', 100)->nullable();
+            $table->text('APL_Post_Training_Other')->nullable();
+            $table->string('APL_Consent_Followup', 20)->nullable();
+            $table->text('APL_How_Found_Programme')->nullable();
+            $table->text('APL_How_Found_Other')->nullable();
+            $table->string('APL_Subscribe_Mailing', 20)->nullable();
+            $table->string('APL_Photo_Consent', 20)->nullable();
+            
+            // Additional professional reference
+            $table->string('APL_Prof_Rec_2_FName', 100)->nullable();
+            $table->text('APL_Prof_Rec_2_Designation')->nullable();
+            $table->string('APL_Prof_Rec_2_Phone', 50)->nullable();
+            
+            // File uploads - keeping these as strings for file paths/names
+            $table->text('File_Birth_Certificate')->nullable();
+            $table->text('File_National_ID')->nullable();
+            $table->text('File_Proof_Address')->nullable();
+            $table->text('File_Authorization_Letter')->nullable();
+            $table->text('File_Owner_ID')->nullable();
+            $table->text('File_Utility_Bill')->nullable();
+            $table->text('File_Geriatric_Certificate')->nullable();
+            $table->json('Files_Academic_Certificates')->nullable();
+            $table->text('File_Character_Certificate')->nullable();
+            $table->text('File_Recommender_Statement_1')->nullable();
+            $table->text('File_Recommender_Statement_2')->nullable();
+            $table->text('File_NIS_Card')->nullable();
+            
+            $table->string('APL_Accepts', 20)->nullable();
+            
             $table->timestamps();
         });
     }

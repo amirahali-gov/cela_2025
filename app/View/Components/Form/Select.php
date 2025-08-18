@@ -37,7 +37,7 @@ class Select extends Component
                     <label for="{{$id}}" class="fw-bold">{{$displayLabel}} @if($required) <x-form.required-label /> @endif</label>
                 </div>
 
-                <div class="col-md-6 mb-4">
+                <div class="mb-4">
                     <select class="form-control" id="{{$id}}" name="{{$id}}">
                         <option value=""></option>
                         @foreach($options as $option)

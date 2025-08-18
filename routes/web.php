@@ -22,6 +22,6 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [ApplicationController::class, 'getFormView'])->name('application.view');
-Route::get('/test', [ApplicationController::class, 'test'])->name('application.test');
+Route::post('/test', [ApplicationController::class, 'test'])->name('application.test');
 Route::post('/apply', [ApplicationController::class, 'apply'])->name('application.apply');
 Route::post('/upload', [ApplicationController::class, 'upload'])->name('application.upload');

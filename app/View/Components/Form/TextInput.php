@@ -41,7 +41,7 @@ class TextInput extends Component
                         <label for="{{$id}}" class="fw-bold">{{$displayLabel}} @if($required) <x-form.required-label /> @endif</label>
                     </div>
                     <!-- Input field taking 6 columns -->
-                    <div class="col-md-6 mb-4">
+                    <div class="mb-4">
                         <input class="form-control" type="{{$type}}" name="{{$id}}" id="{{$id}}" placeholder="{{$placeholder}}" value="{{ old($id) }}">
                         <x-form.input-error-message id="{{$id}}" />
                     </div>

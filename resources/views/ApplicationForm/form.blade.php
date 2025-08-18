@@ -60,28 +60,36 @@
                     // Reset question counter for this form
                     \App\View\Components\Form\QuestionNumbering::reset();
                 @endphp
+                <form action="/test" method="POST">
+                    @csrf
+                    <input type="text" name="test" value="test">
+                    <input type="submit" value="Submit">
+                </form>
                 <form action="{{ route('application.apply') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <x-form.section-h1 id="PersonalInfo">Personal Information</x-form.section-h1>
 
                     {{-- 1. NAME --}}
-                    <x-form.column-2>
+                    <x-form.column-3>
                         <x-slot name="col1">
                             <x-form.text-input id="APL_FName" label="First Name" value="{{ old('APL_FName') }}" />
                         </x-slot>
                         <x-slot name="col2">
+                            <x-form.text-input id="APL_MName" label="Middle Name" :questionNumber="false" />
+                        </x-slot>
+                        <x-slot name="col3">
                             <x-form.text-input id="APL_LName" label="Last Name" :questionNumber="false" />
                         </x-slot>
-                    </x-form.column-2>
+                    </x-form.column-3>
 
                     {{-- 2. ADDRESS --}}
                     <x-form.column-2>
                         <x-slot name="col1">
-                            <x-form.text-input id="APL_Address1" label="Address Line 1" />
+                            <x-form.text-input id="APL_Address_1" label="Address Line 1" />
                         </x-slot>
                         <x-slot name="col2">
-                            <x-form.text-input id="APL_Address2" label="Address Line 2" :questionNumber="false" />
+                            <x-form.text-input id="APL_Address_2" label="Address Line 2" :questionNumber="false" />
                         </x-slot>
                     </x-form.column-2>
 
@@ -114,7 +122,7 @@
                     <x-form.date-input id="APL_DOB" label="Date of Birth" />
 
                     {{-- 6. AGE (Auto-calculated) --}}
-                    {{-- <div class="col-md-6 mb-4">
+                    {{-- <div class="mb-4">
                         <label for="APL_Age" class="form-label fw-bold">Age (Auto-calculated)</label>
                         <input type="text" id="APL_Age" class="form-control" readonly>
                     </div> --}}
@@ -132,12 +140,12 @@
                             ]"/>
                         </x-slot>
                         <x-slot name="col2">
-                            <x-form.text-input id="APL_HLOE_Specify" label="If Technical/Vocational, please specify" :required="false"/>
+                            <x-form.text-input id="APL_HLOE_Specify" label="(Please specify)" :required="false"/>
                         </x-slot>
                     </x-form.column-2>
 
                     {{-- 8. Employment Status --}}
-                    <x-form.radio id="APL_Employed" label="Are you employed/self-employed?" :options="$yesNoOptions" />
+                    <x-form.radio id="APL_Employment_Status" label="Are you employed/self-employed?" :options="$yesNoOptions" />
 
                     <div x-data="{ APL_Employed: '' }">
                         <div x-show="APL_Employed === 'Y'" x-cloak class="mt-4">
@@ -161,15 +169,15 @@
                     <x-form.text-input id="APL_Email" label="Email Address" />
 
                     {{-- 12. IDENTIFICATION --}}
-                    <x-form.select id="APL_NID_Type" label="Please provide the number for one of the following forms of identification" :options="[
+                    <x-form.select id="APL_ID_TYP" label="Please provide the number for one of the following forms of identification" :options="[
                         ['National Identification Card', 'NID'],
                         ['Passport', 'PP'],
                     ]" />
 
-                    <x-form.text-input id="APL_NID_Number" label="Identification Number" :questionNumber="false"/>
+                    <x-form.text-input id="APL_ID_Number" label="Identification Number" :questionNumber="false"/>
 
                     {{-- 13. BIRTH CERTIFICATE PIN NUMBER --}}
-                    <x-form.text-input id="APL_BPN" label="Birth Certificate Pin Number" />
+                    <x-form.text-input id="APL_BIRTH_PIN" label="Birth Certificate Pin Number" />
 
                     {{-- 14. DO YOU HAVE A NATIONAL INSURANCE NUMBER (NIS)? --}}
                     <x-form.radio id="APL_Has_NIS" label="Do you have a National Insurance Number (NIS)?" :options="$yesNoOptions" />
@@ -194,13 +202,13 @@
                     ]"/>
 
                     {{-- 17. I AM A NATIONAL OF TRINIDAD AND TOBAGO --}}
-                    <x-form.radio id="APL_TT_National" label="I am a national of Trinidad and Tobago" :options="$yesNoOptions" />
+                    <x-form.radio id="APL_TT" label="I am a national of Trinidad and Tobago" :options="$yesNoOptions" />
 
                     {{-- 18. I POSSESS TWO CSEC PASSES OR MORE --}}
-                    <x-form.radio id="APL_CSEC_Passes" label="I possess two CSEC passes or more" :options="$yesNoOptions" />
+                    <x-form.radio id="APL_2_CXC_Passes" label="I possess two CSEC passes or more" :options="$yesNoOptions" />
 
                     {{-- 19. I POSSESS A CERTIFICATE REFLECTING COMPETENCIES IN GERIATRIC CARE OR PROFESSIONAL HEALTHCARE --}}
-                    <x-form.radio id="APL_Geriatric_Certificate" label="I possess a certificate reflecting competencies in Geriatric Care or Professional Healthcare" :options="$yesNoOptions" />
+                    <x-form.radio id="APL_Geriatric_Certif" label="I possess a certificate reflecting competencies in Geriatric Care or Professional Healthcare" :options="$yesNoOptions" />
 
                     {{-- 20. FROM WHICH INSTITUTION DID YOU RECEIVE YOUR CERTIFICATION? --}}
                     <x-form.text-input id="APL_Certification_Institution" label="From which institution did you receive your certification?" />
@@ -208,10 +216,10 @@
                     <x-form.section-h1>Programme Interest</x-form.section-h1>
 
                     {{-- 21. I AM AVAILABLE TO PROVIDE GERIATRIC CARE BETWEEN THE HOURS 8:00 AM - 4:00 PM MONDAYS TO FRIDAYS --}}
-                    <x-form.radio id="APL_Available_8to4" label="I am available to provide geriatric care between the hours 8:00 AM - 4:00 PM Mondays to Fridays (except public holidays) if successful" :options="$yesNoOptions" />
+                    <x-form.radio id="APL_Available_Weekdays" label="I am available to provide geriatric care between the hours 8:00 AM - 4:00 PM Mondays to Fridays (except public holidays) if successful" :options="$yesNoOptions" />
 
                     {{-- 22. PLEASE OUTLINE YOUR EXPERIENCE IN PROVIDING GERIATRIC CARE SERVICES --}}
-                    <x-form.text-area id="APL_Geriatric_Experience" label="Please outline your experience in providing geriatric care services" :required="true"/>
+                    <x-form.text-area id="APL_Experience" label="Please outline your experience in providing geriatric care services" :required="true"/>
 
                     {{-- 23. MOTIVATION & EXPECTATIONS --}}
                     <x-form.text-area id="APL_Motivation_Expectations" label="Motivation & Expectations - Briefly describe why you are interested in joining the National Service GAPP Programme" :required="true"/>
@@ -261,60 +269,32 @@
                     <x-form.section-h1>Recommender Information</x-form.section-h1>
 
                     {{-- 29-31. PROFESSIONAL RECOMMENDER 1 --}}
-                    <x-form.text-input id="APL_Recommender1_Name" label="Name of Professional Recommender 1" />
-                    <x-form.text-input id="APL_Recommender1_Designation" label="Designation of Professional Recommender 1" />
-                    <x-form.text-input id="APL_Recommender1_Contact" label="Contact Number of Professional Recommender 1" />
+                    <x-form.text-input id="APL_Prof_Rec_FName" label="Name of Professional Recommender 1" />
+                    <x-form.text-input id="APL_Prof_Rec_Designation" label="Designation of Professional Recommender 1" />
+                    <x-form.text-input id="APL_Prof_Rec_Phone" label="Contact Number of Professional Recommender 1" />
 
                     {{-- 32-34. PROFESSIONAL RECOMMENDER 2 --}}
-                    <x-form.text-input id="APL_Recommender2_Name" label="Name of Professional Recommender 2" />
-                    <x-form.text-input id="APL_Recommender2_Designation" label="Designation of Professional Recommender 2" />
-                    <x-form.text-input id="APL_Recommender2_Contact" label="Contact Number of Professional Recommender 2" />
+                    <x-form.text-input id="APL_Prof_Rec_2_FName" label="Name of Professional Recommender 2" />
+                    <x-form.text-input id="APL_Prof_Rec_2_Designation" label="Designation of Professional Recommender 2" />
+                    <x-form.text-input id="APL_Prof_Rec_2_Phone" label="Contact Number of Professional Recommender 2" />
 
                     <x-form.section-h1>Document Uploads</x-form.section-h1>
-
-                    {{-- 35. BIRTH CERTIFICATE --}}
+                    
+                    {{-- Required Documents --}}
                     <x-form.file-input id="File_Birth_Certificate" label="Birth Certificate" />
-
-                    {{-- 36. NATIONAL IDENTIFICATION CARD OR TRINIDAD AND PASSPORT --}}
-                    <x-form.file-input id="File_National_ID" label="National Identification Card or Trinidad and Tobago Passport" />
-
-                    {{-- 37. PROOF OF ADDRESS --}}
-                    <x-form.file-input id="File_Proof_Address" label="Proof of Address (Utility Bill or Top of Bank Statement)" />
-
-                    {{-- 38-40. CONDITIONAL ADDRESS DOCUMENTS --}}
-                    <x-form.file-input id="File_Authorization_Letter" label="Letter of Authorization (if address proof not in your name)" :required="false"/>
-                    <x-form.file-input id="File_Owner_ID" label="Owner's ID (if address proof not in your name)" :required="false"/>
-                    <x-form.file-input id="File_Utility_Bill" label="Utility Bill or Top of Bank Statement" :required="false"/>
-
-                    {{-- 41. CERTIFICATE IN GERIATRIC CARE/PROFESSIONAL HEALTHCARE --}}
-                    <x-form.file-input id="File_Geriatric_Certificate" label="Certificate in Geriatric Care/Professional Healthcare" />
-
-                    {{-- 42. UPLOAD YOUR ACADEMIC CERTIFICATES HERE --}}
-                    <x-form.multi-file-input id="Files_Academic_Certificates" label="Upload your academic certificates here (You may select multiple files)" />
-
-                    {{-- 43. PLEASE SELECT EITHER CERTIFICATE OF CHARACTER OR THE RECEIPT NUMBER TO UPLOAD --}}
-                    <div x-data="{ APL_COC_Choice: '' }">
-                        <x-form.radio
-                            id="APL_COC_Choice"
-                            label="Please select either Certificate of Character or the receipt number to upload:"
-                            :options="[['Certificate of Character', 'COC'], ['Certificate of Character Receipt Number', 'CRN']]"
-                            x-model="APL_COC_Choice"
-                        />
-
-                        <div x-show="APL_COC_Choice === 'COC'" x-cloak class="mt-4">
-                            <x-form.file-input id="File_Character_Certificate" label="Certificate of Character" :questionNumber="false"/>
-                        </div>
-                        <div x-show="APL_COC_Choice === 'CRN'" x-cloak class="mt-4">
-                            <x-form.text-input id="APL_CRN" label="Certificate of Character Receipt Number" :required="false" :questionNumber="false"/>
-                        </div>
-                    </div>
-
-                    {{-- 44-45. RECOMMENDER STATEMENTS --}}
-                    <x-form.file-input id="File_Recommender_Statement1" label="Recommender Statement 1" />
-                    <x-form.file-input id="File_Recommender_Statement2" label="Recommender Statement 2" />
-
-                    {{-- 46. NIS CARD --}}
-                    <x-form.file-input id="File_NIS_Card" label="NIS Card" :required="false"/>
+                    <x-form.file-input id="File_National_ID" label="National ID / Passport" />
+                    <x-form.file-input id="File_Character_Certificate" label="Certificate of Character (or Receipt from TTPS)" />
+                    <x-form.file-input id="File_Recommender_Statement_1" label="Letter of Recommendation 1" />
+                    <x-form.file-input id="File_Recommender_Statement_2" label="Letter of Recommendation 2" />
+                    <x-form.file-input id="Files_Academic_Certificates" label="Academic and/or Skills Training Certificates" />
+                    <x-form.file-input id="File_Geriatric_Certificate" label="Certificate in Geriatric Care or Professional Healthcare" />
+                    
+                    {{-- Optional Documents --}}
+                    <x-form.file-input id="File_NIS_Card" label="National Insurance Card (Optional)" :required="false" />
+                    <x-form.file-input id="File_Proof_Address" label="Proof of Address (Utility Bill or Bank Statement)" />
+                    <x-form.file-input id="File_Authorization_Letter" label="Authorization Letter (if proof of address not in your name)" :required="false" />
+                    <x-form.file-input id="File_Owner_ID" label="Copy of Owner's ID (if using authorization letter)" :required="false" />
+                    
 
                     <x-form.wrapper>
                         <h3 class="fw-bold">Participation Agreement</h3>
@@ -330,11 +310,11 @@
 
                     <x-form.radio id="APL_Accepts" label="I have read and accept the above" :options="$yesNoOptions" />
 
-                    {{-- <x-form.wrapper>
+                    <x-form.wrapper>
                         <div class="d-grid gap-2 col-3 mx-auto">
-                            <button type="button" class="btn btn-success">Submit</button>
+                            <input type="submit" class="btn btn-success">Submit</input>
                         </div>
-                    </x-form.wrapper> --}}
+                    </x-form.wrapper>
                 </form>
             </section>
         </div>
@@ -354,3 +334,5 @@
             }
             </script>
     </body>
+
+@endsection

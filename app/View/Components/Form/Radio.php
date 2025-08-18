@@ -44,7 +44,7 @@ class Radio extends Component
                     <label for="{{$id}}" class="fw-bold">{{$displayLabel}} @if($required) <x-form.required-label /> @endif</label>
                 </div>
 
-                <div class="col-md-6 mb-4">
+                <div class="mb-4">
                     <div class="form-check">
                         @foreach($options as $option)
                         <input class="fw-bold form-check-input" type="radio" name="{{$id}}" id="{{$id}}"x-model="{{$id}}" value="{{$option[1]}}" @if(old($id) == $option[1]) checked @endif>

@@ -26,108 +26,281 @@ class ApplicationController extends Controller
         return view('ApplicationForm.form', compact('areas'));
     }
 
+    public function test(Request $request){
+        dd("$request->all()");
+    }
+    
     private $validatorRules = [
-        'APL_FName' => 'required',
-        'APL_LName' => 'required',
-        'APL_Title' => 'required',
-        'APL_Address1' => 'required',
-        'APL_Address2' => 'required',
-        'APL_Address3' => 'required',
-        'APL_Municipality' => 'required',
-        'APL_Gender' => 'required',
+        // Administrative fields (usually handled internally)
+        'APL_Dup' => 'nullable|boolean',
+        'APL_DupUser' => 'nullable|string',
+        'APL_Cycle' => 'nullable|string',
+        'APL_Invalid' => 'nullable|boolean',
+        'APL_Judged' => 'nullable|boolean',
+        'APL_Scored' => 'nullable|boolean',
+        'APL_Group_Num' => 'nullable|integer',
+        'APL_Sort_Num' => 'nullable|integer',
+        'APL_ShortList' => 'nullable|boolean',
+        
+        // Personal Information
+        'APL_FName' => 'required|string|max:255',
+        'APL_LName' => 'required|string|max:255',
+        'APL_MName' => 'nullable|string|max:255',
+        'APL_Address_1' => 'required|string|max:255',
+        'APL_Address_2' => 'nullable|string|max:255',
+        'APL_Address_3' => 'nullable|string|max:255',
+        'APL_Area' => 'required|string',
+        'APL_Gender' => 'required|string',
         'APL_DOB' => 'required|date',
-        'APL_PPhone' => 'required',
-        'APL_APhone' => 'nullable',
-        'APL_Email' => 'required|email|unique:applications',
-        'APL_Marital' => 'required',
-        'APL_NID' => 'required',
-        'APL_NID_Number' => 'required',
-        'APL_BPN' => 'required|unique:applications',
-        'APL_HLOE' => 'required',
-        'APL_HLOE_Other' => 'nullable',
-        'APL_Employment_Status' => 'required',
-        'APL_Employment_Status_Other' => 'nullable',
-        'APL_Field' => 'nullable',
-        'APL_Accommodation' => 'required',
-        'APL_Accommodation_Details' => 'nullable|required_if:APL_Accommodation,Yes',
-        'APL_Interest_Details' => 'required',
-        'APL_Youth_Group_Member' => 'required',
-        'APL_Organization_Name' => 'nullable|required_if:APL_Youth_Group_Member,Yes',
-        'APL_Role' => 'nullable|required_if:APL_Youth_Group_Member,Yes',
-        'APL_Membership_Length' => 'nullable|required_if:APL_Youth_Group_Member,Yes',
-        'APL_Availability_Virtual' => 'required',
-        'APL_Availability_InPerson' => 'required',
-        'APL_Internet' => 'required',
-        'APL_Obligations' => 'required',
-        'APL_Obligations_Details' => 'nullable|required_if:APL_Obligations,Yes',
-        'APL_MYDNS_Participant' => 'required',
-        'APL_MYDNS_Participant_Details' => 'nullable|required_if:APL_MYDNS_Participant,Yes',
-        'APL_NS_Interest' => 'required',
-        'APL_Expectations' => 'required',
-        'APL_NoK_Name' => 'required',
-        'APL_NoK_Contact' => 'required',
-        'APL_PG_Name' => 'nullable',
-        'APL_PG_Contact' => 'nullable',
-        'APL_COC_Choice' => 'required',
-        'File_Character_Certificate' => 'nullable|required_if:APL_COC_Choice,COC|file|mimes:pdf,jpg,png,jpeg,gif,bmp|max:2048',
-        'APL_CRN' => 'nullable|required_if:APL_COC_Choice,CRN',
-        'File_Character_Certificate' => 'nullable|required_if:APL_COC_Choice,COC|file|mimes:pdf,jpg,png,jpeg,gif,bmp|max:2048', // 2MB limit
-        'File_Recommender_Statement' => 'required|file|mimes:pdf,jpg,png,jpeg,gif,bmp|max:2048', 
-        'File_Birth_Certificate' => 'required|file|mimes:pdf,jpg,png,jpeg,gif,bmp|max:2048',
-        'File_National_ID' => 'required|file|mimes:pdf,jpg,png,jpeg,gif,bmp|max:2048',
-        'Files_Academic_Certificates' => 'nullable|array',
-        'Files_Academic_Certificates.*' => 'file|mimes:pdf,jpg,png,jpeg,gif,bmp|max:2048',
-        'Texts_Links' => 'nullable',
-        'APL_Accepts' => 'required|in:Y',
+        'APL_Age' => 'required|integer|min:1|max:120',
+        'APL_PPhone' => 'required|string|max:20',
+        'APL_APhone' => 'nullable|string|max:20',
+        'APL_Email' => 'required|email|max:255',
+        'APL_Marital' => 'required|string',
+        'APL_TT' => 'nullable|string',
+        
+        // Identification
+        'APL_NID' => 'required|string',
+        'APL_NID_Number' => 'required|string|max:50',
+        'APL_ID_TYP' => 'nullable|string',
+        'APL_ID_Number' => 'nullable|string|max:50',
+        'APL_BPN' => 'required|string|max:50',
+        'APL_BIRTH_PIN' => 'nullable|string|max:50',
+        'APL_Has_NIS' => 'nullable|boolean',
+        'APL_NIS_Number' => 'nullable|string|max:50',
+        
+        // Banking Information
+        'APL_BANK' => 'nullable|string',
+        'APL_BANK_Name' => 'nullable|string|max:255',
+        'APL_BANK_Other' => 'nullable|string|max:255',
+        'APL_BANK_ACC' => 'nullable|string|max:50',
+        'APL_Has_Bank_Account' => 'nullable|boolean',
+        
+        // Location/Service
+        'APL_Service_Area' => 'nullable|string',
+        'APL_Preferred_Region' => 'nullable|string',
+        
+        // Education and Qualifications
+        'APL_HLOE' => 'required|string',
+        'APL_HLOE_Other' => 'nullable|string|max:500',
+        'APL_HLOE_Specify' => 'nullable|string|max:500',
+        'APL_2_CXC_Passes' => 'nullable|boolean',
+        'APL_Geriatric_Certif' => 'nullable|boolean',
+        'APL_Graduate' => 'nullable|boolean',
+        'APL_Certification_Institution' => 'nullable|string|max:255',
+        
+        // Employment
+        'APL_Employment_Status' => 'required|string',
+        'APL_Employment_Status_Other' => 'nullable|string|max:500',
+        'APL_Job_Title' => 'nullable|string|max:255',
+        'APL_Employment_Type' => 'nullable|string',
+        'APL_Field' => 'nullable|string|max:255',
+        
+        // Availability and Experience
+        'APL_Available_Weekdays' => 'nullable|string',
+        'APL_Available_GAPP' => 'nullable|string',
+        'APL_Availability_Weekdays' => 'required|string',
+        'APL_Availability_Weekends' => 'required|string',
+        'APL_Experience' => 'nullable|string',
+        'APL_Previous_Geriatric_Experience' => 'required|string',
+        'APL_Geriatric_Experience_Details' => 'nullable|string|max:1000',
+        
+        // Training and Motivation
+        'APL_Training_Expectations' => 'required|string|max:1000',
+        'APL_Motivation_Expectations' => 'nullable|string|max:1000',
+        'APL_Interest_Details' => 'required|string|max:1000',
+        'APL_Post_Training_Intent' => 'required|string',
+        'APL_Post_Training_Other' => 'nullable|string|max:500',
+        
+        // Organization Membership
+        'APL_Youth_Group_Member' => 'required|string',
+        'APL_Organization_Name' => 'nullable|string|max:255',
+        'APL_Role' => 'nullable|string|max:255',
+        'APL_Membership_Length' => 'nullable|string|max:100',
+        
+        // Transport and Logistics
+        'APL_Transport_Mode' => 'required|string',
+        'APL_Transport_Mode_Other' => 'nullable|string|max:255',
+        
+        // Consent and Communication
+        'APL_Consent_Followup' => 'required|string',
+        'APL_How_Found_Programme' => 'required|string',
+        'APL_How_Found_Other' => 'nullable|string|max:500',
+        'APL_Subscribe_Mailing' => 'required|string',
+        'APL_Photo_Consent' => 'required|string',
+        
+        // References
+        'APL_Prof_Rec_FName' => 'required|string|max:255',
+        'APL_Prof_Rec_LName' => 'nullable|string|max:255',
+        'APL_Prof_Rec_Designation' => 'required|string|max:255',
+        'APL_Prof_Rec_Phone' => 'required|string|max:20',
+        'APL_Prof_Rec_2_FName' => 'required|string|max:255',
+        'APL_Prof_Rec_2_Designation' => 'required|string|max:255',
+        'APL_Prof_Rec_2_Phone' => 'required|string|max:20',
+        'APL_Pers_Rec_FName' => 'nullable|string|max:255',
+        'APL_Pers_Rec_LName' => 'nullable|string|max:255',
+        'APL_Pers_Rec_Phone' => 'nullable|string|max:20',
+        'APL_Pers_Rec_Relationship' => 'nullable|string|max:255',
+        
+        // Character and Documentation
+        'APL_Character_Selection' => 'required|string',
+        'APL_CRN' => 'nullable|string|max:100',
+        
+        // File uploads
+        'File_Birth_Certificate' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        'File_National_ID' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        'File_Proof_Address' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        'File_Authorization_Letter' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        'File_Owner_ID' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        'File_Utility_Bill' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        'File_Geriatric_Certificate' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        'Files_Academic_Certificates' => 'required|array|min:1',
+        'Files_Academic_Certificates.*' => 'file|mimes:pdf,jpg,jpeg,png|max:5120',
+        'File_Character_Certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        'File_Recommender_Statement_1' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        'File_Recommender_Statement_2' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        'File_NIS_Card' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        
+        // Final acceptance
+        'APL_Accepts' => 'required|in:Y'
     ];
 
     private function getAttributeNames()
     {
         return [
+            // Administrative fields
+            'APL_Dup' => 'Duplicate Application',
+            'APL_DupUser' => 'Duplicate User',
+            'APL_Cycle' => 'Application Cycle',
+            'APL_Invalid' => 'Invalid Application',
+            'APL_Judged' => 'Judged Status',
+            'APL_Scored' => 'Scored Status',
+            'APL_Group_Num' => 'Group Number',
+            'APL_Sort_Num' => 'Sort Number',
+            'APL_ShortList' => 'Shortlist Status',
+            
+            // Personal Information
             'APL_FName' => 'First Name',
             'APL_LName' => 'Last Name',
-            'APL_Title' => 'Title',
-            'APL_Address1' => 'Address Line 1',
-            'APL_Address2' => 'Address Line 2',
-            'APL_Address3' => 'Address Line 3',
-            'APL_Municipality' => 'Municipality',
+            'APL_MName' => 'Middle Name',
+            'APL_Address_1' => 'Address Line 1',
+            'APL_Address_2' => 'Address Line 2',
+            'APL_Address_3' => 'Address Line 3',
+            'APL_Area' => 'Area/Region',
             'APL_Gender' => 'Gender',
             'APL_DOB' => 'Date of Birth',
+            'APL_Age' => 'Age',
             'APL_PPhone' => 'Primary Phone',
             'APL_APhone' => 'Alternate Phone',
             'APL_Email' => 'Email Address',
             'APL_Marital' => 'Marital Status',
+            'APL_TT' => 'Trinidad and Tobago Resident',
+            
+            // Identification
             'APL_NID' => 'National ID Type',
             'APL_NID_Number' => 'National ID Number',
+            'APL_ID_TYP' => 'ID Type',
+            'APL_ID_Number' => 'ID Number',
             'APL_BPN' => 'Birth Pin Number',
+            'APL_BIRTH_PIN' => 'Birth Pin',
+            'APL_Has_NIS' => 'Has NIS Number',
+            'APL_NIS_Number' => 'NIS Number',
+            
+            // Banking Information
+            'APL_BANK' => 'Bank',
+            'APL_BANK_Name' => 'Bank Name',
+            'APL_BANK_Other' => 'Other Bank',
+            'APL_BANK_ACC' => 'Bank Account Number',
+            'APL_Has_Bank_Account' => 'Has Bank Account',
+            
+            // Location/Service
+            'APL_Service_Area' => 'Service Area',
+            'APL_Preferred_Region' => 'Preferred Region',
+            
+            // Education and Qualifications
             'APL_HLOE' => 'Highest Level of Education',
+            'APL_HLOE_Other' => 'Other Education Details',
+            'APL_HLOE_Specify' => 'Education Specification',
+            'APL_2_CXC_Passes' => 'Has 2 CXC Passes',
+            'APL_Geriatric_Certif' => 'Geriatric Certificate',
+            'APL_Graduate' => 'Graduate Status',
+            'APL_Certification_Institution' => 'Certification Institution',
+            
+            // Employment
             'APL_Employment_Status' => 'Employment Status',
+            'APL_Employment_Status_Other' => 'Other Employment Status',
+            'APL_Job_Title' => 'Job Title',
+            'APL_Employment_Type' => 'Employment Type',
             'APL_Field' => 'Field of Work',
-            'APL_Accommodation' => 'Accommodation Requirements',
-            'APL_Accommodation_Details' => 'Accommodation Details',
+            
+            // Availability and Experience
+            'APL_Available_Weekdays' => 'Available Weekdays',
+            'APL_Available_GAPP' => 'Available for GAPP',
+            'APL_Availability_Weekdays' => 'Weekday Availability',
+            'APL_Availability_Weekends' => 'Weekend Availability',
+            'APL_Experience' => 'Experience',
+            'APL_Previous_Geriatric_Experience' => 'Previous Geriatric Experience',
+            'APL_Geriatric_Experience_Details' => 'Geriatric Experience Details',
+            
+            // Training and Motivation
+            'APL_Training_Expectations' => 'Training Expectations',
+            'APL_Motivation_Expectations' => 'Motivation and Expectations',
             'APL_Interest_Details' => 'Interest Details',
+            'APL_Post_Training_Intent' => 'Post Training Intent',
+            'APL_Post_Training_Other' => 'Other Post Training Plans',
+            
+            // Organization Membership
             'APL_Youth_Group_Member' => 'Youth Group Membership',
             'APL_Organization_Name' => 'Organization Name',
             'APL_Role' => 'Role in Organization',
             'APL_Membership_Length' => 'Membership Length',
-            'APL_Availability_Virtual' => 'Availability for Virtual Sessions',
-            'APL_Availability_InPerson' => 'Availability for In-Person Sessions',
-            'APL_Internet' => 'Internet Access',
-            'APL_Obligations' => 'Existing Obligations',
-            'APL_Obligations_Details' => 'Obligation Details',
-            'APL_MYDNS_Participant' => 'MYDNS Participant',
-            'APL_MYDNS_Participant_Details' => 'MYDNS Participant Details',
-            'APL_NS_Interest' => 'National Service and Volunteerism Interest',
-            'APL_Expectations' => 'Expectations',
-            'APL_NoK_Name' => 'Next of Kin Name',
-            'APL_NoK_Contact' => 'Next of Kin Contact',
-            'APL_COC_Choice' => 'Certificate of Character',
-            'File_Character_Certificate' => 'Character Certificate',
-            'File_Recommender_Statement' => 'Recommender Statement',
+            
+            // Transport and Logistics
+            'APL_Transport_Mode' => 'Transport Mode',
+            'APL_Transport_Mode_Other' => 'Other Transport Mode',
+            
+            // Consent and Communication
+            'APL_Consent_Followup' => 'Consent for Follow-up',
+            'APL_How_Found_Programme' => 'How Found Programme',
+            'APL_How_Found_Other' => 'Other Source Details',
+            'APL_Subscribe_Mailing' => 'Subscribe to Mailing List',
+            'APL_Photo_Consent' => 'Photo Consent',
+            
+            // References
+            'APL_Prof_Rec_FName' => 'Professional Reference First Name',
+            'APL_Prof_Rec_LName' => 'Professional Reference Last Name',
+            'APL_Prof_Rec_Designation' => 'Professional Reference Designation',
+            'APL_Prof_Rec_Phone' => 'Professional Reference Phone',
+            'APL_Prof_Rec_2_FName' => 'Second Professional Reference First Name',
+            'APL_Prof_Rec_2_Designation' => 'Second Professional Reference Designation',
+            'APL_Prof_Rec_2_Phone' => 'Second Professional Reference Phone',
+            'APL_Pers_Rec_FName' => 'Personal Reference First Name',
+            'APL_Pers_Rec_LName' => 'Personal Reference Last Name',
+            'APL_Pers_Rec_Phone' => 'Personal Reference Phone',
+            'APL_Pers_Rec_Relationship' => 'Personal Reference Relationship',
+            
+            // Character and Documentation
+            'APL_Character_Selection' => 'Character Certificate Selection',
+            'APL_CRN' => 'Certificate Receipt Number',
+            
+            // File uploads
             'File_Birth_Certificate' => 'Birth Certificate',
             'File_National_ID' => 'National ID',
-            'APL_CRN' => 'Certificate Receipt Number',
+            'File_Proof_Address' => 'Proof of Address',
+            'File_Authorization_Letter' => 'Authorization Letter',
+            'File_Owner_ID' => 'Property Owner ID',
+            'File_Utility_Bill' => 'Utility Bill',
+            'File_Geriatric_Certificate' => 'Geriatric Certificate',
+            'Files_Academic_Certificates' => 'Academic Certificates',
+            'File_Character_Certificate' => 'Character Certificate',
+            'File_Recommender_Statement_1' => 'First Recommender Statement',
+            'File_Recommender_Statement_2' => 'Second Recommender Statement',
+            'File_NIS_Card' => 'NIS Card',
+            
+            // Supporting content
             'Texts_Links' => 'Supporting Links',
+            
+            // Final acceptance
             'APL_Accepts' => 'Acceptance of Terms',
         ];
     }
@@ -184,8 +357,7 @@ class ApplicationController extends Controller
 
     public function apply(Request $request){
 
-        $validator = Validator::make($request->all(), $this->validatorRules);
-        $validator->setAttributeNames($this->getAttributeNames());
+        $validator = Validator::make($request->all(), $this->validatorRules, [], $this->getAttributeNames());
 
         $textsLinks = json_decode($request->input('Texts_Links'), true);
 
@@ -243,52 +415,31 @@ class ApplicationController extends Controller
             try{
                 $application = new Application();
                 
-                $application->APL_FName = $validated['APL_FName'];
-                $application->APL_LName = $validated['APL_LName'];
-                $application->APL_Title = $validated['APL_Title'];
-                $application->APL_Address1 = $validated['APL_Address1'];
-                $application->APL_Address2 = $validated['APL_Address2'];
-                $application->APL_Address3 = $validated['APL_Address3'];
-                $application->APL_Municipality = $validated['APL_Municipality'];
-                $application->APL_Gender = $validated['APL_Gender'];
-                $application->APL_DOB = $validated['APL_DOB'];
-                $application->APL_PPhone = $validated['APL_PPhone'];
-                $application->APL_APhone = $validated['APL_APhone'];
-                $application->APL_Email = $validated['APL_Email'];
-                $application->APL_Marital = $validated['APL_Marital'];
-                $application->APL_NID = $validated['APL_NID'];
-                $application->APL_NID_Number = $validated['APL_NID_Number'];
-                $application->APL_BPN = $validated['APL_BPN'];
-                $application->APL_HLOE = $validated['APL_HLOE'];
-                $application->APL_HLOE_Other = $validated['APL_HLOE_Other'];
-                $application->APL_Employment_Status = $validated['APL_Employment_Status'];
-                $application->APL_Employment_Status_Other = $validated['APL_Employment_Status_Other'];
-                $application->APL_Field = $validated['APL_Field'];
-                $application->APL_Accommodation = $validated['APL_Accommodation'];
-                $application->APL_Accommodation_Details = $validated['APL_Accommodation_Details'] ?? null;
-                $application->APL_Interest_Details = $validated['APL_Interest_Details'];
-                $application->APL_Youth_Group_Member = $validated['APL_Youth_Group_Member'];
-                $application->APL_Organization_Name = $validated['APL_Organization_Name'] ?? null;
-                $application->APL_Role = $validated['APL_Role'] ?? null;
-                $application->APL_Membership_Length = $validated['APL_Membership_Length'] ?? null;
-                $application->APL_Availability_Virtual = $validated['APL_Availability_Virtual'];
-                $application->APL_Availability_InPerson = $validated['APL_Availability_InPerson'];
-                $application->APL_Internet = $validated['APL_Internet'];
-                $application->APL_Obligations = $validated['APL_Obligations'];
-                $application->APL_Obligations_Details = $validated['APL_Obligations_Details'] ?? null;
-                $application->APL_MYDNS_Participant = $validated['APL_MYDNS_Participant'];
-                $application->APL_MYDNS_Participant_Details = $validated['APL_MYDNS_Participant_Details'] ?? null;
-                $application->APL_NS_Interest = $validated['APL_NS_Interest'];
-                $application->APL_Expectations = $validated['APL_Expectations'];
-                $application->APL_NoK_Name = $validated['APL_NoK_Name'] ?? null;
-                $application->APL_NoK_Contact = $validated['APL_NoK_Contact'] ?? null;
-                $application->APL_PG_Name = $validated['APL_PG_Name'] ?? null;
-                $application->APL_PG_Contact = $validated['APL_PG_Contact'] ?? null;
-                $application->APL_COC_Choice = $validated['APL_COC_Choice'];
-                $application->APL_CRN = $validated['APL_CRN'] ?? null;
-                $application->APL_Accepts = $validated['APL_Accepts'];
+                // Filter out file fields from validated data as they are handled separately
+                $excludeFields = [
+                    'File_Birth_Certificate',
+                    'File_National_ID',
+                    'File_Proof_Address',
+                    'File_Authorization_Letter',
+                    'File_Owner_ID',
+                    'File_Utility_Bill',
+                    'File_Geriatric_Certificate',
+                    'Files_Academic_Certificates',
+                    'File_Character_Certificate',
+                    'File_Recommender_Statement_1',
+                    'File_Recommender_Statement_2',
+                    'File_NIS_Card'
+                ];
+                
+                // Populate application with validated data (excluding file fields)
+                foreach ($validated as $field => $value) {
+                    if (!in_array($field, $excludeFields) && in_array($field, $application->getFillable())) {
+                        $application->$field = $value;
+                    }
+                }
 
-                $application->save();
+                dd($application);
+                // $application->save();
                 
 
             } catch(Exception $e){
@@ -301,11 +452,18 @@ class ApplicationController extends Controller
             try{
                 $this->uploadAllFiles(
                     $applicantID, [
-                        ['file' => $validated['File_Character_Certificate'] ?? null, 'description' => 'character-certificate'],
-                        ['file' => $validated['File_Recommender_Statement'] ?? null, 'description' => 'recommender-statement'],
                         ['file' => $validated['File_Birth_Certificate'] ?? null, 'description' => 'birth-certificate'],
                         ['file' => $validated['File_National_ID'] ?? null, 'description' => 'id-card'],
+                        ['file' => $validated['File_Proof_Address'] ?? null, 'description' => 'proof-of-address'],
+                        ['file' => $validated['File_Authorization_Letter'] ?? null, 'description' => 'authorization-letter'],
+                        ['file' => $validated['File_Owner_ID'] ?? null, 'description' => 'owner-id'],
+                        ['file' => $validated['File_Utility_Bill'] ?? null, 'description' => 'utility-bill'],
+                        ['file' => $validated['File_Geriatric_Certificate'] ?? null, 'description' => 'geriatric-certificate'],
                         ['file' => $validated['Files_Academic_Certificates'] ?? null, 'description' => 'academic-certificates'],
+                        ['file' => $validated['File_Character_Certificate'] ?? null, 'description' => 'character-certificate'],
+                        ['file' => $validated['File_Recommender_Statement_1'] ?? null, 'description' => 'recommender-statement-1'],
+                        ['file' => $validated['File_Recommender_Statement_2'] ?? null, 'description' => 'recommender-statement-2'],
+                        ['file' => $validated['File_NIS_Card'] ?? null, 'description' => 'nis-card'],
                 ]);
             } catch(Exception $e){
                 Log::error($e);
@@ -335,17 +493,17 @@ class ApplicationController extends Controller
                 'Authorization' => 'Bearer ' . env('SWIFT_TOKEN'), 
             ])->post('https://swift.mydns.gov.tt/api/general', [
                 'email' => $application->APL_Email,
-                'title' => 'National Service Leadership Training Programme 2025 Management System',
-                'subject' => 'National Service Leadership Training Programme 2025 APPLICATION',
+                'title' => 'Geriatric Adolescent Partnership Programme 2025 Management System',
+                'subject' => 'Geriatric Adolescent Partnership Programme 2025 APPLICATION',
                 'name' => $name,
-                'body' => 'This email serves to inform you that your application for The National Service Leadership Training Programme 2025 has been received.',
-                'app' => 'NLTP 2025',
+                'body' => 'This email serves to inform you that your application for The Geriatric Adolescent Partnership Programme 2025 has been received.',
+                'app' => 'GAPP 2025',
                 'header' => "Thank you {$name}",
                 'fromAddress' => 'youthinfo.mydns@gov.tt',
                 'fromName' => 'MYDNS',
             ]);
     
-            return redirect("https://mydns.gov.tt/thank-you/?FirstName={$name}&ProgrammeName=NATIONAL%20SERVICE%20LEADERSHIP%20TRAINING%20PROGRAMME%202025%20");
+            return redirect("https://mydns.gov.tt/thank-you/?FirstName={$name}&ProgrammeName=GERIATRIC%20ADOLESCENT%20PARTNERSHIP%20PROGRAMME%202025%20");
         } catch (Exception $e){
             DB::rollBack();
             return redirect(route('application.view'))->withInput($request->all())->with('submissionError', "There was an error in submission. {$e->getMessage()}");
