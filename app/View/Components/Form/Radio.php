@@ -16,13 +16,17 @@ class Radio extends Component
     public $label;
     public $options;
     public $required;
+    public $questionNumber;
+    public $displayLabel;
 
-    public function __construct($id, $label, $options, $required=true)
+    public function __construct($id, $label, $options, $required=true, $questionNumber=true)
     {
         $this->id = $id;
         $this->label = $label;
         $this->options = $options;
         $this->required = $required;
+        $this->questionNumber = $questionNumber;
+        $this->displayLabel = QuestionNumbering::formatLabel($this->label, $this->questionNumber);
     }
 
     /**
@@ -37,7 +41,7 @@ class Radio extends Component
 
             <div class= "row">
                 <div class="col-12">
-                    <label for="{{$id}}" class="fw-bold">{{$label}} @if($required) <x-form.required-label /> @endif</label>
+                    <label for="{{$id}}" class="fw-bold">{{$displayLabel}} @if($required) <x-form.required-label /> @endif</label>
                 </div>
 
                 <div class="col-md-6 mb-4">

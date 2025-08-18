@@ -6,6 +6,8 @@ use Illuminate\View\Component;
 
 class FileInput extends Component
 {
+    public $displayLabel;
+    
     /**
      * Create a new component instance.
      *
@@ -16,9 +18,10 @@ class FileInput extends Component
         public $label,
         public $accept = 'image/*,.pdf',
         public $required = true,
-        public $helperText = 'Please upload a valid image or PDF file. Size of image should not be more than 2MB.'
+        public $helperText = 'Please upload a valid image or PDF file. Size of image should not be more than 2MB.',
+        public $questionNumber = true
     ) {
-        //
+        $this->displayLabel = QuestionNumbering::formatLabel($this->label, $this->questionNumber);
     }
 
     /**
@@ -31,9 +34,10 @@ class FileInput extends Component
         return <<<'blade'
             <x-form.wrapper>
                 <div class="row">
-                    <div class="col-12">
-                        <label for="{{$id}}" class="fw-bold">{{$label}} @if($required) <x-form.required-label /> @endif</label>
-                    </div>
+
+                <div class="col-12">
+                    <label for="{{$id}}" class="fw-bold">{{$displayLabel}} @if($required) <x-form.required-label /> @endif</label>
+                </div>
 
                     <div class="col-md-6 mb-4">
                         <div class="input-group mb-3">

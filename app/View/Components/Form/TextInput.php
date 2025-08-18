@@ -6,6 +6,8 @@ use Illuminate\View\Component;
 
 class TextInput extends Component
 {
+    public $displayLabel;
+    
     /**
      * Create a new component instance.
      *
@@ -16,8 +18,10 @@ class TextInput extends Component
         public $label,
         public $placeholder = null,
         public $type = "text",
-        public $required = true
+        public $required = true,
+        public $questionNumber = true
     ) {
+        $this->displayLabel = QuestionNumbering::formatLabel($this->label, $this->questionNumber);
     }
 
     /**
@@ -28,12 +32,13 @@ class TextInput extends Component
     public function render()
     {
         $placeholder = $this->placeholder ?? $this->label;
+        
         return <<<'blade'
             <x-form.wrapper>
                 <div class="row align-items-center">
                     <!-- Label taking 12 columns -->
                     <div class="col-12">
-                        <label for="{{$id}}" class="fw-bold">{{$label}} @if($required) <x-form.required-label /> @endif</label>
+                        <label for="{{$id}}" class="fw-bold">{{$displayLabel}} @if($required) <x-form.required-label /> @endif</label>
                     </div>
                     <!-- Input field taking 6 columns -->
                     <div class="col-md-6 mb-4">

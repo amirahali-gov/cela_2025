@@ -3,19 +3,34 @@
 @section('Content')
 
     <body>
-        <div id="application-form" class="container">
-            <img src="https://apps.mydns.gov.tt/images/nltp_banner.jpg" alt="Banner" class="img-fluid min-width-100">
+        <div id="application-form" class="container-fluid">
+            {{-- <img src="https://apps.mydns.gov.tt/images/rapp_participant_banner.jpg" alt="Logo" class="img-fluid w-100"> --}}
             <section>
                 <div class="text-center">
-                    <h1>NATIONAL SERVICE LEADERSHIP PROGRAMME 2025</h1>
-                    <h3>Application Form</h3>
+                    <h1>GERIATRIC ADOLESCENT PARTNERSHIP PROGRAMME</h1>
+                    <h3>G.A.P.P.</h3>
                 </div><br>
-                <p>The Ministry of Youth Development and National Service, recognizes the need across all age groups and sectors, for shared responsibility, common values and positive experiences, as well as improvement within communities.  As such the Ministry creates opportunities for youth activists, non-profit organizations, youth-led and youth-serving organizations, as well as the national community to contribute to the National Service platform/agenda for Trinidad and Tobago.<br><br>
+                <p>A call for application for caregivers to join the Geriatric Adolescent Partnership Programme (GAPP). Requirements:
+                    <ul>
+                        <li>18-35 years</li>
+                        <li>Possess minimum of two (2) CSEC passes</li>
+                        <li>National of Trinidad and Tobago</li>
+                        <li>Certificate in Geriatric Care or Professional Healthcare</li>
+                        <li>The applicant must be available to provide service/care for a period of 6 months (following successful completion of training).</li>
+                    </ul>
 
-                    The Ministry envisages that National Service will allow citizens to connect with social issues, come together to accomplish common goals, help individuals develop different skills and increase volunteerism, which will ultimately address the unrealized social, educational and environmental needs of communities across Trinidad and Tobago.<br><br>
-                    
-                   This form is intended to collect information about potential registrants for the National Service Leadership Training Programme 2025. This training is facilitated by the Ministry of Youth Development and National Service (MYDNS) in collaboration with The University of the West Indies, St. Augustine Campus. The information collected will only be used for the registration, reporting and analysis of participants for this training programme. This form will take 10 minutes to complete. Thank you!</p>
-    
+                    Applicants must submit the following documents when applying:
+                    <ul>
+                        <li>Copy of Academic and/or skills training Certificates</li>
+                        <li>Copy of National Identification (ID Card, Passport, Birth Certificate)</li>
+                        <li>Certificate of Character or Receipt from the TTPS</li>
+                        <li>(Two) 2 Letters of Recommendation</li>
+                        <li>Copy of National Insurance card (optional)</li>
+                        <li>Proof of Address - Utility Bill OR Top section of Bank Statement (If not in your name, letter of authorization is required with copy of owner's ID)</li>
+                    </ul>
+
+                    You must complete the entire form for your application to be eligible (or considered) for selection.
+                    </p>
                 @if(session('submissionError'))
                     <div class="alert alert-danger alert-dismissible" role="alert">
                         {{ session('submissionError') }}
@@ -41,169 +56,279 @@
                     $yesNoOptions = [
                         ['Yes','Y'],
                         ['No','N'],
-                    ]
+                    ];
+                    // Reset question counter for this form
+                    \App\View\Components\Form\QuestionNumbering::reset();
                 @endphp
                 <form action="{{ route('application.apply') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-    
-                    <x-form.section-h1 id="Section1">Personal Information</x-form.section-h1>
-    
-                    <x-form.radio id="APL_Title" label="Title" :options="[ ['Mr.','Mr.'], ['Mrs.','Mrs.'], ['Ms.','Ms.'] ]" :selected="old('APL_Title')"/>
-    
+
+                    <x-form.section-h1 id="PersonalInfo">Personal Information</x-form.section-h1>
+
+                    {{-- 1. NAME --}}
                     <x-form.column-2>
                         <x-slot name="col1">
                             <x-form.text-input id="APL_FName" label="First Name" value="{{ old('APL_FName') }}" />
                         </x-slot>
-    
                         <x-slot name="col2">
-                            <x-form.text-input id="APL_LName" label="Last Name" value="{{ old('APL_LName') }}" />
+                            <x-form.text-input id="APL_LName" label="Last Name" :questionNumber="false" />
                         </x-slot>
                     </x-form.column-2>
-    
-                    <x-form.text-input id="APL_Address1" label="House/Apt number: eg # 123" value="{{ old('APL_Address1') }}" />
-                    <x-form.text-input id="APL_Address2" label="Street/Road Name: eg London Street" value="{{ old('APL_Address2') }}" />
-                    <x-form.text-input id="APL_Address3" label="City: eg Port-Of-Spain" value="{{ old('APL_Address3') }}" />
-                    <x-form.select id="APL_Municipality" label="Municipality" :options="$areas" value="{{ old('APL_Municipality') }}"/>
-    
-                    <x-form.radio id="APL_Gender" label="Gender" :options="[ ['Male','M'], ['Female','F'] ]" :selected="old('APL_Gender')"/>
-                    <x-form.date-input id="APL_DOB" label="Date of Birth" onchange="calculateAge()" value="{{ old('APL_DOB') }}"/>
-    
-                    {{-- <div class="col-md-6 mb-4">
-                        <label for="APL_Age" class="form-label fw-bold">Age</label>
-                        <input type="text" name="APL_Age" id="APL_Age" class="form-control" value="{{ old('APL_Age') }}" readonly>
-                    </div> --}}
-    
-                    <x-form.text-input id="APL_PPhone" label="Primary Phone" value="{{ old('APL_PPhone') }}" />
-                    <x-form.text-input id="APL_APhone" label="Alternate Phone" value="{{ old('APL_APhone') }}" :required="false" />
-                    <x-form.text-input id="APL_Email" label="Email" value="{{ old('APL_Email') }}" />
-    
-                    <x-form.select id="APL_Marital" label="Marital Status" :options="[ ['Single', 'SS'], ['Married', 'MM'], ['Divorced', 'DD'], ['Widowed', 'WD'], ['Separated', 'SP'], ['Common Law', 'CL'] ]" value="{{ old('APL_Marital') }}"/>
-    
-                    <x-form.select id="APL_NID" label="Please choose one form of identification" :options="[ ['National Identification Card', 'NID'], ['Driver\'s Permit', 'DP'], ['Passport', 'PP'] ]" value="{{ old('APL_NID') }}" />
-                    <x-form.text-input id="APL_NID_Number" label="Identification Number" value="{{ old('APL_NID_Number') }}" />
-                    <x-form.text-input id="APL_BPN" label="Birth Certificate Pin Number" value="{{ old('APL_BPN') }}" />
-    
-                    <x-form.column-2>
-                        <x-slot name="col1">
-                            <x-form.select id="APL_HLOE" label="Highest Level of Education (Completed)" :options="[ ['Primary', 'PS'], ['Secondary', 'SS'], ['Tertiary', 'TL'], ['Technical/Vocational', 'TV'], ['Other', 'ZO'] ]" value="{{ old('APL_HLOE') }}" />
-                        </x-slot>
-                        <x-slot name="col2">
-                            <x-form.text-input id="APL_HLOE_Other" label="If other, please state" value="{{ old('APL_HLOE_Other') }}" :required="false"/>
-                        </x-slot>
-                    </x-form.column-2>
-    
-                    <x-form.column-2>
-                        <x-slot name="col1">
-                            <x-form.select id="APL_Employment_Status" label="Which One Of The Following Best Describes Your Current Employment status?" :options="[ ['Self Employed','SE'], ['Under-Employed','UNE'], ['Unemployed','UE'], ['Student','STN'], ['Other','ZO'] ]" value="{{ old('APL_Employment_Status') }}"/>
-                        </x-slot>
-                        <x-slot name="col2">
-                            <x-form.text-input id="APL_Employment_Status_Other" label="If other, please state" value="{{ old('APL_Employment_Status_Other') }}" :required="false"/>
-                        </x-slot>
-                    </x-form.column-2>
-    
-                    <x-form.select id="APL_Field" label="What field are you employed in?" :options="[ ['Student','Student'], ['Accounting, Banking and Finance', 'Accounting, Banking and Finance'], ['Agriculture, Fishing and Farming', 'Agriculture, Fishing and Farming'], ['Architecture', 'Architecture'], ['Arts, Culture and Entertainment', 'Arts, Culture and Entertainment'], ['Business, Management and Administration', 'Business, Management and Administration'], ['Computers and Technology', 'Computers and Technology'], ['Construction', 'Construction'], ['Education and Training', 'Education and Training'], ['Engineering and Engineering Technologies', 'Engineering and Engineering Technologies'], ['Food Service', 'Food Service'], ['Government', 'Government'], ['Health and Medical', 'Health and Medical'], ['Hospitality, Travel and Tourism', 'Hospitality, Travel and Tourism'], ['Installation, Maintenance and Repair', 'Installation, Maintenance and Repair'], ['Legal, Criminal Justice and Law Enforcement', 'Legal, Criminal Justice and Law Enforcement'], ['Manufacturing and Production', 'Manufacturing and Production'], ['Marketing', 'Marketing'], ['Media, Communication and Broadcast', 'Media, Communication and Broadcast'], ['Social, Charity and Community Service', 'Social, Charity and Community Service'], ['Transportation and Distribution', 'Transportation and Distribution'], ['Other', 'Other'] ]" value="{{ old('APL_Field') }}"/>
-    
-                    <div x-data="{ APL_Accommodation: '{{ old('APL_Accommodation') }}' }">
-                        <x-form.radio id="APL_Accommodation" label="Do you require any special accommodations?" :options="[['Yes', 'Yes'], ['No', 'No']]" x-model="APL_Accommodation" />
-                        <div x-show="APL_Accommodation === 'Yes'" x-cloak class="mt-4">
-                            <x-form.text-input id="APL_Accommodation_Details" label="If yes, please state" value="{{ old('APL_Accommodation_Details') }}" required="true"/>
-                        </div>
-                    </div>
-    
-                    <x-form.text-input id="APL_Interest_Details" label="Briefly share details of your experience or interest in leadership training" value="{{ old('APL_Interest_Details') }}" />
-    
-                    <x-form.section-h1>Youth Group Information</x-form.section-h1>
-    
-                    <div x-data="{ APL_Youth_Group_Member: '{{ old('APL_Youth_Group_Member') }}' }">
-                        <x-form.radio id="APL_Youth_Group_Member" label="Are you a member of a youth group or youth serving organization?" :options="[['Yes', 'Yes'], ['No', 'No']]" x-model="APL_Youth_Group_Member" />
-                        <div x-show="APL_Youth_Group_Member === 'Yes'" x-cloak class="mt-4">
-                            <x-form.text-input id="APL_Organization_Name" label="What is the name of the organization?" value="{{ old('APL_Organization_Name') }}" required="true"/>
-                            <x-form.text-input id="APL_Role" label="What is your position in the group/organization?" value="{{ old('APL_Role') }}" required="true"/>
-                            <x-form.text-input id="APL_Membership_Length" label="How long have you been a member?" value="{{ old('APL_Membership_Length') }}" required="true"/>
-                        </div>
-                    </div>
-    
-                    <div>
-                        <x-form.section-h1>Availability</x-form.form-section-heading>
-                        <p class="text-center">Delivery Mode: Hybrid on Mondays, Tuesdays, and Wednesdays</p>
-                    </div>
-    
-                    <x-form.radio id="APL_Availability_Virtual" label="Are you available to attend virtual training sessions?" :options="$yesNoOptions" value="{{ old('APL_Availability_Virtual') }}"/>
-                    <x-form.radio id="APL_Availability_InPerson" label="Are you available to attend in-person training sessions?" :options="$yesNoOptions" value="{{ old('APL_Availability_InPerson') }}"/>
-                    <x-form.radio id="APL_Internet" label="Do you have a reliable internet connection?" :options="$yesNoOptions" value="{{ old('APL_Internet') }}"/>
-    
-                    <div x-data="{ APL_Obligations: '{{ old('APL_Obligations') }}' }">
-                        <x-form.radio id="APL_Obligations" label="Are there any obligations that may affect your successful completion of the programme?" :options="[ ['Yes', 'Yes'], ['No', 'No'] ]" x-model="APL_Obligations" />
-                        <div x-show="APL_Obligations === 'Yes'" x-cloak class="mt-4">
-                            <x-form.text-area id="APL_Obligations_Details" label="If yes, please state" value="{{ old('APL_Obligations_Details') }}" required="true"/>
-                        </div>
-                    </div>
-    
-                    <div x-data="{ APL_MYDNS_Participant: '{{ old('APL_MYDNS_Participant') }}' }">
-                        <x-form.radio id="APL_MYDNS_Participant" label="Have you participated in MYDNS Programmes in the last year?" :options="[['Yes', 'Yes'], ['No', 'No']]" x-model="APL_MYDNS_Participant" />
-                        <div x-show="APL_MYDNS_Participant === 'Yes'" x-cloak class="mt-4">
-                            <x-form.text-area id="APL_MYDNS_Participant_Details" label="If yes, please state" value="{{ old('APL_MYDNS_Participant_Details') }}" required="true"/>
-                        </div>
-                    </div>
-    
-                    <x-form.section-h1>Interest and Expectations</x-form.form-section-heading>
-                        <x-form.text-area id="APL_NS_Interest" label="Do you have an interest in contributing through National Service or volunteer work?" value="{{ old('APL_NS_Interest') }}" required="true"/>
-                    <x-form.text-area id="APL_Expectations" label="What do you expect to gain upon completion?" value="{{ old('APL_Expectations') }}" required="true"/>
-    
-                    <x-form.section-h1>Next of Kin</x-form.form-section-heading>
-                    <x-form.text-input id="APL_NoK_Name" label="Next of Kin" value="{{ old('APL_NoK_Name') }}" required="true"/>
-                    <x-form.text-input id="APL_NoK_Contact" label="Contact Number (Next of Kin)" value="{{ old('APL_NoK_Contact') }}" required="true"/>
-    
-                    <div>
-                        <x-form.section-h1>Parent/Guardian</x-form.form-section-heading>
-                        <p class="text-center">This section must be completed by a parent or guardian for all participants under 18.</p>
-                    </div>
-    
-                    <x-form.text-input id="APL_PG_Name" label="Parent/Guardian Name" value="{{ old('APL_PG_Name') }}" :required="false"/>
-                    <x-form.text-input id="APL_PG_Contact" label="Contact Number" value="{{ old('APL_PG_Contact') }}" :required="false"/>
-    
-                    <x-form.section-h1>Document Uploads</x-form.form-section-heading>
-    
-                    <div x-data="{ APL_COC_Choice: '{{ old('APL_COC_Choice') }}' }">
-                        <x-form.radio id="APL_COC_Choice" label="Please select one to upload:" :options="[['Certificate of Character', 'COC'], ['Certificate of Character Receipt Number', 'CRN']]" x-model="APL_COC_Choice"/>
-                        <div x-show="APL_COC_Choice === 'COC'" x-cloak class="mt-4">
-                            <x-form.file-input id="File_Character_Certificate" label="Certificate of Character" />
-                        </div>
-                        <div x-show="APL_COC_Choice === 'CRN'" x-cloak class="mt-4">
-                            <x-form.text-input id="APL_CRN" label="Input your Certificate of Character Receipt Number" value="{{ old('APL_CRN') }}" />
-                        </div>
-                    </div>
-    
-                    <x-form.file-input id="File_Recommender_Statement" label="Recommender Statement" />
 
+                    {{-- 2. ADDRESS --}}
+                    <x-form.column-2>
+                        <x-slot name="col1">
+                            <x-form.text-input id="APL_Address1" label="Address Line 1" />
+                        </x-slot>
+                        <x-slot name="col2">
+                            <x-form.text-input id="APL_Address2" label="Address Line 2" :questionNumber="false" />
+                        </x-slot>
+                    </x-form.column-2>
+
+                    {{-- 3. WHICH AREA DO YOU LIVE IN? --}}
+                    <x-form.select id="APL_Area" label="Which area do you live in?" :options="[
+                        ['Arima', 'Arima'],
+                        ['Chaguanas/Caroni', 'Chaguanas/Caroni'],
+                        ['Couva/Tabaquite/Talparo', 'Couva/Tabaquite/Talparo'],
+                        ['Diego Martin/St George West', 'Diego Martin/St George West'],
+                        ['Mayaro/Rio Claro', 'Mayaro/Rio Claro'],
+                        ['Penal/Debe/Siparia/St Patrick East', 'Penal/Debe/Siparia/St Patrick East'],
+                        ['Point Fortin/ St Patrick West', 'Point Fortin/ St Patrick West'],
+                        ['Port of Spain/St George Central', 'Port of Spain/St George Central'],
+                        ['Princes Town/Victoria East', 'Princes Town/Victoria East'],
+                        ['San Fernando/Victoria West', 'San Fernando/Victoria West'],
+                        ['San Juan/Laventille/St George East', 'San Juan/Laventille/St George East'],
+                        ['Sangre Grande/St Andrew', 'Sangre Grande/St Andrew'],
+                        ['Tobago', 'Tobago'],
+                        ['Toco/St David', 'Toco/St David'],
+                        ['Tunapuna/Piarco', 'Tunapuna/Piarco'],
+                    ]"/>
+
+                    {{-- 4. GENDER --}}
+                    <x-form.radio id="APL_Gender" label="Gender" :options="[
+                        ['Male','M'],
+                        ['Female','F'],
+                    ]"/>
+
+                    {{-- 5. DATE OF BIRTH --}}
+                    <x-form.date-input id="APL_DOB" label="Date of Birth" />
+
+                    {{-- 6. AGE (Auto-calculated) --}}
+                    {{-- <div class="col-md-6 mb-4">
+                        <label for="APL_Age" class="form-label fw-bold">Age (Auto-calculated)</label>
+                        <input type="text" id="APL_Age" class="form-control" readonly>
+                    </div> --}}
+
+                    {{-- 7. EDUCATION & SKILLS BACKGROUND --}}
+                    <x-form.section-h1 id="EducationSkills">Education & Skills Background</x-form.section-h1>
+
+                    <x-form.column-2>
+                        <x-slot name="col1">
+                            <x-form.select id="APL_HLOE" label="Highest Level of Education (Completed)" :options="[
+                                ['Primary', 'Primary'],
+                                ['Secondary', 'Secondary'],
+                                ['Tertiary', 'Tertiary'],
+                                ['Technical/Vocational', 'Technical/Vocational'],
+                            ]"/>
+                        </x-slot>
+                        <x-slot name="col2">
+                            <x-form.text-input id="APL_HLOE_Specify" label="If Technical/Vocational, please specify" :required="false"/>
+                        </x-slot>
+                    </x-form.column-2>
+
+                    {{-- 8. Employment Status --}}
+                    <x-form.radio id="APL_Employed" label="Are you employed/self-employed?" :options="$yesNoOptions" />
+
+                    <div x-data="{ APL_Employed: '' }">
+                        <div x-show="APL_Employed === 'Y'" x-cloak class="mt-4">
+                            <x-form.text-input id="APL_Job_Title" label="Job Title (if applicable)" :required="false" :questionNumber="false"/>
+                            <x-form.radio id="APL_Employment_Type" label="Employment Type" :options="[
+                                ['Full-time', 'Full-time'],
+                                ['Part-time', 'Part-time'],
+                                ['Self-employed (Business owner)', 'Self-employed'],
+                                ['Both Employed and Business Owner', 'Both'],
+                            ]" :required="false" :questionNumber="false"/>
+                        </div>
+                    </div>
+
+                    {{-- 9. CONTACT NUMBER --}}
+                    <x-form.text-input id="APL_PPhone" label="Contact Number" />
+
+                    {{-- 10. ALTERNATIVE CONTACT NUMBER --}}
+                    <x-form.text-input id="APL_APhone" label="Alternative Contact Number" :required="false" />
+
+                    {{-- 11. EMAIL ADDRESS --}}
+                    <x-form.text-input id="APL_Email" label="Email Address" />
+
+                    {{-- 12. IDENTIFICATION --}}
+                    <x-form.select id="APL_NID_Type" label="Please provide the number for one of the following forms of identification" :options="[
+                        ['National Identification Card', 'NID'],
+                        ['Passport', 'PP'],
+                    ]" />
+
+                    <x-form.text-input id="APL_NID_Number" label="Identification Number" :questionNumber="false"/>
+
+                    {{-- 13. BIRTH CERTIFICATE PIN NUMBER --}}
+                    <x-form.text-input id="APL_BPN" label="Birth Certificate Pin Number" />
+
+                    {{-- 14. DO YOU HAVE A NATIONAL INSURANCE NUMBER (NIS)? --}}
+                    <x-form.radio id="APL_Has_NIS" label="Do you have a National Insurance Number (NIS)?" :options="$yesNoOptions" />
+
+                    <div x-data="{ APL_Has_NIS: '' }">
+                        <div x-show="APL_Has_NIS === 'Y'" x-cloak class="mt-4">
+                            <x-form.text-input id="APL_NIS_Number" label="Please enter your National Insurance Number (NIS)" :required="false" :questionNumber="false"/>
+                        </div>
+                    </div>
+
+                    {{-- 15. DO YOU HAVE A BANK ACCOUNT? --}}
+                    <x-form.radio id="APL_Has_Bank_Account" label="Do you have a bank account?" :options="$yesNoOptions" />
+
+                    {{-- 16. WHAT IS YOUR PREFERRED REGION FOR PLACEMENT? --}}
+                    <x-form.select id="APL_Preferred_Region" label="What is your preferred region for placement?" :options="[
+                        ['Northern Region (Curepe to Carenage)', 'Northern'],
+                        ['St Patrick Region (Icacos to Penal)', 'St Patrick'],
+                        ['Victoria (San Fernando to Princess Town)', 'Victoria'],
+                        ['North East (St Augustine to Arima)', 'North East'],
+                        ['East (Cumuto to Rio Claro)', 'East'],
+                        ['Central (Caroni/Chaguanas/Couva to Claxton Bay)', 'Central'],
+                    ]"/>
+
+                    {{-- 17. I AM A NATIONAL OF TRINIDAD AND TOBAGO --}}
+                    <x-form.radio id="APL_TT_National" label="I am a national of Trinidad and Tobago" :options="$yesNoOptions" />
+
+                    {{-- 18. I POSSESS TWO CSEC PASSES OR MORE --}}
+                    <x-form.radio id="APL_CSEC_Passes" label="I possess two CSEC passes or more" :options="$yesNoOptions" />
+
+                    {{-- 19. I POSSESS A CERTIFICATE REFLECTING COMPETENCIES IN GERIATRIC CARE OR PROFESSIONAL HEALTHCARE --}}
+                    <x-form.radio id="APL_Geriatric_Certificate" label="I possess a certificate reflecting competencies in Geriatric Care or Professional Healthcare" :options="$yesNoOptions" />
+
+                    {{-- 20. FROM WHICH INSTITUTION DID YOU RECEIVE YOUR CERTIFICATION? --}}
+                    <x-form.text-input id="APL_Certification_Institution" label="From which institution did you receive your certification?" />
+
+                    <x-form.section-h1>Programme Interest</x-form.section-h1>
+
+                    {{-- 21. I AM AVAILABLE TO PROVIDE GERIATRIC CARE BETWEEN THE HOURS 8:00 AM - 4:00 PM MONDAYS TO FRIDAYS --}}
+                    <x-form.radio id="APL_Available_8to4" label="I am available to provide geriatric care between the hours 8:00 AM - 4:00 PM Mondays to Fridays (except public holidays) if successful" :options="$yesNoOptions" />
+
+                    {{-- 22. PLEASE OUTLINE YOUR EXPERIENCE IN PROVIDING GERIATRIC CARE SERVICES --}}
+                    <x-form.text-area id="APL_Geriatric_Experience" label="Please outline your experience in providing geriatric care services" :required="true"/>
+
+                    {{-- 23. MOTIVATION & EXPECTATIONS --}}
+                    <x-form.text-area id="APL_Motivation_Expectations" label="Motivation & Expectations - Briefly describe why you are interested in joining the National Service GAPP Programme" :required="true"/>
+
+                    <x-form.section-h1>Feedback</x-form.section-h1>
+
+                    {{-- 24. POST-TRAINING INSTRUCTIONS --}}
+                    <x-form.column-2>
+                        <x-slot name="col1">
+                            <x-form.select id="APL_Post_Training_Intent" label="After completing the National Service GAPP 6 months Programme, do you intend to:" :options="[
+                                ['Seek employment in geriatric care', 'Seek employment'],
+                                ['Continue studies in healthcare', 'Continue studies'],
+                                ['Start your own caregiving business', 'Start business'],
+                                ['Other', 'Other'],
+                            ]"/>
+                        </x-slot>
+                        <x-slot name="col2">
+                            <x-form.text-input id="APL_Post_Training_Other" label="If other, please specify" :required="false" :questionNumber="false"/>
+                        </x-slot>
+                    </x-form.column-2>
+
+                    {{-- 25. CONSENT FOR LONG-TERM FOLLOW-UP --}}
+                    <x-form.radio id="APL_Consent_Followup" label="I consent to be contacted by the Ministry of Sport and Youth Affairs' Monitoring & Evaluation Unit up to two (2) years after programme completion for tracer studies" :options="$yesNoOptions" />
+
+                    {{-- 26. HOW DID YOU FIND OUT ABOUT THE PROGRAMME? --}}
+                    <x-form.column-2>
+                        <x-slot name="col1">
+                            <x-form.select id="APL_How_Found_Programme" label="How did you find out about the programme?" :options="[
+                                ['Social Media', 'Social Media'],
+                                ['Television/Radio/Newspaper advertisements', 'TV/Radio/News'],
+                                ['Website', 'Website'],
+                                ['Friend or Family Member', 'Friend/Family'],
+                                ['Other', 'Other'],
+                            ]"/>
+                        </x-slot>
+                        <x-slot name="col2">
+                            <x-form.text-input id="APL_How_Found_Other" label="If other, please specify" :required="false" :questionNumber="false"/>
+                        </x-slot>
+                    </x-form.column-2>
+
+                    {{-- 27. Would you like to subscribe to the ministry's mailing list --}}
+                    <x-form.radio id="APL_Subscribe_Mailing" label="Would you like to subscribe to the ministry's mailing list for updates on upcoming projects and programmes?" :options="$yesNoOptions" />
+
+                    {{-- 28. I agree to have my photographs or images used by the MSYA --}}
+                    <x-form.radio id="APL_Photo_Consent" label="I agree to have my photographs or images used by the MSYA for promotion of the National Service GAPP Programme" :options="$yesNoOptions" />
+
+                    <x-form.section-h1>Recommender Information</x-form.section-h1>
+
+                    {{-- 29-31. PROFESSIONAL RECOMMENDER 1 --}}
+                    <x-form.text-input id="APL_Recommender1_Name" label="Name of Professional Recommender 1" />
+                    <x-form.text-input id="APL_Recommender1_Designation" label="Designation of Professional Recommender 1" />
+                    <x-form.text-input id="APL_Recommender1_Contact" label="Contact Number of Professional Recommender 1" />
+
+                    {{-- 32-34. PROFESSIONAL RECOMMENDER 2 --}}
+                    <x-form.text-input id="APL_Recommender2_Name" label="Name of Professional Recommender 2" />
+                    <x-form.text-input id="APL_Recommender2_Designation" label="Designation of Professional Recommender 2" />
+                    <x-form.text-input id="APL_Recommender2_Contact" label="Contact Number of Professional Recommender 2" />
+
+                    <x-form.section-h1>Document Uploads</x-form.section-h1>
+
+                    {{-- 35. BIRTH CERTIFICATE --}}
                     <x-form.file-input id="File_Birth_Certificate" label="Birth Certificate" />
 
-                    <x-form.file-input id="File_National_ID" label="National ID" />
+                    {{-- 36. NATIONAL IDENTIFICATION CARD OR TRINIDAD AND PASSPORT --}}
+                    <x-form.file-input id="File_National_ID" label="National Identification Card or Trinidad and Tobago Passport" />
 
+                    {{-- 37. PROOF OF ADDRESS --}}
+                    <x-form.file-input id="File_Proof_Address" label="Proof of Address (Utility Bill or Top of Bank Statement)" />
+
+                    {{-- 38-40. CONDITIONAL ADDRESS DOCUMENTS --}}
+                    <x-form.file-input id="File_Authorization_Letter" label="Letter of Authorization (if address proof not in your name)" :required="false"/>
+                    <x-form.file-input id="File_Owner_ID" label="Owner's ID (if address proof not in your name)" :required="false"/>
+                    <x-form.file-input id="File_Utility_Bill" label="Utility Bill or Top of Bank Statement" :required="false"/>
+
+                    {{-- 41. CERTIFICATE IN GERIATRIC CARE/PROFESSIONAL HEALTHCARE --}}
+                    <x-form.file-input id="File_Geriatric_Certificate" label="Certificate in Geriatric Care/Professional Healthcare" />
+
+                    {{-- 42. UPLOAD YOUR ACADEMIC CERTIFICATES HERE --}}
                     <x-form.multi-file-input id="Files_Academic_Certificates" label="Upload your academic certificates here (You may select multiple files)" />
 
-                    <x-form.url-list id="Texts_Links" label="Insert any links that may support your application" />
+                    {{-- 43. PLEASE SELECT EITHER CERTIFICATE OF CHARACTER OR THE RECEIPT NUMBER TO UPLOAD --}}
+                    <div x-data="{ APL_COC_Choice: '' }">
+                        <x-form.radio
+                            id="APL_COC_Choice"
+                            label="Please select either Certificate of Character or the receipt number to upload:"
+                            :options="[['Certificate of Character', 'COC'], ['Certificate of Character Receipt Number', 'CRN']]"
+                            x-model="APL_COC_Choice"
+                        />
+
+                        <div x-show="APL_COC_Choice === 'COC'" x-cloak class="mt-4">
+                            <x-form.file-input id="File_Character_Certificate" label="Certificate of Character" :questionNumber="false"/>
+                        </div>
+                        <div x-show="APL_COC_Choice === 'CRN'" x-cloak class="mt-4">
+                            <x-form.text-input id="APL_CRN" label="Certificate of Character Receipt Number" :required="false" :questionNumber="false"/>
+                        </div>
+                    </div>
+
+                    {{-- 44-45. RECOMMENDER STATEMENTS --}}
+                    <x-form.file-input id="File_Recommender_Statement1" label="Recommender Statement 1" />
+                    <x-form.file-input id="File_Recommender_Statement2" label="Recommender Statement 2" />
+
+                    {{-- 46. NIS CARD --}}
+                    <x-form.file-input id="File_NIS_Card" label="NIS Card" :required="false"/>
 
                     <x-form.wrapper>
                         <h3 class="fw-bold">Participation Agreement</h3>
                         <hr>
                         <p>
-                            Participants must be willing to sign a participation agreement and work to meet the learning objectives and requirements of the training. This form and information collected within it is confidential and intended for use by the Ministry of Youth Development and National Services.
+                            Participants must be willing to sign a participation agreement and work to meet the learning objectives and requirements of the training. This form and information collected within is confidential and intended for use by the Ministry of Sport and Youth Affairs.
                             Your information will remain private and confidential and will not be used for other purposes other than the above mentioned.
                         </p>
                         <p>
-                            I hereby declare that the information given in this application is true and correct to the best of my knowledge and belief. If any information given in this application proves to be false or incorrect, I accept the consequence of the automatic rejection of the submission.
+                            I hereby declare that the information given in this application is true and correct to the best of my knowledge and belief. If any information given in this application proves to be false or incorrect, I accept the consequences of automatic rejection of the submission.
                         </p>
                     </x-form.wrapper>
 
-
                     <x-form.radio id="APL_Accepts" label="I have read and accept the above" :options="$yesNoOptions" />
-
-                    <x-form.wrapper>
-                        <div class="d-grid gap-2 col-3 mx-auto">
-                            <button type="submit" class="btn btn-success">Submit</button>
-                        </div>
-                    </x-form.wrapper>
 
                     {{-- <x-form.wrapper>
                         <div class="d-grid gap-2 col-3 mx-auto">

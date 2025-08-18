@@ -6,14 +6,20 @@ use Illuminate\View\Component;
 
 class UrlList extends Component
 {
+    public $displayLabel;
+    
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(public $id, public $label, public $required = true)
-    {
-        //
+    public function __construct(
+        public $id, 
+        public $label, 
+        public $required = true,
+        public $questionNumber = true
+    ) {
+        $this->displayLabel = QuestionNumbering::formatLabel($this->label, $this->questionNumber);
     }
 
     /**
@@ -27,7 +33,7 @@ class UrlList extends Component
         <x-form.wrapper>
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label for="{{$id}}" class="fw-bold">{{$label}} @if($required) <x-form.required-label /> @endif</label>
+                    <label for="{{$id}}" class="fw-bold">{{$displayLabel}} @if($required) <x-form.required-label /> @endif</label>
 
                     <!-- Add URL button on the left and input on the right -->
                     <div class="input-group">
@@ -50,58 +56,76 @@ class UrlList extends Component
                     <x-form.input-error-message id="{{$id}}" />
                 </div>
             </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const addButton = document.getElementById('add-url');
+                    const urlInput = document.getElementById('new-url');
+                    const urlList = document.getElementById('url-list');
+                    const urlField = document.getElementById('url-field');
+
+                    let urls = [];
+
+                    // Load existing URLs from old input
+                    if (urlField.value) {
+                        urls = JSON.parse(urlField.value);
+                        displayUrls();
+                    }
+
+                    addButton.addEventListener('click', function() {
+                        const url = urlInput.value.trim();
+                        if (url && isValidURL(url)) {
+                            urls.push(url);
+                            urlInput.value = '';
+                            displayUrls();
+                            updateHiddenField();
+                        } else {
+                            alert('Please enter a valid URL.');
+                        }
+                    });
+
+                    urlInput.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            addButton.click();
+                        }
+                    });
+
+                    function displayUrls() {
+                        urlList.innerHTML = '';
+                        urls.forEach((url, index) => {
+                            const listItem = document.createElement('li');
+                            listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                            listItem.innerHTML = `
+                                <a href="${url}" target="_blank" class="text-decoration-none">${url}</a>
+                                <button type="button" class="btn btn-sm btn-danger" onclick="removeUrl(${index})">Remove</button>
+                            `;
+                            urlList.appendChild(listItem);
+                        });
+                    }
+
+                    function updateHiddenField() {
+                        urlField.value = JSON.stringify(urls);
+                    }
+
+                    function isValidURL(string) {
+                        try {
+                            new URL(string);
+                            return true;
+                        } catch (_) {
+                            return false;
+                        }
+                    }
+
+                    // Make removeUrl globally accessible
+                    window.removeUrl = function(index) {
+                        urls.splice(index, 1);
+                        displayUrls();
+                        updateHiddenField();
+                    };
+                });
+            </script>
         </x-form.wrapper>
-
-        <script>
-            // Validate and add URL to the list
-            document.getElementById('add-url').addEventListener('click', function() {
-                var urlInput = document.getElementById('new-url');
-                var urlValue = urlInput.value.trim();
-
-                // Simple URL validation
-                var regex = /^(https?:\/\/)?([\w\d\.-]+)\.([a-z]{2,6})(\/[\w\d\.-]*)*\/?$/i;
-                if (urlValue && regex.test(urlValue)) {
-                    // Create a new list item with the URL
-                    var listItem = document.createElement('li');
-                    listItem.classList.add('list-group-item');
-
-                    // Create an anchor tag inside the list item
-                    var link = document.createElement('a');
-                    link.href = urlValue;
-                    link.target = '_blank';
-                    link.rel = 'noopener noreferrer';
-                    link.textContent = urlValue;
-
-                    listItem.appendChild(link);
-                    document.getElementById('url-list').appendChild(listItem);
-
-                    // Add the URL to the hidden input field (as JSON)
-                    var urlField = document.getElementById('url-field');
-                    var urls = urlField.value ? JSON.parse(urlField.value) : [];
-                    urls.push(urlValue);
-                    urlField.value = JSON.stringify(urls);
-
-                    // Clear the input field after adding the URL
-                    urlInput.value = '';
-                } else {
-                    alert('Please enter a valid URL');
-                }
-            });
-        </script>
-
-        <style>
-            /* Ensure the button matches the input field border and hover effects */
-            #add-url {
-                background-color: #f8f9fa !important; /* Match the input's border color */
-                border-color: #dee2e6;
-                border-width: 1px;
-                transition: background-color 0.3s ease;
-            }
-
-            #add-url:hover {
-                background-color: #f8f9fa !important; /* Match the file input hover effect */
-            }
-        </style>
         blade;
     }
 }

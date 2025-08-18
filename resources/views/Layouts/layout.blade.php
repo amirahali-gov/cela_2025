@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Language" content="en">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     {{-- <meta name="csrf-token" content="{{ csrf_token() }}" /> --}}
-    <title>@yield('Title') | NLTP 2025</title>
+    <title>@yield('Title') | GAPP</title>
     <meta name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
     <meta name="description" content="ArchitectUI HTML Bootstrap 4 Dashboard Template">
