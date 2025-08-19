@@ -138,7 +138,7 @@
                                         ['Tertiary', 'Tertiary'],
                                         ['Technical/Vocational', 'Technical/Vocational'],
                                     ]"
-                                xModel="education" />
+                                x-model="education" />
                         </x-slot>
 
                         <x-slot name="col2">
@@ -154,9 +154,9 @@
                 </div>
 
                 {{-- 8. Employment Status --}}
-                <x-form.radio id="APL_Employment_Status" label="Are you employed/self-employed?" :options="$yesNoOptions" />
+                <div x-data="{ APL_Employment_Status: '{{ old('APL_Employment_Status', '') }}' }">
+                    <x-form.radio id="APL_Employment_Status" label="Are you employed/self-employed?" :options="$yesNoOptions" x-model="APL_Employment_Status" />
 
-                <div x-data="{ APL_Employment_Status: '' }">
                     <div x-show="APL_Employment_Status == 'Y'" x-cloak class="mt-4">
                         <x-form.text-input id="APL_Job_Title" label="Job Title (if applicable)" :required="false" :questionNumber="false" />
                         <x-form.radio id="APL_Employment_Type" label="Employment Type" :options="[
@@ -189,9 +189,9 @@
                 <x-form.text-input id="APL_BIRTH_PIN" label="Birth Certificate Pin Number" />
 
                 {{-- 14. DO YOU HAVE A NATIONAL INSURANCE NUMBER (NIS)? --}}
-                <x-form.radio id="APL_Has_NIS" label="Do you have a National Insurance Number (NIS)?" :options="$yesNoOptions" />
+                <div x-data="{ APL_Has_NIS: '{{ old('APL_Has_NIS', '') }}' }">
+                    <x-form.radio id="APL_Has_NIS" label="Do you have a National Insurance Number (NIS)?" :options="$yesNoOptions" x-model="APL_Has_NIS" />
 
-                <div x-data="{ APL_Has_NIS: '' }">
                     <div x-show="APL_Has_NIS == 'Y'" x-cloak class="mt-4">
                         <x-form.text-input id="APL_NIS_Number" label="Please enter your National Insurance Number (NIS)" :required="false" :questionNumber="false" />
                     </div>
