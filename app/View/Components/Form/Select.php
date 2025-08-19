@@ -8,43 +8,49 @@ class Select extends Component
 {
     public $displayLabel;
     
-    /**
-     * Create a new component instance.
-     *
-     * @return void
-     */
+    // New property for Alpine binding
+    public $xModel;
+
     public function __construct(
         public $id, 
         public $label, 
         public $options, 
         public $required = true,
-        public $questionNumber = true
+        public $questionNumber = true,
+        $xModel = null  // optional Alpine binding
     ) {
         $this->displayLabel = QuestionNumbering::formatLabel($this->label, $this->questionNumber);
+        $this->xModel = $xModel;
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
-     */
     public function render()
     {
-        return <<<'blade'
+        return <<<blade
         <x-form.wrapper>
             <div class="row">
                 <div class="col-12">
-                    <label for="{{$id}}" class="fw-bold">{{$displayLabel}} @if($required) <x-form.required-label /> @endif</label>
+                    <label for="{{ \$id }}" class="fw-bold">{{ \$displayLabel }} @if(\$required) <x-form.required-label /> @endif</label>
                 </div>
 
-                <div class="mb-4">
-                    <select class="form-control" id="{{$id}}" name="{{$id}}">
+                <div class="col-md-8 mb-4 position-relative">
+                    <select 
+                        class="form-control pr-4" 
+                        id="{{ \$id }}" 
+                        name="{{ \$id }}"
+                        @if(\$xModel) x-model="{{ \$xModel }}" @endif
+                    >
                         <option value=""></option>
-                        @foreach($options as $option)
-                            <option value="{{ $option[1] }}" @if(old($id) == $option[1]) selected @endif>{{ $option[0] }}</option>
+                        @foreach(\$options as \$option)
+                            <option value="{{ \$option[1] }}" @if(old(\$id) == \$option[1]) selected @endif>{{ \$option[0] }}</option>
                         @endforeach
                     </select>
-                    <x-form.input-error-message id="{{$id}}" />
+
+                    <!-- Chevron arrow -->
+                    <span class="position-absolute" style="right:1.75rem; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">
+                        &#9662;
+                    </span>
+
+                    <x-form.input-error-message id="{{ \$id }}" />
                 </div>
             </div>
         </x-form.wrapper>

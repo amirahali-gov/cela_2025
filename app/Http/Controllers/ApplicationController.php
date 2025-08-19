@@ -344,6 +344,8 @@ class ApplicationController extends Controller
         };
     }
 
+    
+
     public function uploadAllLinks($aplID, $links){
         foreach($links as $link){
             if($link != null){

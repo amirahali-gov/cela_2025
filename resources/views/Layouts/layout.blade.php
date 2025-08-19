@@ -25,3 +25,5 @@
 </head>
     @yield('Content')
 </html>
+
+
