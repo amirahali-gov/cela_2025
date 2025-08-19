@@ -330,7 +330,7 @@ class ApplicationController extends Controller
     }
 
     public function apply(Request $request){
-        dd($request->all());
+        // dd($request->all());
 
         $validator = Validator::make($request->all(), $this->validatorRules, [], $this->getAttributeNames());
         
@@ -435,7 +435,6 @@ class ApplicationController extends Controller
                         ['file' => $validated['File_Recommender_Statement_2'] ?? null, 'description' => 'recommender-statement-2'],
                         ['file' => $validated['File_NIS_Card'] ?? null, 'description' => 'nis-card'],
                 ]);
-                dd($request->all());
             } catch(Exception $e){
                 Log::error($e);
                 throw new Exception("Error occurred while uploading files.");

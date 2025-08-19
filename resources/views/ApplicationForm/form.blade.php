@@ -189,9 +189,9 @@
                 <x-form.text-input id="APL_BIRTH_PIN" label="Birth Certificate Pin Number" />
 
                 {{-- 14. DO YOU HAVE A NATIONAL INSURANCE NUMBER (NIS)? --}}
-                <x-form.radio id="APL_Has_NIS" label="Do you have a National Insurance Number (NIS)?" :options="$yesNoOptions" />
-
                 <div x-data="{ APL_Has_NIS: '' }">
+                    <x-form.radio id="APL_Has_NIS" label="Do you have a National Insurance Number (NIS)?" :options="$yesNoOptions" />
+
                     <div x-show="APL_Has_NIS == 'Y'" x-cloak class="mt-4">
                         <x-form.text-input id="APL_NIS_Number" label="Please enter your National Insurance Number (NIS)" :required="false" :questionNumber="false" />
                     </div>
@@ -236,38 +236,69 @@
                 <x-form.section-h1>Feedback</x-form.section-h1>
 
                 {{-- 24. POST-TRAINING INSTRUCTIONS --}}
-                <x-form.column-2>
-                    <x-slot name="col1">
-                        <x-form.select id="APL_Post_Training_Intent" label="After completing the National Service GAPP 6 months Programme, do you intend to:" :options="[
-                                ['Seek employment in geriatric care', 'Seek employment'],
-                                ['Continue studies in healthcare', 'Continue studies'],
-                                ['Start your own caregiving business', 'Start business'],
-                                ['Other', 'Other'],
-                            ]" />
-                    </x-slot>
-                    <x-slot name="col2">
-                        <x-form.text-input id="APL_Post_Training_Other" label="If other, please specify" :required="false" :questionNumber="false" />
-                    </x-slot>
-                </x-form.column-2>
+                <div x-data="{ APL_Post_Training_Intent: '{{ old('APL_Post_Training_Intent', '') }}' }">
+                    <x-form.column-2>
+                        <x-slot name="col1">
+                            <x-form.select 
+                                id="APL_Post_Training_Intent" 
+                                label="After completing the National Service GAPP 6 months Programme, do you intend to:" 
+                                :options="[
+                                    ['Seek employment in geriatric care', 'Seek employment'],
+                                    ['Continue studies in healthcare', 'Continue studies'],
+                                    ['Start your own caregiving business', 'Start business'],
+                                    ['Other', 'Other'],
+                                ]"
+                                x-model="APL_Post_Training_Intent"
+                            />
+                        </x-slot>
+
+                        <x-slot name="col2">
+                            <div x-show="APL_Post_Training_Intent === 'Other'" x-cloak>
+                                <x-form.text-input 
+                                    id="APL_Post_Training_Other" 
+                                    label="If other, please specify" 
+                                    :required="false" 
+                                    :questionNumber="false" 
+                                />
+                            </div>
+                        </x-slot>
+                    </x-form.column-2>
+                </div>
 
                 {{-- 25. CONSENT FOR LONG-TERM FOLLOW-UP --}}
                 <x-form.radio id="APL_Consent_Followup" label="I consent to be contacted by the Ministry of Sport and Youth Affairs' Monitoring & Evaluation Unit up to two (2) years after programme completion for tracer studies" :options="$yesNoOptions" />
 
                 {{-- 26. HOW DID YOU FIND OUT ABOUT THE PROGRAMME? --}}
-                <x-form.column-2>
-                    <x-slot name="col1">
-                        <x-form.select id="APL_How_Found_Programme" label="How did you find out about the programme?" :options="[
-                                ['Social Media', 'Social Media'],
-                                ['Television/Radio/Newspaper advertisements', 'TV/Radio/News'],
-                                ['Website', 'Website'],
-                                ['Friend or Family Member', 'Friend/Family'],
-                                ['Other', 'Other'],
-                            ]" />
-                    </x-slot>
-                    <x-slot name="col2">
-                        <x-form.text-input id="APL_How_Found_Other" label="If other, please specify" :required="false" :questionNumber="false" />
-                    </x-slot>
-                </x-form.column-2>
+                <div x-data="{ APL_How_Found_Programme: '{{ old('APL_How_Found_Programme', '') }}' }">
+                    <x-form.column-2>
+                        <x-slot name="col1">
+                            <x-form.select 
+                                id="APL_How_Found_Programme" 
+                                label="How did you find out about the programme?" 
+                                :options="[
+                                    ['Social Media', 'Social Media'],
+                                    ['Television/Radio/Newspaper advertisements', 'TV/Radio/News'],
+                                    ['Website', 'Website'],
+                                    ['Friend or Family Member', 'Friend/Family'],
+                                    ['Other', 'Other'],
+                                ]"
+                                x-model="APL_How_Found_Programme"
+                            />
+                        </x-slot>
+
+                        <x-slot name="col2">
+                            <div x-show="APL_How_Found_Programme === 'Other'" x-cloak>
+                                <x-form.text-input 
+                                    id="APL_How_Found_Other" 
+                                    label="If other, please specify" 
+                                    :required="false" 
+                                    :questionNumber="false" 
+                                />
+                            </div>
+                        </x-slot>
+                    </x-form.column-2>
+                </div>
+
 
                 {{-- 27. Would you like to subscribe to the ministry's mailing list --}}
                 <x-form.radio id="APL_Subscribe_Mailing" label="Would you like to subscribe to the ministry's mailing list for updates on upcoming projects and programmes?" :options="$yesNoOptions" />
