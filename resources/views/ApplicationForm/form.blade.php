@@ -339,8 +339,8 @@
                 <x-form.file-input id="File_Birth_Certificate" label="Birth Certificate" />
                 <x-form.file-input id="File_National_ID" label="National ID / Passport" />
                 <x-form.radio id="APL_Character_Selection" label="Please select either certificate of character or the receipt" :options="[
-                    ['Certificate', 'Certificate of Character'],
-                    ['Receipt', 'Certificate Of Character Receipt Number']
+                    ['Certificate of Character', 'Certificate'],
+                    ['Certificate Of Character Receipt Number', 'Receipt']
                 ]" />
                 <x-form.text-input id="APL_CRN" label="Certificate of Character Receipt Number" :required="false" :questionNumber="false" />
                 <x-form.file-input id="File_Character_Certificate" label="Certificate of Character (or Receipt from TTPS)" :questionNumber="false" :required="false" />
