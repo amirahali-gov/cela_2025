@@ -87,7 +87,7 @@ function multiFileManager(inputId) {
             const ext = file.name.split('.').pop().toLowerCase();
             switch(ext) {
                 case 'pdf': return '/images/pdf.png';
-                case 'doc': case 'docx': return '/images/docx.png';
+                case 'doc': case 'docx': return '/images/doc.png';
                 case 'xls': case 'xlsx': return '/images/xls.png';
                 case 'ppt': case 'pptx': return '/images/ppt.png';
                 case 'jpg': case 'jpeg': case 'png': case 'gif': return '/images/photo.png';
