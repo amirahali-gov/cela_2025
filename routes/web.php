@@ -25,3 +25,4 @@ Route::get('/', [ApplicationController::class, 'getFormView'])->name('applicatio
 Route::post('/test', [ApplicationController::class, 'test'])->name('application.test');
 Route::post('/apply', [ApplicationController::class, 'apply'])->name('application.apply');
 Route::post('/upload', [ApplicationController::class, 'upload'])->name('application.upload');
+Route::delete('/files/{inputId}/{filename}', [ApplicationController::class, 'application.destroy']);

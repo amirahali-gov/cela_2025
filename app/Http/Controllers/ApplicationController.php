@@ -42,6 +42,7 @@ class ApplicationController extends Controller
         'APL_Sort_Num' => 'nullable|integer',
         'APL_ShortList' => 'nullable|boolean',
         
+
         // Personal Information
         'APL_FName' => 'required|string|max:255',
         'APL_LName' => 'required|string|max:255',
@@ -305,45 +306,63 @@ class ApplicationController extends Controller
         ];
     }
 
-    public function createUpload($file, $aplID, $fileName, $description){
-        $fileName = str_replace(' ', '_', $fileName);
-        $fileName = rand(100,999) . "-{$fileName}";
+    public function createUpload(UploadedFile $file, int $aplID, string $originalName, string $description)
+    {
+        // Sanitize filename
+        $fileNameClean = str_replace(' ', '_', $originalName);
+        $random = rand(100, 999);
+        $timestamp = Carbon::now()->format('His'); // HourMinuteSecond for uniqueness
+        $finalFileName = "{$random}-{$fileNameClean}";
 
-        $filePath = $file->storeAs($aplID, $fileName);
+        // Store file in storage/app/{id}/
+        $storagePath = Storage::putFileAs("{$aplID}", $file, $finalFileName);
 
+        // Save upload record
         Upload::create([
             'UPD_APL_ID' => $aplID,
-            'UPD_DocName' => $fileName,
+            'UPD_DocName' => $finalFileName,
             'UPD_Desc' => $description,
-            'UPD_FilePath' => $filePath,
+            'UPD_FilePath' => $storagePath,
         ]);
     }
 
-    public function uploadAllFiles($aplID, $files){        
-        foreach($files as $upload){
-            if ($upload['file'] != null){
-                if (gettype($upload['file']) == 'array'){
-                    foreach($upload['file'] as $file){
-                        $this->createUpload(
-                            $file, 
-                            $aplID, 
-                            $file->getClientOriginalName(),
-                            $upload['description']
-                        );
+    public function uploadAllFiles(int $aplID, array $files)
+    {
+        foreach ($files as $upload) {
+            if (!empty($upload['file'])) {
+                // If multiple files (array), iterate
+                if (is_array($upload['file'])) {
+                    foreach ($upload['file'] as $file) {
+                        if ($file instanceof UploadedFile) {
+                            $this->createUpload($file, $aplID, $file->getClientOriginalName(), $upload['description']);
+                        }
                     }
-                }
-                else{
-                    $this->createUpload(
-                        $upload['file'], 
-                        $aplID, 
-                        $upload['file']->getClientOriginalName(),
-                        $upload['description']
-                    );
+                } elseif ($upload['file'] instanceof UploadedFile) {
+                    // Single file
+                    $this->createUpload($upload['file'], $aplID, $upload['file']->getClientOriginalName(), $upload['description']);
                 }
             }
-        };
+        }
     }
 
+     public function destroy($inputId, $filename)
+    {
+        // Find the upload record
+        $upload = Upload::where('UPD_DocName', $filename)->first();
+        if (!$upload) {
+            return response()->json(['success' => false], 404);
+        }
+
+        // Delete file from storage
+        if (Storage::exists($upload->UPD_FilePath)) {
+            Storage::delete($upload->UPD_FilePath);
+        }
+
+        // Delete record from database
+        $upload->delete();
+
+        return response()->json(['success' => true], 200);
+    }
     
 
     public function uploadAllLinks($aplID, $links){
@@ -358,6 +377,7 @@ class ApplicationController extends Controller
     }
 
     public function apply(Request $request){
+        dd($request->all());
 
         $validator = Validator::make($request->all(), $this->validatorRules, [], $this->getAttributeNames());
 
@@ -467,6 +487,7 @@ class ApplicationController extends Controller
                         ['file' => $validated['File_Recommender_Statement_2'] ?? null, 'description' => 'recommender-statement-2'],
                         ['file' => $validated['File_NIS_Card'] ?? null, 'description' => 'nis-card'],
                 ]);
+                dd($request->all());
             } catch(Exception $e){
                 Log::error($e);
                 throw new Exception("Error occurred while uploading files.");
