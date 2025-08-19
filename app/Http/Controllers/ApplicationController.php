@@ -60,7 +60,7 @@ class ApplicationController extends Controller
         
         // Education and Qualifications
         'APL_HLOE' => 'required|string',
-        'APL_HLOE_Specify' => 'required_if:APL_HLOE,Technical/Vocational|string|max:100',
+        'APL_HLOE_Specify' => 'required_if:APL_HLOE,Technical/Vocational|nullable|string|max:100',
         'APL_2_CXC_Passes' => 'required|string|max:1',
         'APL_Geriatric_Certif' => 'required|string|max:1',
         'APL_Certification_Institution' => 'required_if:APL_Geriatric_Certif,Y|string|max:255',
@@ -97,8 +97,8 @@ class ApplicationController extends Controller
         'APL_Prof_Rec_2_Phone' => 'required|string|max:20',
         
         // Character and Documentation
-        'APL_Character_Selection' => 'required|string',
-        'APL_CRN' => 'required_if:APL_Character_Selection,Receipt|string|max:100',
+        'APL_Character_Selection' => 'required|string|max:25',
+        'APL_CRN' => 'required_if:APL_Character_Selection,Receipt|string|max:20',
         'File_Character_Certificate' => 'required_if:APL_Character_Selection,Certificate|file|mimes:pdf,jpg,jpeg,png|max:5120',
         
         // File uploads
@@ -107,7 +107,6 @@ class ApplicationController extends Controller
         'File_Proof_Address' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
         'File_Authorization_Letter' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         'File_Owner_ID' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-        'File_Utility_Bill' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
         'File_Geriatric_Certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         'Files_Academic_Certificates' => 'nullable|array|min:1',
         'Files_Academic_Certificates.*' => 'file|mimes:pdf,jpg,jpeg,png|max:5120',
