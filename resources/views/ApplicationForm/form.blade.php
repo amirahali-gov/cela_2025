@@ -158,7 +158,7 @@
                     <x-form.radio id="APL_Employment_Status" label="Are you employed/self-employed?" :options="$yesNoOptions" x-model="APL_Employment_Status" />
 
                     <div x-show="APL_Employment_Status == 'Y'" x-cloak class="mt-4">
-                        <x-form.text-input id="APL_Job_Title" label="Job Title (if applicable)" :required="false" :questionNumber="false" />
+                        <x-form.text-input id="APL_Job_Title" name="APL_Job_Title" label="Job Title (if applicable)" :required="false" :questionNumber="false" />
                         <x-form.radio id="APL_Employment_Type" label="Employment Type" :options="[
                                 ['Full-time', 'Full-time'],
                                 ['Part-time', 'Part-time'],
@@ -193,7 +193,7 @@
                     <x-form.radio id="APL_Has_NIS" label="Do you have a National Insurance Number (NIS)?" :options="$yesNoOptions" x-model="APL_Has_NIS" />
 
                     <div x-show="APL_Has_NIS == 'Y'" x-cloak class="mt-4">
-                        <x-form.text-input id="APL_NIS_Number" label="Please enter your National Insurance Number (NIS)" :required="false" :questionNumber="false" />
+                        <x-form.text-input id="APL_NIS_Number" name="APL_NIS_Number" label="Please enter your National Insurance Number (NIS)" :required="false" :questionNumber="false" />
                     </div>
                 </div>
 

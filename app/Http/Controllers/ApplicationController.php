@@ -47,7 +47,7 @@ class ApplicationController extends Controller
         'APL_ID_Number' => 'required|string|max:50',
         'APL_BIRTH_PIN' => 'required|string|max:50',
         'APL_Has_NIS' => 'required|string|max:1',
-        'APL_NIS_Number' => 'required_if:APL_Has_NIS,Y|string|max:50',
+        'APL_NIS_Number' => 'required_if:APL_Has_NIS,Y|nullable|string|max:55',
         
         // Banking Information
         // 'APL_BANK_Name' => 'required_if:APL_Has_Bank_Account,Y|string|max:255',
@@ -67,8 +67,8 @@ class ApplicationController extends Controller
         
         // Employment
         'APL_Employment_Status' => 'required|string|max:1',
-        'APL_Job_Title' => 'required_if:APL_Employment_Status,1|string|max:255',
-        'APL_Employment_Type' => 'required_if:APL_Employment_Status,1|string',
+        'APL_Job_Title' => 'required_if:APL_Employment_Status,Y|nullable|string|max:255',
+        'APL_Employment_Type' => 'required_if:APL_Employment_Status,Y|string',
         
         // Availability and Experience
         'APL_Available_Weekdays' => 'required|string',
@@ -260,38 +260,61 @@ class ApplicationController extends Controller
 
     public function createUpload(UploadedFile $file, int $aplID, string $originalName, string $description)
     {
+        // Ensure the folder exists in the public disk
+        $folder = "{$aplID}";
+        if (!Storage::disk('public')->exists($folder)) {
+            Storage::disk('public')->makeDirectory($folder);
+        }
+
         // Sanitize filename
-        $fileNameClean = str_replace(' ', '_', $originalName);
+        $fileNameClean = str_replace(' ', '_', pathinfo($originalName, PATHINFO_FILENAME));
+        $extension = $file->getClientOriginalExtension();
+
+        // Unique filename: random + timestamp + cleaned name + extension
         $random = rand(100, 999);
-        $timestamp = Carbon::now()->format('His'); // HourMinuteSecond for uniqueness
-        $finalFileName = "{$random}-{$fileNameClean}";
+        $timestamp = Carbon::now()->format('YmdHis'); // YearMonthDayHourMinuteSecond
+        $finalFileName = "{$random}-{$timestamp}-{$fileNameClean}.{$extension}";
 
-        // Store file in storage/app/{id}/
-        $storagePath = Storage::putFileAs("{$aplID}", $file, $finalFileName);
+        // Store file in storage/app/public/{aplID}/
+        $storagePath = $file->storeAs($folder, $finalFileName, 'public');
 
-        // Save upload record
+        // Save upload record with public path
         Upload::create([
             'UPD_APL_ID' => $aplID,
             'UPD_DocName' => $finalFileName,
             'UPD_Desc' => $description,
-            'UPD_FilePath' => $storagePath,
+            'UPD_FilePath' => "storage/{$storagePath}", // public URL path
         ]);
     }
 
+    /**
+     * Upload multiple files at once.
+     */
     public function uploadAllFiles(int $aplID, array $files)
     {
         foreach ($files as $upload) {
             if (!empty($upload['file'])) {
-                // If multiple files (array), iterate
+                // Multiple files
                 if (is_array($upload['file'])) {
                     foreach ($upload['file'] as $file) {
                         if ($file instanceof UploadedFile) {
-                            $this->createUpload($file, $aplID, $file->getClientOriginalName(), $upload['description']);
+                            $this->createUpload(
+                                $file,
+                                $aplID,
+                                $file->getClientOriginalName(),
+                                $upload['description'] ?? ''
+                            );
                         }
                     }
-                } elseif ($upload['file'] instanceof UploadedFile) {
-                    // Single file
-                    $this->createUpload($upload['file'], $aplID, $upload['file']->getClientOriginalName(), $upload['description']);
+                }
+                // Single file
+                elseif ($upload['file'] instanceof UploadedFile) {
+                    $this->createUpload(
+                        $upload['file'],
+                        $aplID,
+                        $upload['file']->getClientOriginalName(),
+                        $upload['description'] ?? ''
+                    );
                 }
             }
         }
