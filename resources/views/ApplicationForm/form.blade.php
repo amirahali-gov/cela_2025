@@ -292,7 +292,11 @@
                 {{-- Required Documents --}}
                 <x-form.file-input id="File_Birth_Certificate" label="Birth Certificate" />
                 <x-form.file-input id="File_National_ID" label="National ID / Passport" />
-                <x-form.file-input id="File_Character_Certificate" label="Certificate of Character (or Receipt from TTPS)" />
+                <x-form.radio id="APL_Character_Selection" label="Please select either certificate of character or the receipt" :options="[
+                    ['Certificate', 'Certificate of Character'],
+                    ['Receipt', 'Certificate Of Character Receipt Number']
+                ]" />
+                <x-form.file-input id="File_Character_Certificate" label="Certificate of Character (or Receipt from TTPS)" :questionNumber="false" />
                 <x-form.file-input id="File_Recommender_Statement_1" label="Letter of Recommendation 1" />
                 <x-form.file-input id="File_Recommender_Statement_2" label="Letter of Recommendation 2" />
 
@@ -307,13 +311,13 @@
 
 
                 <x-form.wrapper>
-                    <h3 class="fw-bold">Participation Agreement</h3>
+                    <h3 class="fw-bold text-center">NOTE</h3>
                     <hr>
-                    <p>
+                    <p class="text-justify">
                         Participants must be willing to sign a participation agreement and work to meet the learning objectives and requirements of the training. This form and information collected within is confidential and intended for use by the Ministry of Sport and Youth Affairs.
                         Your information will remain private and confidential and will not be used for other purposes other than the above mentioned.
                     </p>
-                    <p>
+                    <p class="text-justify">
                         I hereby declare that the information given in this application is true and correct to the best of my knowledge and belief. If any information given in this application proves to be false or incorrect, I accept the consequences of automatic rejection of the submission.
                     </p>
                 </x-form.wrapper>
@@ -322,7 +326,7 @@
 
                 <x-form.wrapper>
                     <div class="d-grid gap-2 col-3 mx-auto">
-                        <input type="submit" class="btn btn-success">Submit</input>
+                        <input type="submit" class="btn btn-success" />
                     </div>
                 </x-form.wrapper>
             </form>

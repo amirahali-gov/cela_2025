@@ -25,22 +25,18 @@ class ApplicationController extends Controller
         }
         return view('ApplicationForm.form', compact('areas'));
     }
-
-    public function test(Request $request){
-        dd("$request->all()");
-    }
     
     private $validatorRules = [
         // Administrative fields (usually handled internally)
-        'APL_Dup' => 'nullable|boolean',
+        'APL_Dup' => 'nullable|string|max:1',
         'APL_DupUser' => 'nullable|string',
         'APL_Cycle' => 'nullable|string',
-        'APL_Invalid' => 'nullable|boolean',
-        'APL_Judged' => 'nullable|boolean',
-        'APL_Scored' => 'nullable|boolean',
+        'APL_Invalid' => 'nullable|string|max:1',
+        'APL_Judged' => 'nullable|string|max:1',
+        'APL_Scored' => 'nullable|string|max:1',
         'APL_Group_Num' => 'nullable|integer',
         'APL_Sort_Num' => 'nullable|integer',
-        'APL_ShortList' => 'nullable|boolean',
+        'APL_ShortList' => 'nullable|string|max:1',
         
         // Personal Information
         'APL_FName' => 'required|string|max:255',
@@ -52,21 +48,16 @@ class ApplicationController extends Controller
         'APL_Area' => 'required|string',
         'APL_Gender' => 'required|string',
         'APL_DOB' => 'required|date',
-        'APL_Age' => 'required|integer|min:1|max:120',
         'APL_PPhone' => 'required|string|max:20',
         'APL_APhone' => 'nullable|string|max:20',
         'APL_Email' => 'required|email|max:255',
-        'APL_Marital' => 'required|string',
         'APL_TT' => 'nullable|string',
         
         // Identification
-        'APL_NID' => 'required|string',
-        'APL_NID_Number' => 'required|string|max:50',
         'APL_ID_TYP' => 'nullable|string',
         'APL_ID_Number' => 'nullable|string|max:50',
-        'APL_BPN' => 'required|string|max:50',
         'APL_BIRTH_PIN' => 'nullable|string|max:50',
-        'APL_Has_NIS' => 'nullable|boolean',
+        'APL_Has_NIS' => 'nullable|string|max:1',
         'APL_NIS_Number' => 'nullable|string|max:50',
         
         // Banking Information
@@ -74,7 +65,7 @@ class ApplicationController extends Controller
         'APL_BANK_Name' => 'nullable|string|max:255',
         'APL_BANK_Other' => 'nullable|string|max:255',
         'APL_BANK_ACC' => 'nullable|string|max:50',
-        'APL_Has_Bank_Account' => 'nullable|boolean',
+        'APL_Has_Bank_Account' => 'nullable|string|max:1',
         
         // Location/Service
         'APL_Service_Area' => 'nullable|string',
@@ -84,9 +75,9 @@ class ApplicationController extends Controller
         'APL_HLOE' => 'required|string',
         'APL_HLOE_Other' => 'nullable|string|max:500',
         'APL_HLOE_Specify' => 'nullable|string|max:500',
-        'APL_2_CXC_Passes' => 'nullable|boolean',
-        'APL_Geriatric_Certif' => 'nullable|boolean',
-        'APL_Graduate' => 'nullable|boolean',
+        'APL_2_CXC_Passes' => 'nullable|string|max:1',
+        'APL_Geriatric_Certif' => 'nullable|string|max:1',
+        'APL_Graduate' => 'nullable|string|max:1',
         'APL_Certification_Institution' => 'nullable|string|max:255',
         
         // Employment
@@ -99,28 +90,18 @@ class ApplicationController extends Controller
         // Availability and Experience
         'APL_Available_Weekdays' => 'nullable|string',
         'APL_Available_GAPP' => 'nullable|string',
-        'APL_Availability_Weekdays' => 'required|string',
-        'APL_Availability_Weekends' => 'required|string',
         'APL_Experience' => 'nullable|string',
-        'APL_Previous_Geriatric_Experience' => 'required|string',
         'APL_Geriatric_Experience_Details' => 'nullable|string|max:1000',
         
         // Training and Motivation
-        'APL_Training_Expectations' => 'required|string|max:1000',
         'APL_Motivation_Expectations' => 'nullable|string|max:1000',
-        'APL_Interest_Details' => 'required|string|max:1000',
         'APL_Post_Training_Intent' => 'required|string',
         'APL_Post_Training_Other' => 'nullable|string|max:500',
         
         // Organization Membership
-        'APL_Youth_Group_Member' => 'required|string',
         'APL_Organization_Name' => 'nullable|string|max:255',
         'APL_Role' => 'nullable|string|max:255',
         'APL_Membership_Length' => 'nullable|string|max:100',
-        
-        // Transport and Logistics
-        'APL_Transport_Mode' => 'required|string',
-        'APL_Transport_Mode_Other' => 'nullable|string|max:255',
         
         // Consent and Communication
         'APL_Consent_Followup' => 'required|string',
@@ -344,8 +325,6 @@ class ApplicationController extends Controller
         };
     }
 
-    
-
     public function uploadAllLinks($aplID, $links){
         foreach($links as $link){
             if($link != null){
@@ -360,10 +339,8 @@ class ApplicationController extends Controller
     public function apply(Request $request){
 
         $validator = Validator::make($request->all(), $this->validatorRules, [], $this->getAttributeNames());
-
+        
         $textsLinks = json_decode($request->input('Texts_Links'), true);
-
-        // return $request;
 
         if ($validator->fails()) {
             Log::error($validator->errors());
@@ -411,8 +388,6 @@ class ApplicationController extends Controller
         try{
             
             $validated = $validator->validated();
-            
-            
             
             try{
                 $application = new Application();
