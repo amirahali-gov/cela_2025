@@ -36,7 +36,10 @@ class FileInput extends Component
                 <div class="row">
 
                 <div class="col-12">
-                    <label for="{{$id}}" class="fw-bold">{{$displayLabel}} @if($required) <x-form.required-label /> @endif</label>
+                    <label for="{{$id}}" class="fw-bold">
+                        @if($required) <x-form.required-label /> @endif
+                        {{$displayLabel}}
+                    </label>
                 </div>
 
                     <div class="mb-4">

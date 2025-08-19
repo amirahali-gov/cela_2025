@@ -21,8 +21,8 @@ class RequiredLabel extends Component
     public function render()
     {
         return <<<'blade'
-            <span>
-                <small class="fw-light text-gray">(required)</small>
+            <span class="text-danger">
+                *
             </span>
         blade;
     }

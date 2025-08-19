@@ -41,13 +41,16 @@ class Radio extends Component
 
             <div class= "row">
                 <div class="col-12">
-                    <label for="{{$id}}" class="fw-bold">{{$displayLabel}} @if($required) <x-form.required-label /> @endif</label>
+                    <label for="{{$id}}" class="fw-bold">
+                        @if($required) <x-form.required-label /> @endif
+                        {{$displayLabel}}
+                    </label>
                 </div>
 
                 <div class="mb-4">
-                    <div class="form-check">
+                    <div class="form-check" id="{{$id}}">
                         @foreach($options as $option)
-                        <input class="fw-bold form-check-input" type="radio" name="{{$id}}" id="{{$id}}"x-model="{{$id}}" value="{{$option[1]}}" @if(old($id) == $option[1]) checked @endif>
+                        <input class="fw-bold form-check-input" type="radio" name="{{$id}}" x-model="{{$id}}" value="{{$option[1]}}" @if(old($id) == $option[1]) checked @endif>
                         <label class="form-check-label mr-1" for="{{$id}}">{{$option[0]}}</label>
                         <br>
                         @endforeach

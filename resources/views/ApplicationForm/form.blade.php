@@ -72,7 +72,7 @@
                         <x-form.text-input id="APL_FName" label="First Name" value="{{ old('APL_FName') }}" />
                     </x-slot>
                     <x-slot name="col2">
-                        <x-form.text-input id="APL_MName" label="Middle Name" :questionNumber="false" />
+                        <x-form.text-input id="APL_MName" label="Middle Name" :questionNumber="false" :required="false" />
                     </x-slot>
                     <x-slot name="col3">
                         <x-form.text-input id="APL_LName" label="Last Name" :questionNumber="false" />
@@ -156,8 +156,8 @@
                 {{-- 8. Employment Status --}}
                 <x-form.radio id="APL_Employment_Status" label="Are you employed/self-employed?" :options="$yesNoOptions" />
 
-                <div x-data="{ APL_Employed: '' }">
-                    <div x-show="APL_Employed === 'Y'" x-cloak class="mt-4">
+                <div x-data="{ APL_Employment_Status: '' }">
+                    <div x-show="APL_Employment_Status == 'Y'" x-cloak class="mt-4">
                         <x-form.text-input id="APL_Job_Title" label="Job Title (if applicable)" :required="false" :questionNumber="false" />
                         <x-form.radio id="APL_Employment_Type" label="Employment Type" :options="[
                                 ['Full-time', 'Full-time'],
@@ -192,7 +192,7 @@
                 <x-form.radio id="APL_Has_NIS" label="Do you have a National Insurance Number (NIS)?" :options="$yesNoOptions" />
 
                 <div x-data="{ APL_Has_NIS: '' }">
-                    <div x-show="APL_Has_NIS === 'Y'" x-cloak class="mt-4">
+                    <div x-show="APL_Has_NIS == 'Y'" x-cloak class="mt-4">
                         <x-form.text-input id="APL_NIS_Number" label="Please enter your National Insurance Number (NIS)" :required="false" :questionNumber="false" />
                     </div>
                 </div>
@@ -278,12 +278,26 @@
                 <x-form.section-h1>Recommender Information</x-form.section-h1>
 
                 {{-- 29-31. PROFESSIONAL RECOMMENDER 1 --}}
-                <x-form.text-input id="APL_Prof_Rec_FName" label="Name of Professional Recommender 1" />
+                <x-form.column-2>
+                    <x-slot name="col1">
+                        <x-form.text-input id="APL_Prof_Rec_FName" label="First Name of Professional Recommender 1" />
+                    </x-slot>
+                    <x-slot name="col2">
+                        <x-form.text-input id="APL_Prof_Rec_LName" label="Last Name of Professional Recommender 1" :questionNumber="false" />
+                    </x-slot>
+                </x-form.column-2>
                 <x-form.text-input id="APL_Prof_Rec_Designation" label="Designation of Professional Recommender 1" />
                 <x-form.text-input id="APL_Prof_Rec_Phone" label="Contact Number of Professional Recommender 1" />
 
                 {{-- 32-34. PROFESSIONAL RECOMMENDER 2 --}}
-                <x-form.text-input id="APL_Prof_Rec_2_FName" label="Name of Professional Recommender 2" />
+                 <x-form.column-2>
+                    <x-slot name="col1">
+                        <x-form.text-input id="APL_Prof_Rec_2_FName" label="First Name of Professional Recommender 2" />
+                    </x-slot>
+                    <x-slot name="col2">
+                        <x-form.text-input id="APL_Prof_Rec_2_LName" label="Last Name of Professional Recommender 2" :questionNumber="false" />
+                    </x-slot>
+                </x-form.column-2>
                 <x-form.text-input id="APL_Prof_Rec_2_Designation" label="Designation of Professional Recommender 2" />
                 <x-form.text-input id="APL_Prof_Rec_2_Phone" label="Contact Number of Professional Recommender 2" />
 
@@ -292,13 +306,17 @@
                 {{-- Required Documents --}}
                 <x-form.file-input id="File_Birth_Certificate" label="Birth Certificate" />
                 <x-form.file-input id="File_National_ID" label="National ID / Passport" />
-                <x-form.file-input id="File_Character_Certificate" label="Certificate of Character (or Receipt from TTPS)" />
+                <x-form.radio id="APL_Character_Selection" label="Please select either certificate of character or the receipt" :options="[
+                    ['Certificate', 'Certificate of Character'],
+                    ['Receipt', 'Certificate Of Character Receipt Number']
+                ]" />
+                <x-form.text-input id="APL_CRN" label="Certificate of Character Receipt Number" :required="false" :questionNumber="false" />
+                <x-form.file-input id="File_Character_Certificate" label="Certificate of Character (or Receipt from TTPS)" :questionNumber="false" :required="false" />
                 <x-form.file-input id="File_Recommender_Statement_1" label="Letter of Recommendation 1" />
                 <x-form.file-input id="File_Recommender_Statement_2" label="Letter of Recommendation 2" />
 
-                <x-form.multi-file-input id="Files_Academic_Certificates" label="Academic and/or Skills Training Certificates"/>
-                <x-form.file-input id="File_Geriatric_Certificate" label="Certificate in Geriatric Care or Professional Healthcare" />
-
+                <x-form.multi-file-input id="Files_Academic_Certificates" label="Academic and/or Skills Training Certificates" :required="false"/>
+                <x-form.file-input id="File_Geriatric_Certificate" label="Certificate in Geriatric Care or Professional Healthcare" :required="false"/>
                 {{-- Optional Documents --}}
                 <x-form.file-input id="File_NIS_Card" label="National Insurance Card (Optional)" :required="false" />
                 <x-form.file-input id="File_Proof_Address" label="Proof of Address (Utility Bill or Bank Statement)" />
@@ -307,13 +325,13 @@
 
 
                 <x-form.wrapper>
-                    <h3 class="fw-bold">Participation Agreement</h3>
+                    <h3 class="fw-bold text-center">NOTE</h3>
                     <hr>
-                    <p>
+                    <p class="text-justify">
                         Participants must be willing to sign a participation agreement and work to meet the learning objectives and requirements of the training. This form and information collected within is confidential and intended for use by the Ministry of Sport and Youth Affairs.
                         Your information will remain private and confidential and will not be used for other purposes other than the above mentioned.
                     </p>
-                    <p>
+                    <p class="text-justify">
                         I hereby declare that the information given in this application is true and correct to the best of my knowledge and belief. If any information given in this application proves to be false or incorrect, I accept the consequences of automatic rejection of the submission.
                     </p>
                 </x-form.wrapper>
@@ -322,7 +340,7 @@
 
                 <x-form.wrapper>
                     <div class="d-grid gap-2 col-3 mx-auto">
-                        <input type="submit" class="btn btn-success">Submit</input>
+                        <input type="submit" class="btn btn-success" />
                     </div>
                 </x-form.wrapper>
             </form>
