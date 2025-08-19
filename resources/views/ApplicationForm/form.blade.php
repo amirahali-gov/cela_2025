@@ -72,7 +72,7 @@
                         <x-form.text-input id="APL_FName" label="First Name" value="{{ old('APL_FName') }}" />
                     </x-slot>
                     <x-slot name="col2">
-                        <x-form.text-input id="APL_MName" label="Middle Name" :questionNumber="false" />
+                        <x-form.text-input id="APL_MName" label="Middle Name" :questionNumber="false" :required="false" />
                     </x-slot>
                     <x-slot name="col3">
                         <x-form.text-input id="APL_LName" label="Last Name" :questionNumber="false" />
@@ -156,8 +156,8 @@
                 {{-- 8. Employment Status --}}
                 <x-form.radio id="APL_Employment_Status" label="Are you employed/self-employed?" :options="$yesNoOptions" />
 
-                <div x-data="{ APL_Employed: '' }">
-                    <div x-show="APL_Employed === 'Y'" x-cloak class="mt-4">
+                <div x-data="{ APL_Employment_Status: '' }">
+                    <div x-show="APL_Employment_Status == 'Y'" x-cloak class="mt-4">
                         <x-form.text-input id="APL_Job_Title" label="Job Title (if applicable)" :required="false" :questionNumber="false" />
                         <x-form.radio id="APL_Employment_Type" label="Employment Type" :options="[
                                 ['Full-time', 'Full-time'],
@@ -192,7 +192,7 @@
                 <x-form.radio id="APL_Has_NIS" label="Do you have a National Insurance Number (NIS)?" :options="$yesNoOptions" />
 
                 <div x-data="{ APL_Has_NIS: '' }">
-                    <div x-show="APL_Has_NIS === 'Y'" x-cloak class="mt-4">
+                    <div x-show="APL_Has_NIS == 'Y'" x-cloak class="mt-4">
                         <x-form.text-input id="APL_NIS_Number" label="Please enter your National Insurance Number (NIS)" :required="false" :questionNumber="false" />
                     </div>
                 </div>
@@ -278,12 +278,26 @@
                 <x-form.section-h1>Recommender Information</x-form.section-h1>
 
                 {{-- 29-31. PROFESSIONAL RECOMMENDER 1 --}}
-                <x-form.text-input id="APL_Prof_Rec_FName" label="Name of Professional Recommender 1" />
+                <x-form.column-2>
+                    <x-slot name="col1">
+                        <x-form.text-input id="APL_Prof_Rec_FName" label="First Name of Professional Recommender 1" />
+                    </x-slot>
+                    <x-slot name="col2">
+                        <x-form.text-input id="APL_Prof_Rec_LName" label="Last Name of Professional Recommender 1" :questionNumber="false" />
+                    </x-slot>
+                </x-form.column-2>
                 <x-form.text-input id="APL_Prof_Rec_Designation" label="Designation of Professional Recommender 1" />
                 <x-form.text-input id="APL_Prof_Rec_Phone" label="Contact Number of Professional Recommender 1" />
 
                 {{-- 32-34. PROFESSIONAL RECOMMENDER 2 --}}
-                <x-form.text-input id="APL_Prof_Rec_2_FName" label="Name of Professional Recommender 2" />
+                 <x-form.column-2>
+                    <x-slot name="col1">
+                        <x-form.text-input id="APL_Prof_Rec_2_FName" label="First Name of Professional Recommender 2" />
+                    </x-slot>
+                    <x-slot name="col2">
+                        <x-form.text-input id="APL_Prof_Rec_2_LName" label="Last Name of Professional Recommender 2" :questionNumber="false" />
+                    </x-slot>
+                </x-form.column-2>
                 <x-form.text-input id="APL_Prof_Rec_2_Designation" label="Designation of Professional Recommender 2" />
                 <x-form.text-input id="APL_Prof_Rec_2_Phone" label="Contact Number of Professional Recommender 2" />
 
@@ -296,13 +310,13 @@
                     ['Certificate', 'Certificate of Character'],
                     ['Receipt', 'Certificate Of Character Receipt Number']
                 ]" />
-                <x-form.file-input id="File_Character_Certificate" label="Certificate of Character (or Receipt from TTPS)" :questionNumber="false" />
+                <x-form.text-input id="APL_CRN" label="Certificate of Character Receipt Number" :required="false" :questionNumber="false" />
+                <x-form.file-input id="File_Character_Certificate" label="Certificate of Character (or Receipt from TTPS)" :questionNumber="false" :required="false" />
                 <x-form.file-input id="File_Recommender_Statement_1" label="Letter of Recommendation 1" />
                 <x-form.file-input id="File_Recommender_Statement_2" label="Letter of Recommendation 2" />
 
-                <x-form.multi-file-input id="Files_Academic_Certificates" label="Academic and/or Skills Training Certificates"/>
-                <x-form.file-input id="File_Geriatric_Certificate" label="Certificate in Geriatric Care or Professional Healthcare" />
-
+                <x-form.multi-file-input id="Files_Academic_Certificates" label="Academic and/or Skills Training Certificates" :required="false"/>
+                <x-form.file-input id="File_Geriatric_Certificate" label="Certificate in Geriatric Care or Professional Healthcare" :required="false"/>
                 {{-- Optional Documents --}}
                 <x-form.file-input id="File_NIS_Card" label="National Insurance Card (Optional)" :required="false" />
                 <x-form.file-input id="File_Proof_Address" label="Proof of Address (Utility Bill or Bank Statement)" />

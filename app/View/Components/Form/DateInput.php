@@ -34,7 +34,10 @@ class DateInput extends Component
         
         return <<<'blade'
             <x-form.wrapper>
-                <label class="fw-bold" for="{{$id}}">{{$displayLabel}} @if($required) <x-form.required-label /> @endif</label>
+                <label class="fw-bold" for="{{$id}}">
+                    @if($required) <x-form.required-label /> @endif
+                    {{$displayLabel}}
+                </label>
                 <input class="form-control" type="date" name="{{$id}}" id="{{$id}}" placeholder="{{$placeholder}}" value="{{ old($id) }}">
                 <x-form.input-error-message id="{{$id}}" />
             </x-form.wrapper>

@@ -38,7 +38,10 @@ class TextInput extends Component
                 <div class="row align-items-center">
                     <!-- Label taking 12 columns -->
                     <div class="col-12">
-                        <label for="{{$id}}" class="fw-bold">{{$displayLabel}} @if($required) <x-form.required-label /> @endif</label>
+                        <label for="{{$id}}" class="fw-bold">
+                            @if($required) <x-form.required-label /> @endif
+                            {{$displayLabel}}
+                        </label>
                     </div>
                     <!-- Input field taking 6 columns -->
                     <div class="mb-4">

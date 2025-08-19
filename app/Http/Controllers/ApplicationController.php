@@ -27,105 +27,78 @@ class ApplicationController extends Controller
     }
     
     private $validatorRules = [
-        // Administrative fields (usually handled internally)
-        'APL_Dup' => 'nullable|string|max:1',
-        'APL_DupUser' => 'nullable|string',
-        'APL_Cycle' => 'nullable|string',
-        'APL_Invalid' => 'nullable|string|max:1',
-        'APL_Judged' => 'nullable|string|max:1',
-        'APL_Scored' => 'nullable|string|max:1',
-        'APL_Group_Num' => 'nullable|integer',
-        'APL_Sort_Num' => 'nullable|integer',
-        'APL_ShortList' => 'nullable|string|max:1',
-        
         // Personal Information
         'APL_FName' => 'required|string|max:255',
-        'APL_LName' => 'required|string|max:255',
         'APL_MName' => 'nullable|string|max:255',
+        'APL_LName' => 'required|string|max:255',
         'APL_Address_1' => 'required|string|max:255',
-        'APL_Address_2' => 'nullable|string|max:255',
-        'APL_Address_3' => 'nullable|string|max:255',
+        'APL_Address_2' => 'required|string|max:255',
         'APL_Area' => 'required|string',
         'APL_Gender' => 'required|string',
         'APL_DOB' => 'required|date',
         'APL_PPhone' => 'required|string|max:20',
         'APL_APhone' => 'nullable|string|max:20',
         'APL_Email' => 'required|email|max:255',
-        'APL_TT' => 'nullable|string',
+        'APL_TT' => 'required|string',
         
         // Identification
-        'APL_ID_TYP' => 'nullable|string',
-        'APL_ID_Number' => 'nullable|string|max:50',
-        'APL_BIRTH_PIN' => 'nullable|string|max:50',
-        'APL_Has_NIS' => 'nullable|string|max:1',
-        'APL_NIS_Number' => 'nullable|string|max:50',
+        'APL_ID_TYP' => 'required|string',
+        'APL_ID_Number' => 'required|string|max:50',
+        'APL_BIRTH_PIN' => 'required|string|max:50',
+        'APL_Has_NIS' => 'required|string|max:1',
+        'APL_NIS_Number' => 'required_if:APL_Has_NIS,Y|string|max:50',
         
         // Banking Information
-        'APL_BANK' => 'nullable|string',
-        'APL_BANK_Name' => 'nullable|string|max:255',
-        'APL_BANK_Other' => 'nullable|string|max:255',
-        'APL_BANK_ACC' => 'nullable|string|max:50',
-        'APL_Has_Bank_Account' => 'nullable|string|max:1',
+        // 'APL_BANK_Name' => 'required_if:APL_Has_Bank_Account,Y|string|max:255',
+        // 'APL_BANK_Other' => 'required_if:APL_BANK,Other|string|max:255',
+        // 'APL_BANK_ACC' => 'required_if:APL_Has_Bank_Account,Y|string|max:50',
+        'APL_Has_Bank_Account' => 'required|string|max:1',
         
         // Location/Service
-        'APL_Service_Area' => 'nullable|string',
-        'APL_Preferred_Region' => 'nullable|string',
+        'APL_Preferred_Region' => 'required|string',
         
         // Education and Qualifications
         'APL_HLOE' => 'required|string',
-        'APL_HLOE_Other' => 'nullable|string|max:500',
-        'APL_HLOE_Specify' => 'nullable|string|max:500',
-        'APL_2_CXC_Passes' => 'nullable|string|max:1',
-        'APL_Geriatric_Certif' => 'nullable|string|max:1',
-        'APL_Graduate' => 'nullable|string|max:1',
-        'APL_Certification_Institution' => 'nullable|string|max:255',
+        'APL_HLOE_Specify' => 'required_if:APL_HLOE,Technical/Vocational|string|max:100',
+        'APL_2_CXC_Passes' => 'required|string|max:1',
+        'APL_Geriatric_Certif' => 'required|string|max:1',
+        'APL_Certification_Institution' => 'required_if:APL_Geriatric_Certif,Y|string|max:255',
         
         // Employment
-        'APL_Employment_Status' => 'required|string',
-        'APL_Employment_Status_Other' => 'nullable|string|max:500',
-        'APL_Job_Title' => 'nullable|string|max:255',
-        'APL_Employment_Type' => 'nullable|string',
-        'APL_Field' => 'nullable|string|max:255',
+        'APL_Employment_Status' => 'required|string|max:1',
+        'APL_Job_Title' => 'required_if:APL_Employment_Status,1|string|max:255',
+        'APL_Employment_Type' => 'required_if:APL_Employment_Status,1|string',
         
         // Availability and Experience
-        'APL_Available_Weekdays' => 'nullable|string',
-        'APL_Available_GAPP' => 'nullable|string',
-        'APL_Experience' => 'nullable|string',
-        'APL_Geriatric_Experience_Details' => 'nullable|string|max:1000',
+        'APL_Available_Weekdays' => 'required|string',
+        'APL_Experience' => 'required|string|max:1000',
         
         // Training and Motivation
-        'APL_Motivation_Expectations' => 'nullable|string|max:1000',
+        'APL_Motivation_Expectations' => 'required|string|max:1000',
         'APL_Post_Training_Intent' => 'required|string',
-        'APL_Post_Training_Other' => 'nullable|string|max:500',
-        
-        // Organization Membership
-        'APL_Organization_Name' => 'nullable|string|max:255',
-        'APL_Role' => 'nullable|string|max:255',
-        'APL_Membership_Length' => 'nullable|string|max:100',
+        'APL_Post_Training_Other' => 'required_if:APL_Post_Training_Intent,Other|string|max:500',
         
         // Consent and Communication
         'APL_Consent_Followup' => 'required|string',
         'APL_How_Found_Programme' => 'required|string',
-        'APL_How_Found_Other' => 'nullable|string|max:500',
+        'APL_How_Found_Other' => 'required_if:APL_How_Found_Programme,Other|string|max:100',
         'APL_Subscribe_Mailing' => 'required|string',
         'APL_Photo_Consent' => 'required|string',
         
         // References
         'APL_Prof_Rec_FName' => 'required|string|max:255',
-        'APL_Prof_Rec_LName' => 'nullable|string|max:255',
+        'APL_Prof_Rec_LName' => 'required|string|max:255',
         'APL_Prof_Rec_Designation' => 'required|string|max:255',
         'APL_Prof_Rec_Phone' => 'required|string|max:20',
         'APL_Prof_Rec_2_FName' => 'required|string|max:255',
+        'APL_Prof_Rec_2_LName' => 'required|string|max:255',
         'APL_Prof_Rec_2_Designation' => 'required|string|max:255',
         'APL_Prof_Rec_2_Phone' => 'required|string|max:20',
-        'APL_Pers_Rec_FName' => 'nullable|string|max:255',
-        'APL_Pers_Rec_LName' => 'nullable|string|max:255',
-        'APL_Pers_Rec_Phone' => 'nullable|string|max:20',
-        'APL_Pers_Rec_Relationship' => 'nullable|string|max:255',
         
         // Character and Documentation
         'APL_Character_Selection' => 'required|string',
-        'APL_CRN' => 'nullable|string|max:100',
+        'APL_CRN' => 'required_if:APL_Character_Selection,Receipt|string|max:100',
+        'File_Character_Certificate' => 'required_if:APL_Character_Selection,Certificate|file|mimes:pdf,jpg,jpeg,png|max:5120',
         
         // File uploads
         'File_Birth_Certificate' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
@@ -133,11 +106,10 @@ class ApplicationController extends Controller
         'File_Proof_Address' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
         'File_Authorization_Letter' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         'File_Owner_ID' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-        'File_Utility_Bill' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-        'File_Geriatric_Certificate' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-        'Files_Academic_Certificates' => 'required|array|min:1',
+        'File_Utility_Bill' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        'File_Geriatric_Certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        'Files_Academic_Certificates' => 'nullable|array|min:1',
         'Files_Academic_Certificates.*' => 'file|mimes:pdf,jpg,jpeg,png|max:5120',
-        'File_Character_Certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         'File_Recommender_Statement_1' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
         'File_Recommender_Statement_2' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
         'File_NIS_Card' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
@@ -415,8 +387,7 @@ class ApplicationController extends Controller
                     }
                 }
 
-                dd($application);
-                // $application->save();
+                $application->save();
                 
 
             } catch(Exception $e){

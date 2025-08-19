@@ -25,7 +25,10 @@ class MultiTextInput extends Component
         $placeholder = $placeholder ?? $this->label;
         return <<<'blade'
             <x-form.wrapper>
-                <label for="{{$id}}">{{$label}}@if($required) <x-form.required-label /> @endif</label>
+                <label for="{{$id}}">
+                    @if($required) <x-form.required-label /> @endif
+                    {{$label}}
+                </label>
                 @for($i=1; $i<=$count; $i++)
                     <input class="form-control mb-2 col-md-6" type="text" name="{{$id}}[]" id="{{$id}}{{$i}}" placeholder="{{$placeholder}}" value="{{ old($id)[$i-1] ?? '' }}">
                 @endfor
