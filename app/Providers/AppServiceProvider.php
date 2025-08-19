@@ -26,8 +26,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap(); // for pagination styling with bootstrap
-        if(str_contains(env('APP_URL'), "https")) {
-            URL::forceScheme('https');
-        }
+        
+        // if(str_contains(env('APP_URL'), "http")) {
+        //     URL::forceScheme('https');
+        // }
     }
 }
