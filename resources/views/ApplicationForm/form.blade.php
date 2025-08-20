@@ -90,7 +90,7 @@
                 </x-form.column-2>
 
                 {{-- 3. WHICH AREA DO YOU LIVE IN? --}}
-                <x-form.select id="APL_Area" label="Which area do you live in?" :options="[
+                <x-form.select id="APL_Address_3" label="Which area do you live in?" :options="[
                         ['Arima', 'Arima'],
                         ['Chaguanas/Caroni', 'Chaguanas/Caroni'],
                         ['Couva/Tabaquite/Talparo', 'Couva/Tabaquite/Talparo'],
@@ -201,13 +201,13 @@
                 <x-form.radio id="APL_Has_Bank_Account" label="Do you have a bank account?" :options="$yesNoOptions" />
 
                 {{-- 16. WHAT IS YOUR PREFERRED REGION FOR PLACEMENT? --}}
-                <x-form.select id="APL_Preferred_Region" label="What is your preferred region for placement?" :options="[
-                        ['Northern Region (Curepe to Carenage)', 'Northern'],
-                        ['St Patrick Region (Icacos to Penal)', 'St Patrick'],
-                        ['Victoria (San Fernando to Princess Town)', 'Victoria'],
-                        ['North East (St Augustine to Arima)', 'North East'],
-                        ['East (Cumuto to Rio Claro)', 'East'],
-                        ['Central (Caroni/Chaguanas/Couva to Claxton Bay)', 'Central'],
+                <x-form.select id="APL_Service_Area" label="What is your preferred region for placement?" :options="[
+                        ['Northern Region (Curepe to Carenage)', 'Northern Region (Curepe to Carenage)'],
+                        ['St Patrick Region (Icacos to Penal)', 'St Patrick Region (Icacos to Penal)'],
+                        ['Victoria (San Fernando to Princess Town)', 'Victoria (San Fernando to Princess Town)'],
+                        ['North East (St Augustine to Arima)', 'North East (St Augustine to Arima)'],
+                        ['East (Cumuto to Rio Claro)', 'East (Cumuto to Rio Claro)'],
+                        ['Central (Caroni/Chaguanas/Couva to Claxton Bay)', 'Central (Caroni/Chaguanas/Couva to Claxton Bay)'],
                     ]" />
 
                 {{-- 17. I AM A NATIONAL OF TRINIDAD AND TOBAGO --}}
@@ -220,7 +220,7 @@
                 <x-form.radio id="APL_Geriatric_Certif" label="I possess a certificate reflecting competencies in Geriatric Care or Professional Healthcare" :options="$yesNoOptions" />
 
                 {{-- 20. FROM WHICH INSTITUTION DID YOU RECEIVE YOUR CERTIFICATION? --}}
-                <x-form.text-input id="APL_Certification_Institution" label="From which institution did you receive your certification?" />
+                <x-form.text-input id="APL_Graduate" label="From which institution did you receive your certification?" />
 
                 <x-form.section-h1>Programme Interest</x-form.section-h1>
 
@@ -338,12 +338,20 @@
                 {{-- Required Documents --}}
                 <x-form.file-input id="File_Birth_Certificate" label="Birth Certificate" />
                 <x-form.file-input id="File_National_ID" label="National ID / Passport" />
-                <x-form.radio id="APL_Character_Selection" label="Please select either certificate of character or the receipt" :options="[
-                    ['Certificate of Character', 'Certificate'],
-                    ['Certificate Of Character Receipt Number', 'Receipt']
-                ]" />
-                <x-form.text-input id="APL_CRN" label="Certificate of Character Receipt Number" :required="false" :questionNumber="false" />
-                <x-form.file-input id="File_Character_Certificate" label="Certificate of Character (or Receipt from TTPS)" :questionNumber="false" :required="false" />
+                <div x-data="{ APL_Character_Selection: '{{ old('APL_Character_Selection', '') }}' }">
+                    <x-form.radio id="APL_Character_Selection" label="Please select either certificate of character or the receipt" :options="[
+                        ['Certificate of Character', 'COC'],
+                        ['Certificate Of Character Receipt Number', 'CRN']
+                    ]" x-model="APL_Character_Selection" />
+                    
+                    <div x-show="APL_Character_Selection === 'CRN'" x-cloak>
+                        <x-form.text-input id="APL_CRN" label="Certificate of Character Receipt Number" :required="false" :questionNumber="false" />
+                    </div>
+                    
+                    <div x-show="APL_Character_Selection === 'COC'" x-cloak>
+                        <x-form.file-input id="File_Character_Certificate" label="Certificate of Character (or Receipt from TTPS)" :questionNumber="false" :required="false" />
+                    </div>
+                </div>
                 <x-form.file-input id="File_Recommender_Statement_1" label="Letter of Recommendation 1" />
                 <x-form.file-input id="File_Recommender_Statement_2" label="Letter of Recommendation 2" />
 

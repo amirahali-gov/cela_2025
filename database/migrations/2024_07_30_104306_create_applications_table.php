@@ -56,7 +56,7 @@ return new class extends Migration {
             $table->text('APL_Service_Area')->nullable();
             $table->string('APL_2_CXC_Passes', 20)->nullable();
             $table->string('APL_Geriatric_Certif', 20)->nullable();
-            $table->string('APL_Graduate', 20)->nullable();
+            $table->string('APL_Graduate', 100)->nullable();
             $table->text('APL_Available_Weekdays')->nullable();
             $table->string('APL_Available_GAPP', 20)->nullable();
             $table->text('APL_Experience')->nullable();
@@ -98,21 +98,7 @@ return new class extends Migration {
             $table->string('APL_Prof_Rec_2_FName', 100)->nullable();
             $table->text('APL_Prof_Rec_2_Designation')->nullable();
             $table->string('APL_Prof_Rec_2_Phone', 50)->nullable();
-            
-            // File uploads - keeping these as strings for file paths/names
-            $table->text('File_Birth_Certificate')->nullable();
-            $table->text('File_National_ID')->nullable();
-            $table->text('File_Proof_Address')->nullable();
-            $table->text('File_Authorization_Letter')->nullable();
-            $table->text('File_Owner_ID')->nullable();
-            $table->text('File_Utility_Bill')->nullable();
-            $table->text('File_Geriatric_Certificate')->nullable();
-            $table->json('Files_Academic_Certificates')->nullable();
-            $table->text('File_Character_Certificate')->nullable();
-            $table->text('File_Recommender_Statement_1')->nullable();
-            $table->text('File_Recommender_Statement_2')->nullable();
-            $table->text('File_NIS_Card')->nullable();
-            
+                        
             $table->string('APL_Accepts', 20)->nullable();
             
             $table->timestamps();

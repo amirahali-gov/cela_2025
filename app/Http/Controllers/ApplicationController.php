@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
+
 
 class ApplicationController extends Controller
 {
@@ -34,7 +36,7 @@ class ApplicationController extends Controller
         'APL_LName' => 'required|string|max:255',
         'APL_Address_1' => 'required|string|max:255',
         'APL_Address_2' => 'required|string|max:255',
-        'APL_Area' => 'required|string',
+        'APL_Address_3' => 'required|string',
         'APL_Gender' => 'required|string',
         'APL_DOB' => 'required|date',
         'APL_PPhone' => 'required|string|max:20',
@@ -56,14 +58,14 @@ class ApplicationController extends Controller
         'APL_Has_Bank_Account' => 'required|string|max:1',
         
         // Location/Service
-        'APL_Preferred_Region' => 'required|string',
+        'APL_Service_Area' => 'required|string',
         
         // Education and Qualifications
         'APL_HLOE' => 'required|string',
         'APL_HLOE_Specify' => 'required_if:APL_HLOE,Technical/Vocational|nullable|string|max:100',
         'APL_2_CXC_Passes' => 'required|string|max:1',
         'APL_Geriatric_Certif' => 'required|string|max:1',
-        'APL_Certification_Institution' => 'required_if:APL_Geriatric_Certif,Y|string|max:255',
+        'APL_Graduate' => 'required_if:APL_Geriatric_Certif,Y|string|max:255',
         
         // Employment
         'APL_Employment_Status' => 'required|string|max:1',
@@ -77,12 +79,12 @@ class ApplicationController extends Controller
         // Training and Motivation
         'APL_Motivation_Expectations' => 'required|string|max:1000',
         'APL_Post_Training_Intent' => 'required|string',
-        'APL_Post_Training_Other' => 'required_if:APL_Post_Training_Intent,Other|string|max:500',
+        'APL_Post_Training_Other' => 'required_if:APL_Post_Training_Intent,Other|nullable|string|max:500',
         
         // Consent and Communication
         'APL_Consent_Followup' => 'required|string',
         'APL_How_Found_Programme' => 'required|string',
-        'APL_How_Found_Other' => 'required_if:APL_How_Found_Programme,Other|string|max:100',
+        'APL_How_Found_Other' => 'required_if:APL_How_Found_Programme,Other|nullable|string|max:100',
         'APL_Subscribe_Mailing' => 'required|string',
         'APL_Photo_Consent' => 'required|string',
         
@@ -98,7 +100,7 @@ class ApplicationController extends Controller
         
         // Character and Documentation
         'APL_Character_Selection' => 'required|string|max:25',
-        'APL_CRN' => 'required_if:APL_Character_Selection,Receipt|string|max:20',
+        'APL_CRN' => 'required_if:APL_Character_Selection,Receipt|nullable|string|max:20',
         'File_Character_Certificate' => 'required_if:APL_Character_Selection,Certificate|file|mimes:pdf,jpg,jpeg,png|max:5120',
         
         // File uploads
@@ -138,8 +140,8 @@ class ApplicationController extends Controller
             'APL_MName' => 'Middle Name',
             'APL_Address_1' => 'Address Line 1',
             'APL_Address_2' => 'Address Line 2',
-            'APL_Address_3' => 'Address Line 3',
-            'APL_Area' => 'Area/Region',
+            'APL_Address_3' => 'Area/Region',
+            'APL_Area' => 'Area/Region Code',
             'APL_Gender' => 'Gender',
             'APL_DOB' => 'Date of Birth',
             'APL_Age' => 'Age',
@@ -430,7 +432,9 @@ class ApplicationController extends Controller
                         $application->$field = $value;
                     }
                 }
-
+                $application->APL_Cycle = 3;
+                $application->APL_Area = Area::where('Area_CC', $validated['APL_Address_3'])->value('Board');
+                $application->APL_Age = Carbon::parse($validated['APL_DOB'])->age;
                 $application->save();
                 
 
