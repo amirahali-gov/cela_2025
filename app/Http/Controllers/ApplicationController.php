@@ -65,7 +65,7 @@ class ApplicationController extends Controller
         'APL_HLOE_Specify' => 'required_if:APL_HLOE,Technical/Vocational|nullable|string|max:100',
         'APL_2_CXC_Passes' => 'required|string|max:1',
         'APL_Geriatric_Certif' => 'required|string|max:1',
-        'APL_Graduate' => 'required_if:APL_Geriatric_Certif,Y|string|max:255',
+        'APL_Graduate' => 'required_if:APL_Geriatric_Certif,Y|nullable|string|max:255',
         
         // Employment
         'APL_Employment_Status' => 'required|string|max:1',
@@ -101,20 +101,20 @@ class ApplicationController extends Controller
         // Character and Documentation
         'APL_Character_Selection' => 'required|string|max:25',
         'APL_CRN' => 'required_if:APL_Character_Selection,Receipt|nullable|string|max:20',
-        'File_Character_Certificate' => 'required_if:APL_Character_Selection,Certificate|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        'File_Character_Certificate' => 'required_if:APL_Character_Selection,Certificate|file',
         
         // File uploads
-        'File_Birth_Certificate' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-        'File_National_ID' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-        'File_Proof_Address' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-        'File_Authorization_Letter' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-        'File_Owner_ID' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-        'File_Geriatric_Certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        'File_Birth_Certificate' => 'required|file',
+        'File_National_ID' => 'required|file',
+        'File_Proof_Address' => 'required|file',
+        'File_Authorization_Letter' => 'nullable|file',
+        'File_Owner_ID' => 'nullable|file',
+        'File_Geriatric_Certificate' => 'nullable|file',
         'Files_Academic_Certificates' => 'nullable|array|min:1',
-        'Files_Academic_Certificates.*' => 'file|mimes:pdf,jpg,jpeg,png|max:5120',
-        'File_Recommender_Statement_1' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-        'File_Recommender_Statement_2' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-        'File_NIS_Card' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        'Files_Academic_Certificates.*' => 'file',
+        'File_Recommender_Statement_1' => 'required|file',
+        'File_Recommender_Statement_2' => 'required|file',
+        'File_NIS_Card' => 'nullable|file',
         
         // Final acceptance
         'APL_Accepts' => 'required|in:Y'
@@ -266,6 +266,7 @@ class ApplicationController extends Controller
         $folder = "{$aplID}";
         if (!Storage::disk('public')->exists($folder)) {
             Storage::disk('public')->makeDirectory($folder);
+            Log::debug('Created directory ' . $folder);
         }
 
         // Sanitize filename
@@ -369,11 +370,16 @@ class ApplicationController extends Controller
             $uploadedFiles = [];
 
             $fileKeys = [
-                'File_Character_Certificate', 
-                'File_Recommender_Statement', 
-                'File_Birth_Certificate', 
+                'File_Birth_Certificate',
                 'File_National_ID',
-                'Files_Academic_Certificates' // This is an array of files
+                'File_Proof_Address',
+                'File_Authorization_Letter',
+                'File_Owner_ID',
+                'File_Geriatric_Certificate',
+                'Files_Academic_Certificates',
+                'File_Recommender_Statement_1',
+                'File_Recommender_Statement_2',
+                'File_NIS_Card'
             ];
             
             foreach ($fileKeys as $fileKey) {
@@ -468,8 +474,6 @@ class ApplicationController extends Controller
     
             if (!empty($textsLinks)){
                 try{
-
-                    
                     $this->uploadAllLinks($applicantID, $textsLinks);
     
                 } catch(Exception $e){

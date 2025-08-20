@@ -217,10 +217,13 @@
                 <x-form.radio id="APL_2_CXC_Passes" label="I possess two CSEC passes or more" :options="$yesNoOptions" />
 
                 {{-- 19. I POSSESS A CERTIFICATE REFLECTING COMPETENCIES IN GERIATRIC CARE OR PROFESSIONAL HEALTHCARE --}}
-                <x-form.radio id="APL_Geriatric_Certif" label="I possess a certificate reflecting competencies in Geriatric Care or Professional Healthcare" :options="$yesNoOptions" />
+                <div x-data="{ APL_Geriatric_Certif: '{{ old('APL_Geriatric_Certif', '') }}' }">
+                    <x-form.radio id="APL_Geriatric_Certif" label="I possess a certificate reflecting competencies in Geriatric Care or Professional Healthcare" :options="$yesNoOptions" x-model="APL_Geriatric_Certif" />
 
-                {{-- 20. FROM WHICH INSTITUTION DID YOU RECEIVE YOUR CERTIFICATION? --}}
-                <x-form.text-input id="APL_Graduate" label="From which institution did you receive your certification?" />
+                    <div x-show="APL_Geriatric_Certif == 'Y'" x-cloak class="mt-4">
+                        <x-form.text-input id="APL_Graduate" label="From which institution did you receive your certification?" :required="false" :questionNumber="false" />
+                    </div>
+                </div>
 
                 <x-form.section-h1>Programme Interest</x-form.section-h1>
 
