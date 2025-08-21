@@ -26,7 +26,7 @@
                 <li>Certificate of Character or Receipt from the TTPS</li>
                 <li>(Two) 2 Letters of Recommendation</li>
                 <li>Copy of National Insurance card (optional)</li>
-                <li>Proof of Address - Utility Bill OR Top section of Bank Statement (If not in your name, letter of authorization is required with copy of owner's ID)</li>
+                <li>Proof of Address - Utility Bill <strong>OR</strong> Top section of Bank Statement (If the bill is not in your name, provide a letter of authorisation from the homeowner, plus a copy of their ID, Passport or Driver's Permit. Accepted utility bills include Cable, Electricity, Water, Phone (landlines), and on premise Internet.)</li>
             </ul>
 
             You must complete the entire form for your application to be eligible (or considered) for selection.
@@ -340,9 +340,21 @@
 
                 {{-- Required Documents --}}
                 <x-form.file-input id="File_Birth_Certificate" label="Birth Certificate" />
-                <x-form.file-input id="File_National_ID" label="National ID / Passport" />
+
+                <x-form.file-input id="File_National_ID" label="National Identification Card Or Trinidad And Passport" />
+
+                <x-form.file-input id="File_Proof_Address" label="Proof of Address (Utility Bill or Top of Bank Statement)" />
+
+                <x-form.file-input id="File_Authorization_Letter" label="Letter Of Authorization" :required="false" />
+
+                <x-form.file-input id="File_Owner_ID" label="Owner’S Id" :required="false" />
+                
+                <x-form.file-input id="File_Geriatric_Certificate" label="Certificate in Geriatric Care/Professional Healthcare" :required="false"/>
+
+                <x-form.multi-file-input id="Files_Academic_Certificates" label="Upload Your Academic Certificates Here" :required="false"/>
+                
                 <div x-data="{ APL_Character_Selection: '{{ old('APL_Character_Selection', '') }}' }">
-                    <x-form.radio id="APL_Character_Selection" label="Please select either certificate of character or the receipt" :options="[
+                    <x-form.radio id="APL_Character_Selection" label="Please select either certificate of character or the receipt number to upload" :options="[
                         ['Certificate of Character', 'COC'],
                         ['Certificate Of Character Receipt Number', 'CRN']
                     ]" x-model="APL_Character_Selection" />
@@ -355,24 +367,21 @@
                         <x-form.file-input id="File_Character_Certificate" label="Certificate of Character (or Receipt from TTPS)" :questionNumber="false" :required="false" />
                     </div>
                 </div>
-                <x-form.file-input id="File_Recommender_Statement_1" label="Letter of Recommendation 1" />
-                <x-form.file-input id="File_Recommender_Statement_2" label="Letter of Recommendation 2" />
 
-                <x-form.multi-file-input id="Files_Academic_Certificates" label="Academic and/or Skills Training Certificates" :required="false"/>
-                <x-form.file-input id="File_Geriatric_Certificate" label="Certificate in Geriatric Care or Professional Healthcare" :required="false"/>
+                <x-form.file-input id="File_Recommender_Statement_1" label="Recommender Statement 1" />
+
+                <x-form.file-input id="File_Recommender_Statement_2" label="Recommender Statement 2" />
+
+
+
                 {{-- Optional Documents --}}
                 <x-form.file-input id="File_NIS_Card" label="National Insurance Card (Optional)" :required="false" />
-                <x-form.file-input id="File_Proof_Address" label="Proof of Address (Utility Bill or Bank Statement)" />
-                <x-form.file-input id="File_Authorization_Letter" label="Authorization Letter (if proof of address not in your name)" :required="false" />
-                <x-form.file-input id="File_Owner_ID" label="Copy of Owner's ID (if using authorization letter)" :required="false" />
-
 
                 <x-form.wrapper>
                     <h3 class="fw-bold text-center">NOTE</h3>
                     <hr>
                     <p class="text-justify">
-                        Participants must be willing to sign a participation agreement and work to meet the learning objectives and requirements of the training. This form and information collected within is confidential and intended for use by the Ministry of Sport and Youth Affairs.
-                        Your information will remain private and confidential and will not be used for other purposes other than the above mentioned.
+                        Participants must be willing to sign a participation agreement and work to meet the learning objectives and requirements of the training. This form and information collected within is confidential and intended for use by the Ministry of Sport and Youth Affairs. Your information will remain private and confidential and will not be used for other purposes other than the above mentioned.
                     </p>
                     <p class="text-justify">
                         I hereby declare that the information given in this application is true and correct to the best of my knowledge and belief. If any information given in this application proves to be false or incorrect, I accept the consequences of automatic rejection of the submission.
