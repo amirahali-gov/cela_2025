@@ -1,0 +1,61 @@
+.cursor {
+    cursor: pointer;
+}
+
+.error {
+    font-size: 12px !important;
+}
+
+.fileLink {
+    color: rgb(5, 121, 223) !important;
+}
+
+.fileLink:hover {
+    color: rgb(4, 93, 172) !important;
+}
+
+.scoreTitle {
+    font-size: 12px !important;
+}
+
+.chairmanScore {
+    background-color: transparent !important;
+    border: none !important;
+    width: 100px !important;
+}
+
+.card-table {
+    width: 100%;
+}
+
+.card-table-header {
+    color: rgba(13, 27, 62, 0.7);
+}
+
+table,
+th,
+td {
+    border: 1px solid rgba(13, 27, 62, 0.7);
+    border-collapse: collapse;
+}
+
+td,
+th {
+    text-align: center;
+}
+
+#adjudication-btn {
+    min-width: 9rem;
+}
+
+#nav-btn {
+    min-width: 7rem;
+}
+
+#view-nav {
+    margin: .5rem;
+}
+
+#data-table-rule {
+    margin-top: 0;
+}

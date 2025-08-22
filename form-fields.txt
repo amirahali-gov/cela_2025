@@ -1,0 +1,89 @@
+COLUMN_NAME	DATA_TYPE	
+APL_Dup	varchar	
+APL_DupUser	varchar	
+APL_ID	bigint	
+APL_Cycle	tinyint	
+APL_Invalid	varchar	
+APL_Judged	varchar	
+APL_Scored	varchar	
+APL_Group_Num	tinyint	
+APL_Sort_Num	tinyint	
+APL_ShortList	varchar	
+APL_FName	varchar	
+APL_MName	varchar	
+APL_LName	varchar	
+APL_Address_1	varchar	
+APL_Address_2	varchar	
+APL_Address_3	varchar	
+APL_Area	varchar	
+APL_Gender	varchar	
+APL_DOB	date	
+APL_Age	int	
+APL_PPhone	varchar	
+APL_APhone	varchar	
+APL_Email	varchar	
+APL_TT	varchar	
+APL_ID_TYP	varchar	
+APL_ID_Number	varchar	
+APL_BIRTH_PIN	varchar	
+APL_Has_NIS	varchar	
+APL_NIS_Number	varchar	
+APL_BANK	varchar	
+APL_BANK_Name	varchar	
+APL_BANK_Other	varchar	
+APL_BANK_ACC	varchar	
+APL_Service_Area	varchar	
+APL_2_CXC_Passes	varchar	
+APL_Geriatric_Certif	varchar	
+APL_Graduate	varchar	
+APL_Available_Weekdays	varchar	
+APL_Available_GAPP	varchar	
+APL_Experience	text	
+APL_Prof_Rec_FName	varchar	
+APL_Prof_Rec_LName	varchar	
+APL_Prof_Rec_Designation	varchar	
+APL_Prof_Rec_Phone	varchar	
+APL_Pers_Rec_FName	varchar	
+APL_Pers_Rec_LName	varchar	
+APL_Pers_Rec_Phone	varchar	
+APL_Pers_Rec_Relationship	varchar	
+APL_Character_Selection	varchar	
+APL_CRN	varchar	
+created_at	timestamp	
+updated_at	timestamp	
+
+
+
+
+APL_HLOE - Highest Level of Education
+APL_HLOE_Specify - Technical/Vocational specification
+APL_Employment_Status - Employment status
+APL_Job_Title - Job title
+APL_Employment_Type - Employment type
+APL_Has_Bank_Account - Has bank account
+APL_Preferred_Region - Preferred region for placement
+APL_Certification_Institution - Certification institution
+APL_Motivation_Expectations - Motivation & expectations
+APL_Post_Training_Intent - Post-training intent
+APL_Post_Training_Other - Post-training other specification
+APL_Consent_Followup - Consent for follow-up
+APL_How_Found_Programme - How found programme
+APL_How_Found_Other - How found programme other
+APL_Subscribe_Mailing - Subscribe to mailing list
+APL_Photo_Consent - Photo consent
+APL_Prof_Rec_2_FName - Professional recommender 2 name
+APL_Prof_Rec_2_Designation - Professional recommender 2 designation
+APL_Prof_Rec_2_Phone - Professional recommender 2 contact
+File_Birth_Certificate - Birth certificate file
+File_National_ID - National ID file
+File_Proof_Address - Proof of address file
+File_Authorization_Letter - Authorization letter file
+File_Owner_ID - Owner's ID file
+File_Utility_Bill - Utility bill file
+File_Geriatric_Certificate - Geriatric certificate file
+Files_Academic_Certificates - Academic certificates files
+File_Character_Certificate - Character certificate file
+File_Recommender_Statement_1 - Recommender statement 1 file
+File_Recommender_Statement_2 - Recommender statement 2 file
+File_NIS_Card - NIS card file
+APL_Accepts - Acceptance agreement

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\VolunteerController;
+use App\Http\Controllers\CommitteeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,3 +27,18 @@ Route::post('/test', [ApplicationController::class, 'test'])->name('application.
 Route::post('/apply', [ApplicationController::class, 'apply'])->name('application.apply');
 Route::post('/upload', [ApplicationController::class, 'upload'])->name('application.upload');
 Route::delete('/files/{inputId}/{filename}', [ApplicationController::class, 'application.destroy']);
+
+// Apply auth middleware to protected routes
+Route::prefix('committee')->group(function () {
+    // Public routes (no auth required)
+    Route::get('/', [CommitteeController::class, 'index'])->name('committee.index')->middleware('guest');
+    Route::post('/login', [CommitteeController::class, 'login'])->name('login');
+    Route::post('/logout', [CommitteeController::class, 'logout'])->name('logout');
+    
+    // Protected routes (auth required)
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/dashboard', [CommitteeController::class, 'dashboard'])->name('committee.dashboard');
+        Route::get('/applications', [CommitteeController::class, 'allApplications'])->name('committee.applications');
+        Route::get('/profile/{id}', [CommitteeController::class, 'profile'])->name('profile');
+    });
+});

@@ -11,6 +11,7 @@ use App\Models\Comment;
 use App\Models\Application;
 use App\Models\Dependent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
@@ -20,26 +21,18 @@ class CommitteeController extends Controller
 {
 
     public function index(Request $request){
-        $request->session()->regenerate();
-
-        $username = session('NAME');
-        $password = session('PASSWORD');
-        $user = Login::where('LGN_Username','=', $username)->where('LGN_Password','=',$password)->get();
-
-        if($user->isEmpty()){
+        // Check if user is authenticated
+        if (!auth()->check()) {
             return view('login');
-        }else{
-            $user = $user->first();
-            return view('index',['user' => $user]);
         }
 
+        $user = auth()->user();
+        return view('index', ['user' => $user]);
 
     }
 
     public function login(Request $request){
         $data = $request->all();
-
-
 
         $username = trim($data['username']);
         $password = trim($data['password']);
@@ -52,11 +45,23 @@ class CommitteeController extends Controller
             return response()->json(['success'=> false, 'message' => 'Incorrect Username or Password']);
         }else{
             $user = $user->first();
-            session(['NAME' => $username]);
-            session(['PASSWORD' => $password]);
-            return response()->json(['success'=> true]);
+            // session(['NAME' => $username]);
+            // session(['PASSWORD' => $password]);
+            Auth::login($user);
+            
+            return redirect(route('committee.dashboard'));
         }
     }
+
+    public function dashboard(Request $request){
+        $user = Auth::user();
+        $applications = Application::orderBy('APL_Cycle', 'desc')
+            ->orderBy('APL_ID', 'desc')
+            ->paginate(20);
+        
+        return view('committee-dashboard', ['user' => $user, 'applications' => $applications]);
+    }
+    
 
     public function getUserID(Request $request){
         $data = $request->all();
@@ -225,40 +230,15 @@ class CommitteeController extends Controller
     }
 
     public function profile(Request $request, $id){
-        $request->session()->regenerate();
-
-        $username = session('NAME');
-        $password = session('PASSWORD');
-
-        $user = Login::where('LGN_Username','=', $username)->where('LGN_Password','=',$password)->get();
-
-        if($user->isEmpty()){
-            return view('login');
-        }
-
-        $user = $user->first();
+        $user = Auth::user();
 
         try{
-            $applicant = Application::join('areas','APL_Area','=','areas.Board')
-                                    ->join('banks', 'APL_BANK_Code', '=', 'banks.BANK_Code')
-                                    ->join('employs', 'APL_Employ_Status', '=', 'employs.EMP_Code')
-                                    ->join('hloes', 'APL_HLOE', '=', 'hloes.Hloe_Code')
-                                    ->join('incomes', 'APL_Income', '=', 'incomes.INC_Code')
-                                    ->join('maritals', 'APL_Marital', '=', 'maritals.MAR_Code')
-                                    ->join('sources', 'APL_How_Informed', '=', 'sources.SRC_Code')
-                                    // // ->join('training_options', 'APL_Training_Option', '=', 'training_options.TRN_Code')
-                                    // /* ->where('APL_ShortList','=','Y') */
-                                    ->where('APL_ID','=', $id)
-                                    ->get();
 
-            $coverall = Application::join('sizes','APL_Coverall_Size','=','sizes.Size_Code')->where('APL_ID','=', $id)->value('Size_Desc');
-            $boot = Application::join('sizes','APL_Boot_Size','=','sizes.Size_Code')->where('APL_ID','=', $id)->value('Size_Desc');
-            // $glove = Application::join('sizes','APL_Glove_Size','=','sizes.Size_Code')->where('APL_ID','=', $id)->value('Size_Desc');
+            $applicant = Application::where('APL_ID', $id)->first();
 
-            if($applicant->isEmpty()){
+            if($applicant === null){
                 return view('index',['user' => $user]);
             }else{
-                $applicant = $applicant->first();
                 $dependents = Dependent::join('age_groups', "DPT_Value", "=", "AGE_Code" )
                                         ->where('APL_ID','=', $applicant->APL_ID)
                                         ->get();
@@ -300,13 +280,13 @@ class CommitteeController extends Controller
 
 
 
-                return view('profile',['error' => null, 'applicant' => $applicant, 'coverall' => $coverall, 'boot' => $boot, 'dependents' => $dependents, 'score' => $score, 'comment' => $comment, 'totalMean' => $totalMean, 'user' => $user, "uploads" => $uploads, 'chairman' => $chairman, 'count' => count($calculateScores), 'calculateScores' => $calculateScores, 'userComment' => $userComment]);
+                return view('profile',['error' => null, 'applicant' => $applicant, 'dependents' => $dependents, 'score' => $score, 'comment' => $comment, 'totalMean' => $totalMean, 'user' => $user, "uploads" => $uploads, 'chairman' => $chairman, 'count' => count($calculateScores), 'calculateScores' => $calculateScores, 'userComment' => $userComment]);
             }
 
         }
         catch (\Exception $e) {
             Log::channel('applicant')->info('Error: '.$e);
-            return response()->json(['success' => false, 'errorCode' => 'a1'],500);
+            return response()->json(['success' => false, 'error' => $e],500);
         }
     }
 
@@ -439,23 +419,13 @@ class CommitteeController extends Controller
     }
 
     public function allApplications(Request $request) {
-        $request->session()->regenerate();
+        $user = Auth::user();
 
-        $username = session('NAME');
-        $password = session('PASSWORD');
-
-        $user = Login::where('LGN_Username','=', $username)->where('LGN_Password','=',$password)->get();
-
-        if($user->isEmpty()){
-            return view('login');
-        }
-
-        $user = $user->first();
-
-        $applications = Application::where('APL_Dup','=','N')
-                                    ->paginate(20);
+        $applications = Application::orderBy('APL_Cycle', 'desc')
+            ->orderBy('APL_ID', 'desc')
+            ->paginate(20);
         $title = "Master List";
-        return view('data-table', compact('applications', 'user', 'title'));
+        return view('components.data-table', compact('applications', 'user', 'title'));
     }
 
     public function scoredApplications(Request $request) {
@@ -517,5 +487,14 @@ class CommitteeController extends Controller
         $applications = Application::paginate(20);
         $title = "Assigned Applications";
         return view('data-table', compact('applications', 'user', 'title'));
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
+        return redirect()->route('committee.index');
     }
 }
