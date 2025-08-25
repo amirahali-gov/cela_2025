@@ -1,4 +1,4 @@
-@extends('Layouts.committee-layout')
+@extends('Layouts.layout')
 @section('content')
     <div class="app-container app-theme-white body-tabs-shadow">
         <div class="bg-plum-plate bg-animation">

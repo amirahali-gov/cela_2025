@@ -32,21 +32,20 @@
                             <div class="card-title mb-0">You are logged in as: <span
                                     class="text-danger">{{ $user->LGN_Name }}</span></div>
                         </div>
-                        <div class="d-flex gap-2">
-                            <a href="{{ route('committee.dashboard') }}"
-                                class="btn-pill btn-shadow btn-hover-shine btn btn-primary btn-sm">Home
-                            </a>
-                            <a href="{{ route('committee.applications') }}"
-                                class="btn-pill btn-shadow btn-hover-shine btn btn-primary btn-sm">All Applications
-                            </a>
-                            <button class="btn-pill btn-shadow btn-hover-shine btn btn-primary btn-sm">Duplicate
-                                Applications</button>
+                        <div class="row">
+                            <div class="col-6">
+                                <a href="{{ route('committee.dashboard') }}"
+                                    class="btn-pill btn-shadow btn-hover-shine btn btn-primary btn-sm">Applications
+                                </a>
+                            </div>
+                            <div class="col-6">
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit"
+                                        class="btn-pill btn-shadow btn-hover-shine btn btn-primary btn-sm">Logout</button>
+                                </form>
+                            </div>
                         </div>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit"
-                                class="btn-pill btn-shadow btn-hover-shine btn btn-primary btn-sm">Logout</button>
-                        </form>
                     </div>
                     @yield('content')
                 </div>

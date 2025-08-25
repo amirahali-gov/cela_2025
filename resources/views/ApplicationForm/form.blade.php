@@ -1,6 +1,6 @@
 @extends('Layouts.layout')
 @section('Title', 'Application Form')
-@section('Content')
+@section('content')
 
 <body>
     <div id="application-form" class="container-fluid" style="background-color: #d8f3dc">

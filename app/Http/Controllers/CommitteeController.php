@@ -55,7 +55,7 @@ class CommitteeController extends Controller
 
     public function dashboard(Request $request){
         $user = Auth::user();
-        $applications = Application::orderBy('APL_Cycle', 'desc')
+        $applications = Application::where('APL_Cycle', '=', 3)
             ->orderBy('APL_ID', 'desc')
             ->paginate(20);
         
@@ -290,65 +290,9 @@ class CommitteeController extends Controller
         }
     }
 
-    public function profile2(Request $request, $id){
-        $request->session()->regenerate();
-        try {
-            $username = session('NAME');
-            $password = session('PASSWORD');
-            if($id != 453){
-                return view('login');
-            }
-            $user = Login::where('LGN_Username','=', $username)->where('LGN_Password','=',$password)->get();
-
-            if($user->isEmpty()){
-                return view('login');
-            }
-
-            $user = $user->first();
-
-            $applicant = Application::join('areas','APL_Area','=','areas.Board')
-                                        // ->join('economics','APL_Economic','=','economics.Econ_Code')
-                                        // ->join('employs','APL_Employ','=','employs.Employ_Code')
-                                        // ->join('hloes','APL_HLOE','=', 'hloes.Hloe_Code')
-                                        // ->join('housings','APL_Housing','=', 'housings.HOU_Code')
-                                        // ->join('livings','APL_Living','=','livings.LIV_Code')
-                                        // ->join('maritals','APL_Marital','=','maritals.MAR_Code')
-                                        // ->join('programmes','APL_Programme','=','programmes.PRO_Code')
-                                        /* ->where('APL_ShortList','=','Y') */
-                                        ->where('APL_ID','=', $id)
-                                        ->get();
-
-
-            if($applicant->isEmpty()){
-                return view('profile',['error' => 'There was an error processing your request', 'applicant' => null]);
-            }else{
-                $applicant = $applicant->first();
-
-                $uploads = Upload::where('UPD_APL_ID','=',$applicant->APL_ID)->get();
-
-                return view('profile2',['error' => null, 'applicant' => $applicant, 'user' => $user]);
-            }
-        }
-        catch (\Exception $e) {
-            Log::channel('applicant')->info('Error: '.$e);
-            return response()->json(['success' => false, 'errorCode' => 'a1'],500);
-        }
-    }
-
     public function getFile($id){
 
         $upload = Upload::where('UPD_ID','=',$id)->get()->first();
-
-        /* $pos = strrpos($upload->UPD_DocName,".");
-        $newTest = substr($upload->UPD_DocName,$pos);
-
-        if(substr_count($newTest,'-') === 1){
-            $pos2 = strrpos($upload->UPD_DocName,"-");
-            $uploadName = substr($upload->UPD_DocName,'0', $pos2);
-        }else{
-            $uploadName = $upload->UPD_DocName;
-        } */
-
 		return Storage::disk('local')->download($upload->UPD_FilePath,$upload->UPD_DocName);
     }
 
@@ -421,7 +365,7 @@ class CommitteeController extends Controller
     public function allApplications(Request $request) {
         $user = Auth::user();
 
-        $applications = Application::orderBy('APL_Cycle', 'desc')
+        $applications = Application::where('APL_Cycle', 3)
             ->orderBy('APL_ID', 'desc')
             ->paginate(20);
         $title = "Master List";
@@ -495,6 +439,6 @@ class CommitteeController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         
-        return redirect()->route('committee.index');
+        return redirect()->route('committee.login');
     }
 }

@@ -11,15 +11,15 @@ return new class extends Migration {
             $table->bigIncrements('APL_ID');
             
             // Administrative fields - small sizes
-            $table->string('APL_Dup', 50)->nullable();
+            $table->string('APL_Dup', 1)->default('N');
             $table->string('APL_DupUser', 100)->nullable();
             $table->tinyInteger('APL_Cycle')->nullable();
-            $table->string('APL_Invalid', 50)->nullable();
-            $table->string('APL_Judged', 50)->nullable();
-            $table->string('APL_Scored', 50)->nullable();
-            $table->tinyInteger('APL_Group_Num')->nullable();
-            $table->tinyInteger('APL_Sort_Num')->nullable();
-            $table->string('APL_ShortList', 50)->nullable();
+            $table->string('APL_Invalid', 1)->default('N');
+            $table->string('APL_Judged', 1)->default('N');
+            $table->string('APL_Scored', 1)->default('N');
+            $table->tinyInteger('APL_Group_Num')->default(0);
+            $table->tinyInteger('APL_Sort_Num')->default(0);
+            $table->string('APL_ShortList', 1)->default('N');
             
             // Personal information - moderate sizes
             $table->string('APL_FName', 100)->nullable();

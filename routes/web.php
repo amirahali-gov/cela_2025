@@ -31,7 +31,10 @@ Route::delete('/files/{inputId}/{filename}', [ApplicationController::class, 'app
 // Apply auth middleware to protected routes
 Route::prefix('committee')->group(function () {
     // Public routes (no auth required)
-    Route::get('/', [CommitteeController::class, 'index'])->name('committee.index')->middleware('guest');
+    Route::get('/', function(){
+        return redirect()->route('committee.login');
+    });
+    Route::get('/login', [CommitteeController::class, 'index'])->name('committee.login')->middleware('guest');
     Route::post('/login', [CommitteeController::class, 'login'])->name('login');
     Route::post('/logout', [CommitteeController::class, 'logout'])->name('logout');
     

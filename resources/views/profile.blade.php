@@ -94,13 +94,9 @@
                         <label class="form-label fw-bold">Address</label>
                         <p class="mb-0">
                             {{ $applicant->APL_Address_1 }}<br>
-                            {{ $applicant->APL_Address_2 }}<br>
+                            @if($applicant->APL_Address_2){{ $applicant->APL_Address_2 }}<br>@endif
                             {{ $applicant->APL_Address_3 }}
                         </p>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Municipality</label>
-                        <p class="mb-0">{{ $applicant->Area_CC }}</p>
                     </div>
                 </div>
 
@@ -121,12 +117,12 @@
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Primary Contact</label>
+                        <label class="form-label fw-bold">Contact Number</label>
                         <p class="mb-0">{{ $applicant->APL_PPhone }}</p>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Alternate Contact</label>
-                        <p class="mb-0">{{ $applicant->APL_APhone }}</p>
+                        <label class="form-label fw-bold">Alternative Contact Number</label>
+                        <p class="mb-0">{{ $applicant->APL_APhone ?? 'Not provided' }}</p>
                     </div>
                 </div>
 
@@ -166,7 +162,7 @@
                         <p class="mb-0">{{ $applicant->APL_BIRTH_PIN }}</p>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Service Area Interest</label>
+                        <label class="form-label fw-bold">Preferred Region for Placement</label>
                         <p class="mb-0">{{ $applicant->APL_Service_Area }}</p>
                     </div>
                 </div>
@@ -199,45 +195,168 @@
         </div>
     </section>
 
-    <!-- Qualifications Section -->
+    <!-- Education & Skills Background Section -->
     <section class="mb-4">
         <div class="card">
             <div class="card-header">
-                <h4 class="mb-0">Qualifications & Availability</h4>
+                <h4 class="mb-0">Education & Skills Background</h4>
             </div>
             <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Highest Level of Education</label>
+                        <p class="mb-0">{{ $applicant->APL_HLOE ?? 'Not specified' }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Technical/Vocational Specification</label>
+                        <p class="mb-0">{{ $applicant->APL_HLOE_Specify ?? 'Not provided' }}</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Employment Status</label>
+                        <p class="mb-0">{{ $applicant->APL_Employment_Status == 'Y' ? 'Employed/Self-Employed' : 'Not Employed' }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Job Title</label>
+                        <p class="mb-0">{{ $applicant->APL_Job_Title ?? 'Not provided' }}</p>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Employment Type</label>
+                        <p class="mb-0">{{ $applicant->APL_Employment_Type ?? 'Not provided' }}</p>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">Two CXC Passes or More</label>
                         <p class="mb-0">{{ $applicant->APL_2_CXC_Passes == 'Y' ? 'Yes' : 'No' }}</p>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Geriatric Care Certificate</label>
-                        <p class="mb-0">{{ $applicant->APL_Geriatric_Certif == 'Y' ? 'Yes' : 'No' }}</p>
-                    </div>
+                    
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Graduate Of</label>
-                        <p class="mb-0">{{ $applicant->APL_Graduate }}</p>
+                        <label class="form-label fw-bold">Possesses a Certificate Reflecting Competencies in Geriatric Care or Professional Healthcare</label>
+                        <p class="mb-0">{{ $applicant->APL_Geriatric_Certif == 'Y' ? 'Yes' : 'No' }}</p>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Available Weekdays (8AM-4PM)</label>
+                        <label class="form-label fw-bold">From which institution did you receive your certification?</label>
+                        <p class="mb-0">{{ $applicant->APL_Graduate ?? 'Not provided' }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programme Interest Section -->
+    <section class="mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Programme Interest & Availability</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Available Weekdays (8AM-4PM) Mondays to Fridays (except Public Holidays)</label>
                         <p class="mb-0">{{ $applicant->APL_Available_Weekdays == 'N' ? 'No' : 'Yes' }}</p>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Available for GAPP (April-September 2024)</label>
-                        <p class="mb-0">{{ $applicant->APL_Available_GAPP == 'N' ? 'No' : 'Yes' }}</p>
-                    </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Please outline your experience in providing Geriatric Care Services</label>
+                    <p class="mb-0">{{ $applicant->APL_Experience }}</p>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-bold">Geriatric Care Experience</label>
-                    <p class="mb-0">{{ $applicant->APL_Experience }}</p>
+                    <label class="form-label fw-bold">Motivation & Expectations - Briefly describe why you are interested in joining the National Service GAPP.</label>
+                    <p class="mb-0">{{ $applicant->APL_Motivation_Expectations ?? 'Not provided' }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feedback Section -->
+    <section class="mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Feedback & Future Plans</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">After completing the 6 months National Service GAPP, do you intend to</label>
+                        <p class="mb-0">
+                            @if($applicant->APL_Post_Training_Intent == 'Seek employment')
+                                Seek employment in Geriatric Care
+                            @elseif($applicant->APL_Post_Training_Intent == 'Continue studies')
+                                Continue studies in Healthcare
+                            @elseif($applicant->APL_Post_Training_Intent == 'Start business')
+                                Start your own caregiving business
+                            @elseif($applicant->APL_Post_Training_Intent == 'Other')
+                                Other: {{ $applicant->APL_Post_Training_Other ?? 'Not specified' }}
+                            @elseif($applicant->APL_Post_Training_Intent)
+                                {{ $applicant->APL_Post_Training_Intent }}
+                            @else
+                                Not provided
+                            @endif
+                        </p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">If other, please specify</label>
+                        <p class="mb-0">{{ $applicant->APL_Post_Training_Other ?? 'Not provided' }}</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">I consent to be contacted by the Ministry of Sport and Youth Affairs' Monitoring & Evaluation Unit up to two (2) years after programme completion for tracer studies.</label>
+                        <p class="mb-0">{{ $applicant->APL_Consent_Followup == 'Y' ? 'Yes' : ($applicant->APL_Consent_Followup == 'N' ? 'No' : 'Not provided') }}</p>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">How did you find out about the programme?</label>
+                        <p class="mb-0">
+                            @if($applicant->APL_How_Found_Programme == 'Social Media')
+                                Social Media
+                            @elseif($applicant->APL_How_Found_Programme == 'TV/Radio/News')
+                                Television/Radio/Newspaper advertisements
+                            @elseif($applicant->APL_How_Found_Programme == 'Website')
+                                Website
+                            @elseif($applicant->APL_How_Found_Programme == 'Friend/Family')
+                                Friend or Family Member
+                            @elseif($applicant->APL_How_Found_Programme == 'Other')
+                                Other: {{ $applicant->APL_How_Found_Other ?? 'Not specified' }}
+                            @elseif($applicant->APL_How_Found_Programme)
+                                {{ $applicant->APL_How_Found_Programme }}
+                            @else
+                                Not provided
+                            @endif
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">If other, please specify</label>
+                        <p class="mb-0">{{ $applicant->APL_How_Found_Other ?? 'Not provided' }}</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Would you like to be added to the Ministry of Sport and Youth Affairs' mailing list?</label>
+                        <p class="mb-0">{{ $applicant->APL_Subscribe_Mailing == 'Y' ? 'Yes' : ($applicant->APL_Subscribe_Mailing == 'N' ? 'No' : 'Not provided') }}</p>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Consent to use your photo for promotional purposes</label>
+                        <p class="mb-0">{{ $applicant->APL_Photo_Consent == 'Y' ? 'Yes' : ($applicant->APL_Photo_Consent == 'N' ? 'No' : 'Not provided') }}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -249,7 +368,7 @@
             <div class="col-md-6 mb-3">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">Professional Recommender</h5>
+                        <h5 class="mb-0">Professional Recommender 1</h5>
                     </div>
                     <div class="card-body">
                         <p><strong>Name:</strong> {{ $applicant->APL_Prof_Rec_FName }} {{ $applicant->APL_Prof_Rec_LName }}</p>
@@ -261,12 +380,12 @@
             <div class="col-md-6 mb-3">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">Personal Recommender</h5>
+                        <h5 class="mb-0">Professional Recommender 2</h5>
                     </div>
                     <div class="card-body">
-                        <p><strong>Name:</strong> {{ $applicant->APL_Pers_Rec_FName }} {{ $applicant->APL_Pers_Rec_LName }}</p>
-                        <p><strong>Relationship:</strong> {{ $applicant->APL_Pers_Rec_Relationship }}</p>
-                        <p><strong>Phone:</strong> {{ $applicant->APL_Pers_Rec_Phone }}</p>
+                        <p><strong>Name:</strong> {{ $applicant->APL_Prof_Rec_2_FName ?? 'Not provided' }} {{ $applicant->APL_Prof_Rec_2_LName ?? '' }}</p>
+                        <p><strong>Designation:</strong> {{ $applicant->APL_Prof_Rec_2_Designation ?? 'Not provided' }}</p>
+                        <p><strong>Phone:</strong> {{ $applicant->APL_Prof_Rec_2_Phone ?? 'Not provided' }}</p>
                     </div>
                 </div>
             </div>
@@ -283,13 +402,16 @@
                 <div class="row">
                     @php
                         $documentTypes = [
-                            'birth_paper' => 'Birth Paper',
+                            'birth_paper' => 'Birth Certificate',
                             'id_card' => 'National Identification',
+                            'proof_address' => 'Proof of Address',
+                            'authorization_letter' => 'Letter of Authorization',
+                            'owner_id' => 'Owner\'s ID',
                             'geriatric_care_certificate' => 'Geriatric Care Certificate',
                             'academic_certificates' => 'Academic Certificates',
                             'Certificate of Character' => 'Police Certificate of Character',
-                            'Letter of Recommendation' => 'Recommender Statement',
-                            'bank_statement' => 'Bank Statement',
+                            'Letter of Recommendation' => 'Recommender Statement 1',
+                            'Letter of Recommendation 2' => 'Recommender Statement 2',
                             'nis_card' => 'NIS Card'
                         ];
                     @endphp
