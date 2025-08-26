@@ -103,7 +103,7 @@ function multiFileManager(inputId, hasSessionFiles = false) {
 
             try {
                 let response = await fetch(`/session-files/${inputId}/${filename}`, {
-                    method: 'DELETE',
+                    method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                         'Accept': 'application/json',
