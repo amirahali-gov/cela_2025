@@ -106,17 +106,29 @@ class ApplicationController extends Controller
         'File_Character_Certificate' => 'required_if:APL_Character_Selection,Certificate|file',
         
         // File uploads
-        'File_Birth_Certificate' => 'required|file',
-        'File_National_ID' => 'required|file',
-        'File_Proof_Address' => 'required|file',
-        'File_Authorization_Letter' => 'nullable|file',
-        'File_Owner_ID' => 'nullable|file',
-        'File_Geriatric_Certificate' => 'nullable|file',
+        // 'File_Birth_Certificate' => 'required|file',
+        // 'File_National_ID' => 'required|file',
+        // 'File_Proof_Address' => 'required|file',
+        // 'File_Authorization_Letter' => 'nullable|file',
+        // 'File_Owner_ID' => 'nullable|file',
+        // 'File_Geriatric_Certificate' => 'nullable|file',
+        // 'Files_Academic_Certificates' => 'nullable|array|min:1',
+        // 'Files_Academic_Certificates.*' => 'file',
+        // 'File_Recommender_Statement_1' => 'required|file',
+        // 'File_Recommender_Statement_2' => 'required|file',
+        // 'File_NIS_Card' => 'nullable|file',
+
+        'File_Birth_Certificate' => 'required',
+        'File_National_ID' => 'required',
+        'File_Proof_Address' => 'required',
+        'File_Authorization_Letter' => 'nullable',
+        'File_Owner_ID' => 'nullable',
+        'File_Geriatric_Certificate' => 'nullable',
         'Files_Academic_Certificates' => 'nullable|array|min:1',
         'Files_Academic_Certificates.*' => 'file',
-        'File_Recommender_Statement_1' => 'required|file',
-        'File_Recommender_Statement_2' => 'required|file',
-        'File_NIS_Card' => 'nullable|file',
+        'File_Recommender_Statement_1' => 'required',
+        'File_Recommender_Statement_2' => 'required',
+        'File_NIS_Card' => 'nullable',
         
         // Final acceptance
         'APL_Accepts' => 'required|in:Y'
@@ -325,17 +337,20 @@ class ApplicationController extends Controller
         }
     }
 
-     public function destroy($inputId, $filename)
+    public function destroy($inputId, $filename)
     {
         // Find the upload record
         $upload = Upload::where('UPD_DocName', $filename)->first();
         if (!$upload) {
-            return response()->json(['success' => false], 404);
+            return response()->json(['success' => false, 'message' => 'File not found'], 404);
         }
 
+        // Remove "storage/" prefix to get relative path
+        $relativePath = str_replace('storage/', '', $upload->UPD_FilePath);
+
         // Delete file from storage
-        if (Storage::exists($upload->UPD_FilePath)) {
-            Storage::delete($upload->UPD_FilePath);
+        if (Storage::disk('public')->exists($relativePath)) {
+            Storage::disk('public')->delete($relativePath);
         }
 
         // Delete record from database
@@ -344,6 +359,42 @@ class ApplicationController extends Controller
         return response()->json(['success' => true], 200);
     }
     
+
+    public function removeSessionFile(Request $request, $inputId, $filename)
+    {
+        $uploadedFiles = session("uploadedFiles", []);
+
+        if (isset($uploadedFiles[$inputId])) {
+            $uploadedFiles[$inputId] = array_filter($uploadedFiles[$inputId], function($file) use ($filename) {
+                return $file['name'] !== $filename;
+            });
+
+            session()->put('uploadedFiles', $uploadedFiles);
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false], 404);
+    }
+
+    public function deleteSessionFile($inputId, $filename)
+    {
+        if (!session()->has("uploadedFiles.$inputId")) {
+            return response()->json(['success' => false, 'message' => 'No files in session'], 404);
+        }
+
+        $uploadedFiles = session("uploadedFiles.$inputId");
+
+        // Remove the file matching $filename
+        $uploadedFiles = array_filter($uploadedFiles, function($file) use ($filename) {
+            return (is_array($file) ? $file['name'] : basename($file)) !== $filename;
+        });
+
+        // Re-index array and put back into session
+        session()->put("uploadedFiles.$inputId", array_values($uploadedFiles));
+
+        return response()->json(['success' => true], 200);
+    }
 
     public function uploadAllLinks($aplID, $links){
         foreach($links as $link){
@@ -356,139 +407,134 @@ class ApplicationController extends Controller
         }
     }
 
-    public function apply(Request $request){
-        // dd($request->all());
+  
+  
+  
+  
+   public function apply(Request $request)
+    {
+        $fileFields = [
+            'File_Birth_Certificate' => 'single',
+            'File_National_ID' => 'single',
+            'File_Proof_Address' => 'single',
+            'File_Authorization_Letter' => 'single',
+            'File_Owner_ID' => 'single',
+            'File_Geriatric_Certificate' => 'single',
+            'Files_Academic_Certificates' => 'multi', // multiple files
+            'File_Character_Certificate' => 'single',
+            'File_Recommender_Statement_1' => 'single',
+            'File_Recommender_Statement_2' => 'single',
+            'File_NIS_Card' => 'single',
+        ];
 
-        $validator = Validator::make($request->all(), $this->validatorRules, [], $this->getAttributeNames());
-        
-        $textsLinks = json_decode($request->input('Texts_Links'), true);
+        $uploadedFilesSession = session()->get('uploadedFiles', []);
+        $allInput = $request->all();
 
-        if ($validator->fails()) {
-            Log::error($validator->errors());
-            return redirect(route('application.view'))->withInput($request->all())->withErrors($validator);
-            
-            /**Store uploaded files temporarily
-             
-            $uploadedFiles = [];
 
-            $fileKeys = [
-                'File_Birth_Certificate',
-                'File_National_ID',
-                'File_Proof_Address',
-                'File_Authorization_Letter',
-                'File_Owner_ID',
-                'File_Geriatric_Certificate',
-                'Files_Academic_Certificates',
-                'File_Recommender_Statement_1',
-                'File_Recommender_Statement_2',
-                'File_NIS_Card'
-            ];
-            
-            foreach ($fileKeys as $fileKey) {
-                if ($request->hasFile($fileKey)) {
-                    if (is_array($request->file($fileKey))) {
-                        // Handle multiple file uploads
-                        foreach ($request->file($fileKey) as $file) {
-                            $path = $file->store('public/temp'); // Save to temp storage
-                            $uploadedFiles[$fileKey][] = $path; // Store path
+        foreach ($fileFields as $field => $type) {
+            if (!$request->hasFile($field) && isset($uploadedFilesSession[$field])) {
+                $sessionFile = $uploadedFilesSession[$field];
+
+                if ($type === 'multi') {
+                    $allInput[$field] = [];
+                    foreach ($sessionFile as $f) {
+                        $fullPath = storage_path('app/public/' . $f['path']);
+                        if (file_exists($fullPath)) {
+                            $allInput[$field][] = new UploadedFile(
+                                $fullPath,
+                                $f['name'],
+                                null,
+                                null,
+                                true
+                            );
                         }
+                    }
+                } else {
+                    $fullPath = storage_path('app/public/' . $sessionFile['path']);
+                    if (file_exists($fullPath)) {
+                        $allInput[$field] = new UploadedFile(
+                            $fullPath,
+                            $sessionFile['name'],
+                            null,
+                            null,
+                            true
+                        );
                     } else {
-                        // Handle single file uploads
-                        $file = $request->file($fileKey);
-                        $path = $file->store('public/temp'); 
-                        $uploadedFiles[$fileKey] = $path;
+                        $allInput[$field] = null; // prevents "must be a file"
                     }
                 }
             }
-            
-            return redirect(route('application.view'))
-            ->withInput($request->except(array_keys($fileKeys))) // Keep form data except files
-            ->with('uploadedFiles', $uploadedFiles) // Store uploaded files in session
-            ->withErrors($validator);
-             */
         }
 
-        // If a step in the DB transaction fails, the models saved will be rolled back (removed) from the database
-        DB::beginTransaction();
+        $validator = Validator::make($allInput, $this->validatorRules, [], $this->getAttributeNames());
 
-        try{
-            
-            $validated = $validator->validated();
-            
-            try{
-                $application = new Application();
-                
-                // Filter out file fields from validated data as they are handled separately
-                $excludeFields = [
-                    'File_Birth_Certificate',
-                    'File_National_ID',
-                    'File_Proof_Address',
-                    'File_Authorization_Letter',
-                    'File_Owner_ID',
-                    'File_Utility_Bill',
-                    'File_Geriatric_Certificate',
-                    'Files_Academic_Certificates',
-                    'File_Character_Certificate',
-                    'File_Recommender_Statement_1',
-                    'File_Recommender_Statement_2',
-                    'File_NIS_Card'
-                ];
-                
-                // Populate application with validated data (excluding file fields)
-                foreach ($validated as $field => $value) {
-                    if (!in_array($field, $excludeFields) && in_array($field, $application->getFillable())) {
-                        $application->$field = $value;
+        if ($validator->fails()) {
+            // Save newly uploaded files to session
+            foreach ($fileFields as $field => $type) {
+                if ($request->hasFile($field)) {
+                    $files = $request->file($field);
+
+                    if ($type === 'multi') {
+                        if (!isset($uploadedFilesSession[$field])) {
+                            $uploadedFilesSession[$field] = [];
+                        }
+                        foreach ($files as $file) {
+                            $uploadedFilesSession[$field][] = [
+                                'path' => $file->store('uploads', 'public'),
+                                'name' => $file->getClientOriginalName(),
+                            ];
+                        }
+                    } else {
+                        // single file
+                        $uploadedFilesSession[$field] = [
+                            'path' => $files->store('uploads', 'public'),
+                            'name' => $files->getClientOriginalName(),
+                        ];
                     }
                 }
-                $application->APL_Cycle = 3;
-                $application->APL_Area = Area::where('Area_CC', $validated['APL_Address_3'])->value('Board');
-                $application->APL_Age = Carbon::parse($validated['APL_DOB'])->age;
-                $application->save();
-                
-
-            } catch(Exception $e){
-                Log::error($e);
-                throw new Exception("Error occurred while creating the application form.");
             }
-            
-            $applicantID = $application->APL_ID;
+            session()->put('uploadedFiles', $uploadedFilesSession);
 
-            try{
-                $this->uploadAllFiles(
-                    $applicantID, [
-                        ['file' => $validated['File_Birth_Certificate'] ?? null, 'description' => 'birth-certificate'],
-                        ['file' => $validated['File_National_ID'] ?? null, 'description' => 'id-card'],
-                        ['file' => $validated['File_Proof_Address'] ?? null, 'description' => 'proof-of-address'],
-                        ['file' => $validated['File_Authorization_Letter'] ?? null, 'description' => 'authorization-letter'],
-                        ['file' => $validated['File_Owner_ID'] ?? null, 'description' => 'owner-id'],
-                        ['file' => $validated['File_Utility_Bill'] ?? null, 'description' => 'utility-bill'],
-                        ['file' => $validated['File_Geriatric_Certificate'] ?? null, 'description' => 'geriatric-certificate'],
-                        ['file' => $validated['Files_Academic_Certificates'] ?? null, 'description' => 'academic-certificates'],
-                        ['file' => $validated['File_Character_Certificate'] ?? null, 'description' => 'character-certificate'],
-                        ['file' => $validated['File_Recommender_Statement_1'] ?? null, 'description' => 'recommender-statement-1'],
-                        ['file' => $validated['File_Recommender_Statement_2'] ?? null, 'description' => 'recommender-statement-2'],
-                        ['file' => $validated['File_NIS_Card'] ?? null, 'description' => 'nis-card'],
-                ]);
-            } catch(Exception $e){
-                Log::error($e);
-                throw new Exception("Error occurred while uploading files.");
-            }
-    
-            if (!empty($textsLinks)){
-                try{
-                    $this->uploadAllLinks($applicantID, $textsLinks);
-    
-                } catch(Exception $e){
-                    Log::error($e);
-                    throw new Exception("Error occurred while saving the supporting links.");
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        session()->forget('uploadedFiles');
+
+        DB::beginTransaction();
+        try {
+            $validated = $validator->validated();
+
+            $application = new Application();
+            $excludeFields = array_keys($fileFields);
+            foreach ($validated as $field => $value) {
+                if (!in_array($field, $excludeFields) && in_array($field, $application->getFillable())) {
+                    $application->$field = $value;
                 }
             }
 
+            $application->APL_Cycle = 3;
+            $application->APL_Area = Area::where('Area_CC', $validated['APL_Address_3'])->value('Board');
+            $application->APL_Age = Carbon::parse($validated['APL_DOB'])->age;
+            $application->save();
+            $applicantID = $application->APL_ID;
 
-    
-            DB::commit();
             
-            // Send Mail
+            $uploadData = [];
+            foreach ($fileFields as $field => $type) {
+                if (isset($validated[$field])) {
+                    $uploadData[] = ['file' => $validated[$field], 'description' => $field];
+                }
+            }
+            $this->uploadAllFiles($applicantID, $uploadData);
+
+  
+            $textsLinks = json_decode($request->input('Texts_Links'), true);
+            if (!empty($textsLinks)) {
+                $this->uploadAllLinks($applicantID, $textsLinks);
+            }
+
+            DB::commit();
+
             $name = "{$application->APL_FName} {$application->APL_LName}";
             Http::withHeaders([
                 'appID' => env('SWIFT_APP_ID'), 
@@ -498,17 +544,22 @@ class ApplicationController extends Controller
                 'title' => 'Geriatric Adolescent Partnership Programme 2025 Management System',
                 'subject' => 'Geriatric Adolescent Partnership Programme 2025 APPLICATION',
                 'name' => $name,
-                'body' => 'This email serves to inform you that your application for The Geriatric Adolescent Partnership Programme 2025 has been received.',
+                'body' => 'This email serves to inform you that your application has been received.',
                 'app' => 'GAPP 2025',
                 'header' => "Thank you {$name}",
                 'fromAddress' => 'youthinfo.mydns@gov.tt',
                 'fromName' => 'MYDNS',
             ]);
-    
+
             return redirect("https://mydns.gov.tt/thank-you/?FirstName={$name}&ProgrammeName=GERIATRIC%20ADOLESCENT%20PARTNERSHIP%20PROGRAMME%202025%20");
-        } catch (Exception $e){
+
+        } catch (Exception $e) {
             DB::rollBack();
-            return redirect(route('application.view'))->withInput($request->all())->with('submissionError', "There was an error in submission. {$e->getMessage()}");
+            return redirect(route('application.view'))
+                ->withInput($request->all())
+                ->with('submissionError', "There was an error in submission. {$e->getMessage()}");
         }
     }
+
+
 }

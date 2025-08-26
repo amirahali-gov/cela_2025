@@ -38,6 +38,7 @@ class MultiFileInput extends Component
             'accept' => $this->accept,
             'required' => $this->required,
             'helperText' => $this->helperText,
+            'uploadedFiles' => session("uploadedFiles.{$this->id}") ?? [],
         ]);
     }
 }
