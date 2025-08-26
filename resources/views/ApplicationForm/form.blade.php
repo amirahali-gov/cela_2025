@@ -158,13 +158,15 @@
                     <x-form.radio id="APL_Employment_Status" label="Are you Employed/Self-Employed?" :options="$yesNoOptions" x-model="APL_Employment_Status" />
 
                     <div x-show="APL_Employment_Status == 'Y'" x-cloak class="mt-4">
-                        <x-form.text-input id="APL_Job_Title" name="APL_Job_Title" label="Job Title (if applicable)" :required="false" :questionNumber="false" />
-                        <x-form.radio id="APL_Employment_Type" label="Employment Type" :options="[
-                                ['Full-Time', 'Full-Time'],
-                                ['Part-Time', 'Part-Time'],
-                                ['Self-Employed (Business Owner)', 'Self-Employed'],
-                                ['Both Employed and Business Owner', 'Both'],
-                            ]" :required="false" :questionNumber="false" />
+                        <div x-data="{ APL_Employment_Type: '{{ old('APL_Employment_Type', '') }}' }">
+                            <x-form.text-input id="APL_Job_Title" name="APL_Job_Title" label="Job Title (if applicable)" :required="false" :questionNumber="false" />
+                            <x-form.radio id="APL_Employment_Type" label="Employment Type" :options="[
+                                    ['Full-Time', 'Full-Time'],
+                                    ['Part-Time', 'Part-Time'],
+                                    ['Self-Employed (Business Owner)', 'Self-Employed'],
+                                    ['Both Employed and Business Owner', 'Both'],
+                                ]" :required="false" :questionNumber="false" x-model="APL_Employment_Type" />
+                        </div>
                     </div>
                 </div>
 

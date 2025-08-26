@@ -104,8 +104,8 @@ class ApplicationController extends Controller
         
         // Character and Documentation
         'APL_Character_Selection' => 'required|string|max:25',
-        'APL_CRN' => 'required_if:APL_Character_Selection,Receipt|nullable|string|max:20',
-        'File_Character_Certificate' => 'required_if:APL_Character_Selection,Certificate|file',
+        'APL_CRN' => 'required_if:APL_Character_Selection,CRN|nullable|string|max:20',
+        'File_Character_Certificate' => 'required_if:APL_Character_Selection,COC|file',
         
         // File uploads
         // 'File_Birth_Certificate' => 'required|file',
