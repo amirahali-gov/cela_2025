@@ -54,7 +54,7 @@ class FileInput extends Component
                 @endphp
 
                 @foreach($files as $file)
-                    <p>Uploaded: <a href="{{ asset('storage' . $file['path']) }}" target="_blank">{{ $file['name'] }}</a></p>
+                    <p>Uploaded: <a href="{{ asset('storage/' . $file['path']) }}" target="_blank">{{ $file['name'] }}</a></p>
                 @endforeach
             </div>
 
