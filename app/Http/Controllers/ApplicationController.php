@@ -27,6 +27,8 @@ class ApplicationController extends Controller
                 $area->Board,
             ]);
         }
+
+
         return view('ApplicationForm.form', compact('areas'));
     }
     
@@ -536,6 +538,21 @@ class ApplicationController extends Controller
             }
 
             DB::commit();
+
+            // Clean up
+            $uploadedFilesSession = session()->get('uploadedFiles', []);
+            foreach ($uploadedFilesSession as $field => $files) {
+                if (!is_array($files)) continue;
+
+                foreach ($files as $file) {
+                    $path = $file['path'] ?? null;
+                    if ($path && Storage::disk('public')->exists($path)) {
+                        Storage::disk('public')->delete($path);
+                    }
+                }
+            }
+
+            session()->forget('uploadedFiles');
 
             $name = "{$application->APL_FName} {$application->APL_LName}";
             Http::withHeaders([
