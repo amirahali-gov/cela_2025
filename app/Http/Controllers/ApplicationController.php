@@ -482,14 +482,14 @@ class ApplicationController extends Controller
                         }
                         foreach ($files as $file) {
                             $uploadedFilesSession[$field][] = [
-                                'path' => $file->store('uploads', 'public'),
+                                'path' => $file->store('tmp', 'public'),
                                 'name' => $file->getClientOriginalName(),
                             ];
                         }
                     } else {
                         // single file
                         $uploadedFilesSession[$field] = [
-                            'path' => $files->store('uploads', 'public'),
+                            'path' => $files->store('tmp', 'public'),
                             'name' => $files->getClientOriginalName(),
                         ];
                     }
