@@ -45,4 +45,4 @@ Route::prefix('committee')->group(function () {
         Route::get('/profile/{id}', [CommitteeController::class, 'profile'])->name('profile');
     });
 });
-Route::delete('/session-files/{inputId}/{filename}', [ApplicationController::class, 'deleteSessionFile'])->name('session-files.delete');
+Route::post('/session-files/{inputId}/{filename}', [ApplicationController::class, 'deleteSessionFile'])->name('session-files.delete');
