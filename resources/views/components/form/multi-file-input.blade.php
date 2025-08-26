@@ -27,7 +27,15 @@
                         x-show="!deletedFiles.includes(file.name)">
                         <div class="d-flex align-items-center">
                             <img :src="file.icon" class="me-2" width="24" height="24">
-                            <a x-text="file.name" :href="file.url || '#'" target="_blank"></a>
+
+                            <!-- Show link if file.url exists -->
+                            <template x-if="file.url">
+                                <a x-text="file.name" :href="file.url" target="_blank"></a>
+                            </template>
+                            <template x-if="!file.url">
+                                <span x-text="file.name"></span>
+                            </template>
+
                         </div>
                         <button type="button" class="btn btn-outline-danger btn-sm fw-bold"
                                 @click="removeFile(file)">✕</button>
@@ -52,12 +60,12 @@ function multiFileManager(inputId, hasSessionFiles = false) {
                     icon: (function(filepath) {
                         const ext = filepath.split('.').pop().toLowerCase();
                         switch(ext){
-                            case 'pdf': return '/images/pdf.png';
-                            case 'doc': case 'docx': return '/images/docx.png';
-                            case 'xls': case 'xlsx': return '/images/xls.png';
-                            case 'ppt': case 'pptx': return '/images/ppt.png';
-                            case 'jpg': case 'jpeg': case 'png': case 'gif': return '/images/photo.png';
-                            default: return '/images/file.png';
+                            case 'pdf': return "{{ asset('images/pdf.png') }}";
+                            case 'doc': case 'docx': return "{{ asset('images/doc.png') }}";
+                            case 'xls': case 'xlsx': return "{{ asset('images/xls.png') }}";
+                            case 'ppt': case 'pptx': return "{{ asset('images/ppt.png') }}";
+                            case 'jpg': case 'jpeg': case 'png': case 'gif': return "{{ asset('images/photo.png') }}";
+                            default: return "{{ asset('images/file.png') }}";
                         }
                     })(f.path || f.name)
                 }))
@@ -71,7 +79,7 @@ function multiFileManager(inputId, hasSessionFiles = false) {
                 ...this.newFiles.map(f => ({
                     name: f.name,
                     file: f,
-                    url: '',
+                    url: URL.createObjectURL(f), // Temporary browser preview for new files
                     icon: this.fileIcon(f)
                 }))
             ];
@@ -125,12 +133,12 @@ function multiFileManager(inputId, hasSessionFiles = false) {
         fileIcon(file) {
             const ext = file.name.split('.').pop().toLowerCase();
             switch(ext){
-                case 'pdf': return '/images/pdf.png';
-                case 'doc': case 'docx': return '/images/doc.png';
-                case 'xls': case 'xlsx': return '/images/xls.png';
-                case 'ppt': case 'pptx': return '/images/ppt.png';
-                case 'jpg': case 'jpeg': case 'png': case 'gif': return '/images/photo.png';
-                default: return '/images/file.png';
+                case 'pdf': return "{{ asset('images/pdf.png') }}";
+                case 'doc': case 'docx': return "{{ asset('images/doc.png') }}";
+                case 'xls': case 'xlsx': return "{{ asset('images/xls.png') }}";
+                case 'ppt': case 'pptx': return "{{ asset('images/ppt.png') }}";
+                case 'jpg': case 'jpeg': case 'png': case 'gif': return "{{ asset('images/photo.png') }}";
+                default: return "{{ asset('images/file.png') }}";
             }
         }
     }
