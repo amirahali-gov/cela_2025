@@ -82,3 +82,7 @@ td, th {
         padding: 3em 20%;
     }
 }
+
+.fw-bold {
+    font-weight: bold;
+}
