@@ -27,15 +27,8 @@
                         x-show="!deletedFiles.includes(file.name)">
                         <div class="d-flex align-items-center">
                             <img :src="file.icon" class="me-2" width="24" height="24">
-
-                            <!-- Show link if file.url exists -->
-                            <template x-if="file.url">
-                                <a x-text="file.name" :href="file.url" target="_blank"></a>
-                            </template>
-                            <template x-if="!file.url">
-                                <span x-text="file.name"></span>
-                            </template>
-
+                            <a x-text="file.name" :href="file.url || file.blobUrl || ''" target="_blank" x-show="file.url || file.blobUrl"></a>
+                            <span x-text="file.name" x-show="!file.url && !file.blobUrl"></span>
                         </div>
                         <button type="button" class="btn btn-outline-danger btn-sm fw-bold"
                                 @click="removeFile(file)">✕</button>
@@ -79,7 +72,8 @@ function multiFileManager(inputId, hasSessionFiles = false) {
                 ...this.newFiles.map(f => ({
                     name: f.name,
                     file: f,
-                    url: URL.createObjectURL(f), // Temporary browser preview for new files
+                    blobUrl: URL.createObjectURL(f), // preview before session save
+                    url: '', // will only exist for session files
                     icon: this.fileIcon(f)
                 }))
             ];
@@ -87,7 +81,6 @@ function multiFileManager(inputId, hasSessionFiles = false) {
 
         previewFiles(event) {
             this.newFiles = [...this.newFiles, ...Array.from(event.target.files)];
-
             let dt = new DataTransfer();
             this.newFiles.forEach(f => dt.items.add(f));
             document.getElementById(inputId).files = dt.files;
@@ -95,14 +88,20 @@ function multiFileManager(inputId, hasSessionFiles = false) {
 
         removeFile(file) {
             if (file.file) {
-                // Remove new file
+                // Remove newly added file immediately
                 this.newFiles = this.newFiles.filter(f => f !== file.file);
                 let dt = new DataTransfer();
                 this.newFiles.forEach(f => dt.items.add(f));
                 document.getElementById(inputId).files = dt.files;
             } else {
-                // Remove session file
-                this.removeUploadedFile(file.name, true);
+                // Optimistic removal of session file
+                this.deletedFiles.push(file.name);
+                this.sessionFiles = this.sessionFiles.filter(f => f.name !== file.name);
+
+                // Attempt server deletion in background
+                this.removeUploadedFile(file.name, true).catch(() => {
+                    alert('Could not delete file on the server. It may still exist in session.');
+                });
             }
         },
 
@@ -111,22 +110,18 @@ function multiFileManager(inputId, hasSessionFiles = false) {
 
             try {
                 let response = await fetch(`/session-files/${inputId}/${filename}`, {
-                    method: 'POST',
+                    method: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                         'Accept': 'application/json',
-                    }
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ filename })
                 });
 
-                if (response.ok) {
-                    this.deletedFiles.push(filename);
-                    this.sessionFiles = this.sessionFiles.filter(f => f.name !== filename);
-                } else {
-                    alert('Failed to delete session file.');
-                }
+                if (!response.ok) console.error('Server deletion failed:', response.status);
             } catch (e) {
-                console.error(e);
-                alert('Failed to delete session file.');
+                console.error('Server deletion error:', e);
             }
         },
 
