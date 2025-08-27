@@ -386,7 +386,7 @@
                         Participants must be willing to sign a Participation Agreement and work to meet the learning objectives and requirements of the training. This form and information collected within is Confidential and intended for use by the Ministry of Sport and Youth Affairs. Your information will remain Private and Confidential and will not be used for other purposes other than the above mentioned.
                     </p>
                     <p class="text-justify">
-                        I hereby declare that the information given in this application is true and correct to the best of my knowledge and belief. If any information given in this application proves to be false or incorrect, I accept the consequences of automatic rejection of the submission and I may be liable for any breach of the applicable laws of the Republic of Trinidad and Tobago.
+                        I hereby declare that the information given in this application is true and correct to the best of my knowledge and belief. If any information given in this application proves to be false or incorrect, I accept the consequences of automatic rejection of the submission and that I may be liable for any breach of the applicable Laws of the Republic of Trinidad and Tobago.
                     </p>
                 </x-form.wrapper>
 
