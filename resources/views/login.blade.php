@@ -13,6 +13,9 @@
                                     </h4>
                                 </header>
 
+                                {{-- Flash Messages --}}
+                                <x-flash-message />
+
                                 <form action="{{ route('login') }}" method="POST">
                                     @csrf
                                     <div class="form-row">

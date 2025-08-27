@@ -21,36 +21,26 @@ class CommitteeController extends Controller
 {
 
     public function index(Request $request){
-        // Check if user is authenticated
-        if (!auth()->check()) {
-            return view('login');
-        }
-
-        $user = auth()->user();
-        return view('index', ['user' => $user]);
-
+        if (!Auth::check()) return view('login');
+        return redirect(route('committee.dashboard'));
     }
 
     public function login(Request $request){
         $data = $request->all();
-
         $username = trim($data['username']);
         $password = trim($data['password']);
 
-        //May hash
-
-        $user = Login::where('LGN_Username','=', $username)->where('LGN_Password','=',$password)->get();
-
-        if($user->isEmpty()){
-            return response()->json(['success'=> false, 'message' => 'Incorrect Username or Password']);
-        }else{
-            $user = $user->first();
-            // session(['NAME' => $username]);
-            // session(['PASSWORD' => $password]);
+        $user = Login::where('LGN_Username','=', $username)->first();
+        
+        if ($user && password_verify($password, $user->LGN_Password)) {
             Auth::login($user);
-            
             return redirect(route('committee.dashboard'));
+        } 
+        else {
+            $request->session()->flash('error', 'Invalid username or password');
+            return view('login');
         }
+        
     }
 
     public function dashboard(Request $request){
@@ -62,105 +52,9 @@ class CommitteeController extends Controller
         return view('committee-dashboard', ['user' => $user, 'applications' => $applications]);
     }
     
-
-    public function getUserID(Request $request){
-        $data = $request->all();
-
-        $applicant = Application::/* where('APL_ShortList','=','Y')-> */where('APL_ID','=', $data['searchValue'])->get();
-
-        if($applicant->isEmpty()){
-            return response()->json(['success'=> false, 'message' => 'Applicant does not exist']);
-        }else{
-            $applicant = $applicant->first();
-
-            // $ts = '<table style="width: 100%;" id="example" class="table table-hover table-striped table-bordered">
-            //         <tr>
-            //             <th>ID</th>
-            //             <th>First Name</th>
-            //             <th>Middle Name</th>
-            //             <th>Last Name</th>
-            //         </tr><tr class = "cursor" onClick = getProfile('.$applicant->APL_ID.')><td>'.$applicant->APL_ID.'</td><td>'.$applicant->APL_FName.'</td><td>'.$applicant->APL_MName.'</td><td>'.$applicant->APL_LName.'</td></tr></table>';
-
-            $ts = '<table style="width: 100%;" id="example" class="table table-hover table-striped table-bordered">
-                        <tr>
-                            <th>ID</th>
-                            <th>Nominee Name</th>
-                            <th>Phone</th>
-                            <th>Email</th>
-                            <th>City/Town</th>
-                        </tr>
-                        <tbody id = "resultBody">
-                            <tr class = "cursor" onClick = getProfile('.$applicant->APL_ID.') ><td>'.$applicant->APL_ID.'</td> <td>'.$applicant->APL_FName.' '.$applicant->APL_Mname.' '.$applicant->APL_LName.'</td><td>'.$applicant->APL_PPhone.' <br> '.$applicant->APL_APhone.'</td><td>'.$applicant->APL_Email.'</td><td>'.$applicant->APL_Address_3.'</td></tr>
-                        </tbody>
-                    </table>';
-            return response()->json(['success'=> true, 'data' => $ts, 'count' => "1"]);
-        }
-    }
-
-    public function paginate(){
-        $applicant = Application::paginate(5);
-
-        return view('paginate_data',['data' => $applicant]);
-    }
-
-    public function getUserName(Request $request){
-        $data = $request->all();
-
-        $searchValue = $data['searchValue'];
-
-        $applicant = Application::/* where('APL_ShortList','=','Y')-> */where(function($query) use ($searchValue){
-            $query->where('APL_FName','Like', '%'.$searchValue.'%')
-                ->orWhere('APL_Mname','Like', '%'.$searchValue.'%')
-                ->orWhere('APL_LName','Like', '%'.$searchValue.'%')
-                ->where('APL_Dup','=','N');
-        })->get();
-
-        if($applicant->isEmpty()){
-            return response()->json(['success'=> false, 'message' => 'Applicant does not exist']);
-        }else{
-
-            $ts = '
-            <div class="col-md-12">
-                <div class="position-relative form-group">
-                    <label for="FName" class="card-title">Valid Applications</label>
-                </div>
-            </div>
-            ';
-            $ts .= '<table style="width: 100%;" id="example" class="table table-hover table-striped table-bordered">
-                    <tr>
-                        <th>ID</th>
-                        <th>Nominee Name</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>City/Town</th>
-                    </tr><tbody id = "resultBody">';
-            foreach($applicant as $ap){
-                $ts .= '<tr class = "cursor" onClick = getProfile('.$ap->APL_ID.') ><td>'.$ap->APL_ID.'</td> <td>'.$ap->APL_FName.' '.$ap->APL_Mname.' '.$ap->APL_LName.'</td><td>'.$ap->APL_PPhone.' <br> '.$ap->APL_APhone.'</td><td>'.$ap->APL_Email.'</td><td>'.$ap->APL_Address_3.'</td></tr>';
-            }
-            $ts .= '</tbody></table>';
-
-            $count = count($applicant);
-            return response()->json(['success'=> true, 'data' => $ts, 'count' => $count, 'applicants' => $applicant]);
-        }
-    }
-
     public function score(Request $request){
-        $request->session()->regenerate();
-
+        $user = Auth::user();
         $data = $request->all();
-
-        $username = session('NAME');
-        $password = session('PASSWORD');
-
-        $user = Login::where('LGN_Username','=', $username)->where('LGN_Password','=',$password)->get();
-
-
-
-        if($user->isEmpty()){
-            return view('login');
-        }
-
-        $user = $user->first();
 
         $applicant = Application::where('APL_ID','=', $data['id'])->get()->first();
         if($user->LGN_Role === 0){
@@ -173,18 +67,18 @@ class CommitteeController extends Controller
             $newScore = new Score();
             $newScore->APL_ID = $applicant->APL_ID;
             $newScore->LGN_ID = $user->LGN_ID;
-            $newScore->SCR_Score = trim($data['score']);
-            $newScore->SCR_Score_2 = trim($data['score2']);
-            $newScore->SCR_Score_3 = trim($data['score3']);
-            $newScore->SCR_Score_4 = trim($data['score4']);
+            $newScore->SCR_Score = trim($data['score_interest']);
+            $newScore->SCR_Score_2 = trim($data['score_social']);
+            $newScore->SCR_Score_3 = trim($data['score_education']);
+            $newScore->SCR_Score_4 = trim($data['score_attributes']);
             $newScore->save();
         }else{
             if($user->LGN_Role === 0){
                 Score::where('APL_ID','=', $data['id'])->where('LGN_ID','=', $user->LGN_ID)
-                    ->update(['SCR_Score' => trim($data['score']), 'SCR_Score_2' => trim($data['score2']), 'SCR_Score_3' => trim($data['score3']), 'SCR_Score_4' => trim($data['score4'])]);
+                    ->update(['SCR_Score' => trim($data['score_interest']), 'SCR_Score_2' => trim($data['score_social']), 'SCR_Score_3' => trim($data['score_education']), 'SCR_Score_4' => trim($data['score_attributes'])]);
             }else{
                 Score::where('APL_ID','=', $data['id'])->where('LGN_ID','=', $data['userID'])
-                    ->update(['SCR_Score' => trim($data['score']), 'SCR_Score_2' => trim($data['score2']), 'SCR_Score_3' => trim($data['score3']), 'SCR_Score_4' => trim($data['score4'])]);
+                    ->update(['SCR_Score' => trim($data['score_interest']), 'SCR_Score_2' => trim($data['score_social']), 'SCR_Score_3' => trim($data['score_education']), 'SCR_Score_4' => trim($data['score_attributes'])]);
             }
         }
 
@@ -194,24 +88,12 @@ class CommitteeController extends Controller
             Application::where('APL_ID','=', $data['id'])
                         ->update(['APL_Scored' => 'Y']);
         }
-        return response()->json(['success'=> true]);
+        return redirect()->route('profile', ['id' => $data['id']]);
     }
 
     public function comment(Request $request){
-        $request->session()->regenerate();
-
+        $user = Auth::user();
         $data = $request->all();
-
-        $username = session('NAME');
-        $password = session('PASSWORD');
-
-        $user = Login::where('LGN_Username','=', $username)->where('LGN_Password','=',$password)->get();
-
-        if($user->isEmpty()){
-            return view('login');
-        }
-
-        $user = $user->first();
 
         $newComment = Comment::where('APL_ID','=', $data['id'])->where('LGN_ID','=',$user->LGN_ID)->get();
 
@@ -226,7 +108,7 @@ class CommitteeController extends Controller
         }
 
 
-        return response()->json(['success'=> true]);
+        return redirect()->route('profile', ['id' => $data['id']]);
     }
 
     public function profile(Request $request, $id){
@@ -290,77 +172,6 @@ class CommitteeController extends Controller
         }
     }
 
-    public function getFile($id){
-
-        $upload = Upload::where('UPD_ID','=',$id)->get()->first();
-		return Storage::disk('local')->download($upload->UPD_FilePath,$upload->UPD_DocName);
-    }
-
-
-    public function next($id){
-        $applicant = Application::where('APL_ID','>',$id)->orderBy('APL_ID','asc')->get()->first();
-
-        if($applicant === null){
-            $applicant = Application::orderBy('APL_ID','asc')->get()->first();
-        }
-
-        return redirect()->route('profile', ['id' => $applicant->APL_ID]);
-    }
-
-    public function previous($id){
-        $applicant = Application::where('APL_ID','<',$id)->orderBy('APL_ID','desc')->get()->first();
-
-        if($applicant === null){
-            $applicant = Application::orderBy('APL_ID','desc')->get()->first();
-        }
-
-        return redirect()->route('profile', ['id' => $applicant->APL_ID]);
-    }
-
-    public function duplicate(Request $request){
-        $request = $request->all();
-        $applicant = Application::where('APL_ID','=',$request['applicantID'])->get()->first();
-
-
-        if ($applicant === null) {
-            Log::channel('applicant')->info('Error for applicant(email: '.$request['applicantID'].'): Application not found.');
-        }
-
-        Application::where('APL_ID', '=', $request['applicantID'])
-                    ->update(['APL_Dup' => $request['duplicateOptions'], 'APL_DupUser' => $request['user']]);
-        $applicant = Application::where('APL_ID','=',$request['applicantID'])->get()->first();
-
-        return redirect()->route('profile', ['id' => $applicant->APL_ID]);
-    }
-
-    public function viewDuplicates(Request $request){
-        $request->session()->regenerate();
-
-        $username = session('NAME');
-        $password = session('PASSWORD');
-
-        $user = Login::where('LGN_Username','=', $username)->where('LGN_Password','=',$password)->get();
-
-        if($user->isEmpty()){
-            return view('login');
-        }
-
-        $user = $user->first();
-
-        try{
-            $collect = Application::where('APL_Dup','=','Y')
-                                        ->get();
-            $applications = $collect->sortBy(['APL_LName', 'asc']);
-
-            $title = "Duplicate Applications";
-            return view('data-table', compact('applications', 'user', 'title'));
-            // return ($duplicates);
-        }
-        catch (\Exception $e) {
-            Log::channel('applicant')->info('Error: '.$e);
-            return response()->json(['success' => false, 'errorCode' => 'a1'],500);
-        }
-    }
 
     public function allApplications(Request $request) {
         $user = Auth::user();
@@ -372,66 +183,6 @@ class CommitteeController extends Controller
         return view('components.data-table', compact('applications', 'user', 'title'));
     }
 
-    public function scoredApplications(Request $request) {
-        $request->session()->regenerate();
-
-        $username = session('NAME');
-        $password = session('PASSWORD');
-
-        $user = Login::where('LGN_Username','=', $username)->where('LGN_Password','=',$password)->get();
-
-        if($user->isEmpty()){
-            return view('login');
-        }
-
-        $user = $user->first();
-
-        $applications = Application::where('APL_Scored','=','Y')
-                                    ->where('APL_Dup','=','N')
-                                    ->paginate(20);
-        $title = "Scored Applications";
-        return view('data-table', compact('applications', 'user', 'title'));
-    }
-
-    public function unscoredApplications (Request $request){
-        $request->session()->regenerate();
-
-        $username = session('NAME');
-        $password = session('PASSWORD');
-
-        $user = Login::where('LGN_Username','=', $username)->where('LGN_Password','=',$password)->get();
-
-        if($user->isEmpty()){
-            return view('login');
-        }
-
-        $user = $user->first();
-
-        $applications = Application::where('APL_Scored','=','N')
-                                    ->where('APL_Dup','=','N')
-                                    ->paginate(20);
-        $title = "Unscored Applications";
-        return view('data-table', compact('applications', 'user', 'title'));
-    }
-
-    public function assignedApplications(Request $request) {
-        $request->session()->regenerate();
-
-        $username = session('NAME');
-        $password = session('PASSWORD');
-
-        $user = Login::where('LGN_Username','=', $username)->where('LGN_Password','=',$password)->get();
-
-        if($user->isEmpty()){
-            return view('login');
-        }
-
-        $user = $user->first();
-
-        $applications = Application::paginate(20);
-        $title = "Assigned Applications";
-        return view('data-table', compact('applications', 'user', 'title'));
-    }
 
     public function logout(Request $request)
     {

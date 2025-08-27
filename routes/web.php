@@ -43,6 +43,8 @@ Route::prefix('committee')->group(function () {
         Route::get('/dashboard', [CommitteeController::class, 'dashboard'])->name('committee.dashboard');
         Route::get('/applications', [CommitteeController::class, 'allApplications'])->name('committee.applications');
         Route::get('/profile/{id}', [CommitteeController::class, 'profile'])->name('profile');
+        Route::post('/comment', [CommitteeController::class, 'comment'])->name('comment');
+        Route::post('/score', [CommitteeController::class, 'score'])->name('score');
     });
 });
 Route::post('/session-files/{inputId}/{filename}', [ApplicationController::class, 'deleteSessionFile'])->name('session-files.delete');

@@ -17,7 +17,7 @@ class CreateCommentsTable extends Migration
             $table->bigIncrements("COM_ID");
             $table->integer("APL_ID")->references('APL_ID')->on('applications');
             $table->integer("LGN_ID")->references('LGN_ID')->on('logins');
-            $table->text("COM_Comment");
+            $table->text("COM_Comment")->nullable();
             $table->timestamps();
         });
     }
