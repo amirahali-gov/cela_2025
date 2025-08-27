@@ -563,28 +563,28 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Evidence of Interest in Agriculture (0-6)</label>
-                                        <input name="score_interest" id="score" type="text" class="form-control"
+                                        <input required type="number" name="score_interest" id="score" type="text" class="form-control"
                                             value="{{ $score->SCR_Score ?? '' }}"
                                             {{ $applicant->APL_Dup === 'Y' || $applicant->APL_Scored === 'Y' ? 'disabled' : '' }}>
                                         <span class="text-danger"><em id="scoreError"></em></span>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Social Situation (0-5)</label>
-                                        <input name="score_social" id="score2" type="text" class="form-control"
+                                        <input required type="number" name="score_social" id="score2" type="text" class="form-control"
                                             value="{{ $score->SCR_Score_2 ?? '' }}"
                                             {{ $applicant->APL_Dup === 'Y' || $applicant->APL_Scored === 'Y' ? 'disabled' : '' }}>
                                         <span class="text-danger"><em id="score2Error"></em></span>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Education (0-6)</label>
-                                        <input name="score_education" id="score3" type="text" class="form-control"
+                                        <input required type="number" name="score_education" id="score3" type="text" class="form-control"
                                             value="{{ $score->SCR_Score_3 ?? '' }}"
                                             {{ $applicant->APL_Dup === 'Y' || $applicant->APL_Scored === 'Y' ? 'disabled' : '' }}>
                                         <span class="text-danger"><em id="score3Error"></em></span>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Personal Attributes (0-3)</label>
-                                        <input name="score_attributes" id="score4" type="text"
+                                        <input required type="number" name="score_attributes" id="score4" type="text"
                                             class="form-control" value="{{ $score->SCR_Score_4 ?? '' }}"
                                             {{ $applicant->APL_Dup === 'Y' || $applicant->APL_Scored === 'Y' ? 'disabled' : '' }}>
                                         <span class="text-danger"><em id="score4Error"></em></span>
@@ -619,17 +619,17 @@
                                                 @if ($chairman === 1)
                                                     <td><em>{{ $com->LGN_Name }}</em></td>
                                                     <td><input class="chairmanScore form-control" type="text"
-                                                            value="{{ $com->SCR_Score }}" id="{{ $com->LGN_ID }}Score">
+                                                        value="{{ $com->SCR_Score }}" id="{{ $com->LGN_ID }}Score" required>
                                                     </td>
                                                     <td><input class="chairmanScore form-control" type="text"
-                                                            value="{{ $com->SCR_Score_2 }}"
-                                                            id="{{ $com->LGN_ID }}Score2"></td>
+                                                        value="{{ $com->SCR_Score_2 }}"
+                                                        id="{{ $com->LGN_ID }}Score2" required></td>
                                                     <td><input class="chairmanScore form-control" type="text"
-                                                            value="{{ $com->SCR_Score_3 }}"
-                                                            id="{{ $com->LGN_ID }}Score3"></td>
+                                                        value="{{ $com->SCR_Score_3 }}"
+                                                        id="{{ $com->LGN_ID }}Score3" required></td>
                                                     <td><input class="chairmanScore form-control" type="text"
-                                                            value="{{ $com->SCR_Score_4 }}"
-                                                            id="{{ $com->LGN_ID }}Score4"></td>
+                                                        value="{{ $com->SCR_Score_4 }}"
+                                                        id="{{ $com->LGN_ID }}Score4" required></td>
                                                     <td>
                                                         <button class="btn btn-primary btn-sm"
                                                             onClick="changeScores('{{ $com->APL_ID }}','{{ $com->LGN_ID }}')"
