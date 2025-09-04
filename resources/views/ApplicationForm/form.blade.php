@@ -4,7 +4,7 @@
 
 <body>
     <div id="application-form" class="container-fluid" style="background-color: #d8f3dc">
-        {{-- <img src="https://apps.mydns.gov.tt/images/rapp_participant_banner.jpg" alt="Logo" class="img-fluid w-100"> --}}
+        <img src="https://apps.msya.gov.tt/images/GAPP-SEPTEMBER-2025-Banner.jpg" alt="Logo" class="img-fluid w-100 mb-4">
         <section>
             <div class="text-center">
                 <h1>GERIATRIC ADOLESCENT PARTNERSHIP PROGRAMME</h1>
