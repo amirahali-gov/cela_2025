@@ -474,7 +474,7 @@ class ApplicationController extends Controller
 
         if ($validator->fails()) {
             // Save newly uploaded files to session
-            Log::channel('applicant')->warning('Application submission failed, validation errors', ['errors' => $validator->errors()]);
+            Log::channel('applicant')->warning('Application submission failed, validation errors', ['errors' => $validator->errors(), 'allInput' => $allInput]);
             foreach ($fileFields as $field => $type) {
                 if ($request->hasFile($field)) {
                     $files = $request->file($field);
