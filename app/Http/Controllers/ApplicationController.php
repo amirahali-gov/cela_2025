@@ -474,6 +474,7 @@ class ApplicationController extends Controller
 
         if ($validator->fails()) {
             // Save newly uploaded files to session
+            Log::channel('applicant')->warning('Application submission failed, validation errors', ['errors' => $validator->errors()]);
             foreach ($fileFields as $field => $type) {
                 if ($request->hasFile($field)) {
                     $files = $request->file($field);
@@ -539,6 +540,8 @@ class ApplicationController extends Controller
 
             DB::commit();
 
+            Log::channel('applicant')->notice('Application submitted', ['application' => $application]);
+
             // Clean up
             $uploadedFilesSession = session()->get('uploadedFiles', []);
             foreach ($uploadedFilesSession as $field => $files) {
@@ -574,6 +577,7 @@ class ApplicationController extends Controller
 
         } catch (Exception $e) {
             DB::rollBack();
+            Log::channel('applicant')->error('Application submission failed', ['error' => $e->getMessage()]);
             return redirect(route('application.view'))
                 ->withInput($request->all())
                 ->with('submissionError', "There was an error in submission. {$e->getMessage()}");
