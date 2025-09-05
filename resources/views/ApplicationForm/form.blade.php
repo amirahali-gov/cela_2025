@@ -82,10 +82,10 @@
                 {{-- 2. ADDRESS --}}
                 <x-form.column-2>
                     <x-slot name="col1">
-                        <x-form.text-input id="APL_Address_1" label="Address Line 1" />
+                        <x-form.text-input id="APL_Address_1" label="Address Line 1" placeholder="Street Number (#2 Elizabeth Street)" />
                     </x-slot>
                     <x-slot name="col2">
-                        <x-form.text-input id="APL_Address_2" label="Address Line 2" :questionNumber="false" />
+                        <x-form.text-input id="APL_Address_2" label="Address Line 2" :questionNumber="false" placeholder="Area (St. Clair)" />
                     </x-slot>
                 </x-form.column-2>
 
