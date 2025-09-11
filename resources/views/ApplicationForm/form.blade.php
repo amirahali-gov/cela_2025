@@ -225,7 +225,7 @@
                     <x-form.radio id="APL_Geriatric_Certif" label="I possess a certificate reflecting competencies in Geriatric Care or Professional Healthcare." :options="$yesNoOptions" x-model="APL_Geriatric_Certif" />
 
                     <div x-show="APL_Geriatric_Certif == 'Y'" x-cloak class="mt-4">
-                        <x-form.text-input id="APL_Graduate" label="From which institution did you receive your certification?" :required="false" :questionNumber="true" />
+                        <x-form.text-input id="APL_Graduate" label="From which institution did you receive your certification?" :required="true" :questionNumber="false" />
                     </div>
                 </div>
 
