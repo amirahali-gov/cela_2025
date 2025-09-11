@@ -154,27 +154,29 @@
                 </div>
 
                 {{-- 8. Employment Status --}}
+                {{-- Changes required fields from false to true --}}
                 <div x-data="{ APL_Employment_Status: '{{ old('APL_Employment_Status', '') }}' }">
                     <x-form.radio id="APL_Employment_Status" label="Are you Employed/Self-Employed?" :options="$yesNoOptions" x-model="APL_Employment_Status" />
 
                     <div x-show="APL_Employment_Status == 'Y'" x-cloak class="mt-4">
                         <div x-data="{ APL_Employment_Type: '{{ old('APL_Employment_Type', '') }}' }">
-                            <x-form.text-input id="APL_Job_Title" name="APL_Job_Title" label="Job Title (if applicable)" :required="false" :questionNumber="false" />
+                            <x-form.text-input id="APL_Job_Title" name="APL_Job_Title" label="Job Title (if applicable)" :required="true" :questionNumber="false" />
                             <x-form.radio id="APL_Employment_Type" label="Employment Type" :options="[
                                     ['Full-Time', 'Full-Time'],
                                     ['Part-Time', 'Part-Time'],
                                     ['Self-Employed (Business Owner)', 'Self-Employed'],
                                     ['Both Employed and Business Owner', 'Both'],
-                                ]" :required="false" :questionNumber="false" x-model="APL_Employment_Type" />
+                                ]" :required="true" :questionNumber="false" x-model="APL_Employment_Type" />
                         </div>
                     </div>
                 </div>
 
                 {{-- 9. CONTACT NUMBER --}}
-                <x-form.text-input id="APL_PPhone" label="Contact Number" />
+                <x-form.text-input id="APL_PPhone" label="Contact Number" placeholder="868-123-4567" />
+               
 
                 {{-- 10. ALTERNATIVE CONTACT NUMBER --}}
-                <x-form.text-input id="APL_APhone" label="Alternative Contact Number" :required="false" />
+                <x-form.text-input id="APL_APhone" label="Alternative Contact Number" :required="false" placeholder="868-123-4567" />
 
                 {{-- 11. EMAIL ADDRESS --}}
                 <x-form.text-input id="APL_Email" label="Email Address" />
@@ -195,7 +197,7 @@
                     <x-form.radio id="APL_Has_NIS" label="Do you have a National Insurance Number (NIS)?" :options="$yesNoOptions" x-model="APL_Has_NIS" />
 
                     <div x-show="APL_Has_NIS == 'Y'" x-cloak class="mt-4">
-                        <x-form.text-input id="APL_NIS_Number" name="APL_NIS_Number" label="Please enter your National Insurance Number (NIS)" :required="false" :questionNumber="false" />
+                        <x-form.text-input id="APL_NIS_Number" name="APL_NIS_Number" label="Please enter your National Insurance Number (NIS)" :required="true" :questionNumber="false" />
                     </div>
                 </div>
 
@@ -223,7 +225,7 @@
                     <x-form.radio id="APL_Geriatric_Certif" label="I possess a certificate reflecting competencies in Geriatric Care or Professional Healthcare." :options="$yesNoOptions" x-model="APL_Geriatric_Certif" />
 
                     <div x-show="APL_Geriatric_Certif == 'Y'" x-cloak class="mt-4">
-                        <x-form.text-input id="APL_Graduate" label="From which institution did you receive your certification?" :required="false" :questionNumber="false" />
+                        <x-form.text-input id="APL_Graduate" label="From which institution did you receive your certification?" :required="true" :questionNumber="false" />
                     </div>
                 </div>
 
@@ -324,7 +326,7 @@
                     </x-slot>
                 </x-form.column-2>
                 <x-form.text-input id="APL_Prof_Rec_Designation" label="Designation of Professional Recommender 1" />
-                <x-form.text-input id="APL_Prof_Rec_Phone" label="Contact Number of Professional Recommender 1" />
+                <x-form.text-input id="APL_Prof_Rec_Phone" label="Contact Number of Professional Recommender 1"  placeholder="868-123-4567" />
 
                 {{-- 32-34. PROFESSIONAL RECOMMENDER 2 --}}
                  <x-form.column-2>
@@ -336,7 +338,7 @@
                     </x-slot>
                 </x-form.column-2>
                 <x-form.text-input id="APL_Prof_Rec_2_Designation" label="Designation of Professional Recommender 2" />
-                <x-form.text-input id="APL_Prof_Rec_2_Phone" label="Contact Number of Professional Recommender 2" />
+                <x-form.text-input id="APL_Prof_Rec_2_Phone" label="Contact Number of Professional Recommender 2"  placeholder="868-123-4567" />
 
                 <x-form.section-h1>Document Uploads</x-form.section-h1>
 
@@ -362,11 +364,11 @@
                     ]" x-model="APL_Character_Selection" />
                     
                     <div x-show="APL_Character_Selection === 'CRN'" x-cloak>
-                        <x-form.text-input id="APL_CRN" label="Certificate of Character Receipt Number" :required="false" :questionNumber="false" />
+                        <x-form.text-input id="APL_CRN" label="Certificate of Character Receipt Number" :required="true" :questionNumber="false" />
                     </div>
                     
                     <div x-show="APL_Character_Selection === 'COC'" x-cloak>
-                        <x-form.file-input id="File_Character_Certificate" label="Certificate of Character (or Receipt from TTPS)" :questionNumber="false" :required="false" />
+                        <x-form.file-input id="File_Character_Certificate" label="Certificate of Character (or Receipt from TTPS)" :questionNumber="false" :required="true" />
                     </div>
                 </div>
 
