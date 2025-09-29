@@ -51,7 +51,7 @@ class Radio extends Component
                     <div class="form-check" id="{{$id}}">
                         @foreach($options as $option)
                         <input class="fw-bold form-check-input" type="radio" name="{{$id}}" x-model="{{$id}}" value="{{$option[1]}}" @if(old($id) == $option[1]) checked @endif>
-                        <label class="form-check-label mr-1" for="{{$id}}">{{$option[0]}}</label>
+                        <label id="radio-label" class="mr-1" for="{{$id}}">{{$option[0]}}</label>
                         <br>
                         @endforeach
                     </div>
@@ -61,7 +61,7 @@ class Radio extends Component
         </x-form.wrapper>
         <style>
         .form-check-input[type=radio] {
-            border-radius: 50%;
+            // border-radius: 50%;
             border-color: black;
         }
         </style>

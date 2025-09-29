@@ -24,11 +24,12 @@ class SectionH1 extends Component
     public function render()
     {
         return <<<'blade'
-            <h1 class="text-center text-danger mt-4">{{ $slot }}</h1>
-            <hr>
+            <h1 class="text-center mt-4">{{ $slot }}</h1>
+            <hr><br><br>
         <style>
-            h1.text-center.text-danger.mt-4 {
+            h1.text-center.mt-4 {
                 font-size: 2rem;
+                color: #717180ff;
             }
         </style>
         blade;
