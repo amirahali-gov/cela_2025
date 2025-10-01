@@ -98,6 +98,16 @@ class Application extends Model
         'File_Recommender_Statement_2',
         'File_NIS_Card',
         'APL_Accepts',
+        
+        // Additional fields from form-fields.txt
+        'APL_Nationality',
+        'APL_CSEC_Passes',
+        'APL_Programme',
+        'APL_Attend',
+        'APL_Attend_Explanation',
+        'APL_Experience_Details',
+        'APL_Contact_Consent',
+        'APL_Subscribe',
     ];
 
     public function getNextId() {

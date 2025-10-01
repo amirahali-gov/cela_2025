@@ -294,7 +294,7 @@
                     <x-form.wrapper>
                         <div class="d-grid gap-2 col-3 mx-auto">
                             <!-- <input type="submit" class="btn btn-success" style="border-radius: 1.5rem; height: 3rem; background-color: #3b6573;" /> -->
-                            <input type="button" class="btn btn-success" style="border-radius: 1.5rem; height: 3rem; background-color: #3b6573;" value="Submit"/>
+                            <input type="submit" class="btn btn-success" style="border-radius: 1.5rem; height: 3rem; background-color: #3b6573;" value="Submit"/>
                         </div>
                     </x-form.wrapper>
                 </form>

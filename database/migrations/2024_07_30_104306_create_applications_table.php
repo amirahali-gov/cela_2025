@@ -100,6 +100,15 @@ return new class extends Migration {
             $table->string('APL_Prof_Rec_2_Phone', 50)->nullable();
                         
             $table->string('APL_Accepts', 20)->nullable();
+
+            $table->string('APL_Nationality', 40)->nullable();  
+            $table->smallInteger('APL_CSEC_Passes')->nullable();
+            $table->string('APL_Programme', 20)->nullable();
+            $table->string('APL_Attend', 1)->nullable();
+            $table->text('APL_Attend_Explanation')->nullable();
+            $table->text('APL_Experience_Details')->nullable();
+            $table->string('APL_Contact_Consent', 1)->nullable();
+            $table->string('APL_Subscribe', 1)->nullable();
             
             $table->timestamps();
         });
