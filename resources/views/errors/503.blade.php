@@ -4,7 +4,7 @@
         <div class="row justify-content-center">
             <div class="col-4">
                 <a href="https://www.msya.gov.tt">
-                    <img src="{{ asset('images/msya-logo.png') }}" alt="GAPP Logo" class="img-fluid ">
+                    <img src="{{ asset('images/msya-logo.png') }}" alt="MSYA Logo" class="img-fluid ">
                 </a>
                 <hr>
                 <h1 class="text-2xl font-bold">Application is closed</h1>
