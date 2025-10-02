@@ -583,17 +583,17 @@ class ApplicationController extends Controller
                 'Authorization' => 'Bearer ' . env('SWIFT_TOKEN'), 
             ])->post('https://swift.msya.gov.tt/api/general', [
                 'email' => $application->APL_Email,
-                'title' => 'Geriatric Adolescent Partnership Programme 2025 Management System',
-                'subject' => 'Geriatric Adolescent Partnership Programme 2025 APPLICATION',
+                'title' => 'Creative Faces 2025',
+                'subject' => 'Creative Faces 2025 APPLICATION',
                 'name' => $name,
                 'body' => 'This email serves to inform you that your application has been received.',
-                'app' => 'GAPP 2025',
+                'app' => 'CREATIVE FACES 2025',
                 'header' => "Thank you {$name}",
                 'fromAddress' => 'youthinfo.msya@gov.tt',
                 'fromName' => 'MSYA',
             ]);
 
-            return redirect("https://msya.gov.tt/thank-you/?FirstName={$name}&ProgrammeName=GERIATRIC%20ADOLESCENT%20PARTNERSHIP%20PROGRAMME%202025%20");
+            return redirect("https://msya.gov.tt/thank-you/?FirstName={$name}&ProgrammeName=CREATIVE%20FACES%202025%20");
 
         } catch (Exception $e) {
             DB::rollBack();
