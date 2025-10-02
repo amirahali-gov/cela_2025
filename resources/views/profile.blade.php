@@ -1,7 +1,6 @@
 @extends('Layouts.committee-layout')
 @section('content')
     <div class="container-fluid">
-        {{-- @dump($uploads->where('UPD_Desc', 'File_Birth_Certificate')->first()->UPD_FilePath) --}}
         <!-- Scores Section -->
         @if ($score !== null)
             <section class="mb-4">
@@ -120,90 +119,53 @@
                             <p class="mb-0">{{ $applicant->APL_Gender === 'F' ? 'Female' : 'Male' }}</p>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label class="form-label fw-bold">Date of Birth</label>
-                            <p class="mb-0">{{ $applicant->APL_DOB }}</p>
+                            <label class="form-label fw-bold">Email Address</label>
+                            <p class="mb-0">{{ $applicant->APL_Email }}</p>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label class="form-label fw-bold">Age</label>
-                            <p class="mb-0">{{ $applicant->APL_Age }}</p>
+                            <label class="form-label fw-bold">Contact Number</label>
+                            <p class="mb-0">{{ $applicant->APL_PPhone }}</p>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Contact Number</label>
-                            <p class="mb-0">{{ $applicant->APL_PPhone }}</p>
-                        </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">Alternative Contact Number</label>
                             <p class="mb-0">{{ $applicant->APL_APhone ?? 'Not provided' }}</p>
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Email</label>
-                            <p class="mb-0">{{ $applicant->APL_Email }}</p>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Trinidad & Tobago National</label>
-                            <p class="mb-0">{{ $applicant->APL_TT == 'N' ? 'No' : 'Yes' }}</p>
+                            <label class="form-label fw-bold">Date of Birth</label>
+                            <p class="mb-0">{{ $applicant->APL_DOB }}</p>
                         </div>
                     </div>
 
                     <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Nationality</label>
+                            <p class="mb-0">{{ $applicant->APL_Nationality ?? 'Not provided' }}</p>
+                        </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">Form of Identification</label>
                             <p class="mb-0">
                                 @if ($applicant->APL_ID_TYP == 'NID')
-                                    National ID
+                                    National Identification Card
                                 @elseif ($applicant->APL_ID_TYP == 'PP')
                                     Passport
-                                @elseif ($applicant->APL_ID_TYP == 'DP')
-                                    Driver's Permit
+                                @else
+                                    {{ $applicant->APL_ID_TYP ?? 'Not provided' }}
                                 @endif
                             </p>
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">Identification Number</label>
                             <p class="mb-0">{{ $applicant->APL_ID_Number }}</p>
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Birth Certificate Pin</label>
+                            <label class="form-label fw-bold">Birth Certificate Pin Number</label>
                             <p class="mb-0">{{ $applicant->APL_BIRTH_PIN }}</p>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Preferred Region for Placement</label>
-                            <p class="mb-0">{{ $applicant->APL_Service_Area }}</p>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">NIS Information</label>
-                            <p class="mb-0">
-                                @if ($applicant->APL_Has_NIS == 'Y')
-                                    Yes - NIS Number: {{ $applicant->APL_NIS_Number }}
-                                @else
-                                    No
-                                @endif
-                            </p>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Bank Account</label>
-                            <p class="mb-0">
-                                @if ($applicant->APL_BANK == 'Y')
-                                    Yes<br>
-                                    Institution:
-                                    {{ $applicant->APL_BANK_Name == 'OTH' ? $applicant->APL_BANK_Other : $applicant->BANK_Desc }}<br>
-                                    Account: {{ $applicant->APL_BANK_ACC }}
-                                @else
-                                    No
-                                @endif
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -219,7 +181,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Highest Level of Education</label>
+                            <label class="form-label fw-bold">Highest Level of Education (Completed)</label>
                             <p class="mb-0">{{ $applicant->APL_HLOE ?? 'Not specified' }}</p>
                         </div>
                         <div class="col-md-6 mb-3">
@@ -230,42 +192,12 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Number of CSEC Passes</label>
+                            <p class="mb-0">{{ $applicant->APL_CSEC_Passes ?? 'Not provided' }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">Employment Status</label>
-                            <p class="mb-0">
-                                {{ $applicant->APL_Employment_Status == 'Y' ? 'Employed/Self-Employed' : 'Not Employed' }}
-                            </p>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Job Title</label>
-                            <p class="mb-0">{{ $applicant->APL_Job_Title ?? 'Not provided' }}</p>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Employment Type</label>
                             <p class="mb-0">{{ $applicant->APL_Employment_Type ?? 'Not provided' }}</p>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Two CXC Passes or More</label>
-                            <p class="mb-0">{{ $applicant->APL_2_CXC_Passes == 'Y' ? 'Yes' : 'No' }}</p>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Possesses a Certificate Reflecting Competencies in Geriatric
-                                Care or Professional Healthcare</label>
-                            <p class="mb-0">{{ $applicant->APL_Geriatric_Certif == 'Y' ? 'Yes' : 'No' }}</p>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">From which institution did you receive your
-                                certification?</label>
-                            <p class="mb-0">{{ $applicant->APL_Graduate ?? 'Not provided' }}</p>
                         </div>
                     </div>
                 </div>
@@ -276,75 +208,60 @@
         <section class="mb-4">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">Programme Interest & Availability</h4>
+                    <h4 class="mb-0">Programme Interest</h4>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Available Weekdays (8AM-4PM) Mondays to Fridays (except
-                                Public Holidays)</label>
-                            <p class="mb-0">{{ $applicant->APL_Available_Weekdays == 'N' ? 'No' : 'Yes' }}</p>
+                            <label class="form-label fw-bold">I am interested in attending this course:</label>
+                            <p class="mb-0">{{ $applicant->APL_Programme ?? 'Not provided' }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Are you able to attend all scheduled sessions of the course?</label>
+                            <p class="mb-0">{{ $applicant->APL_Attend == 'Y' ? 'Yes' : 'No' }}</p>
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Please outline your experience in providing Geriatric Care
-                            Services</label>
-                        <p class="mb-0">{{ $applicant->APL_Experience }}</p>
+                    @if ($applicant->APL_Attend == 'N' && $applicant->APL_Attend_Explanation)
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label class="form-label fw-bold">If no, please explain:</label>
+                                <p class="mb-0">{{ $applicant->APL_Attend_Explanation }}</p>
+                            </div>
+                        </div>
+                    @endif
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Do you have any experience in make up?</label>
+                            <p class="mb-0">{{ $applicant->APL_Experience == 'Y' ? 'Yes' : 'No' }}</p>
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Motivation & Expectations - Briefly describe why you are
-                            interested in joining the National Service GAPP.</label>
-                        <p class="mb-0">{{ $applicant->APL_Motivation_Expectations ?? 'Not provided' }}</p>
-                    </div>
+                    @if ($applicant->APL_Experience == 'Y' && $applicant->APL_Experience_Details)
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label class="form-label fw-bold">Experience Details:</label>
+                                <p class="mb-0">{{ $applicant->APL_Experience_Details }}</p>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </section>
 
-        <!-- Feedback Section -->
+        <!-- Consent & Additional Information Section -->
         <section class="mb-4">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">Feedback & Future Plans</h4>
+                    <h4 class="mb-0">Consent & Additional Information</h4>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">After completing the 6 months National Service GAPP, do you
-                                intend to</label>
-                            <p class="mb-0">
-                                @if ($applicant->APL_Post_Training_Intent == 'Seek employment')
-                                    Seek employment in Geriatric Care
-                                @elseif($applicant->APL_Post_Training_Intent == 'Continue studies')
-                                    Continue studies in Healthcare
-                                @elseif($applicant->APL_Post_Training_Intent == 'Start business')
-                                    Start your own caregiving business
-                                @elseif($applicant->APL_Post_Training_Intent == 'Other')
-                                    Other: {{ $applicant->APL_Post_Training_Other ?? 'Not specified' }}
-                                @elseif($applicant->APL_Post_Training_Intent)
-                                    {{ $applicant->APL_Post_Training_Intent }}
-                                @else
-                                    Not provided
-                                @endif
-                            </p>
+                            <label class="form-label fw-bold">I consent to be contacted by the Ministry of Sport and Youth Affairs Monitoring & Evaluation Unit up to two (2) years after programme completion for tracer studies.</label>
+                            <p class="mb-0">{{ $applicant->APL_Contact_Consent == 'Y' ? 'Yes' : 'No' }}</p>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">If other, please specify</label>
-                            <p class="mb-0">{{ $applicant->APL_Post_Training_Other ?? 'Not provided' }}</p>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">I consent to be contacted by the Ministry of Sport and Youth
-                                Affairs' Monitoring & Evaluation Unit up to two (2) years after programme completion for
-                                tracer studies.</label>
-                            <p class="mb-0">
-                                {{ $applicant->APL_Consent_Followup == 'Y' ? 'Yes' : ($applicant->APL_Consent_Followup == 'N' ? 'No' : 'Not provided') }}
-                            </p>
-                        </div>
-
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">How did you find out about the programme?</label>
                             <p class="mb-0">
@@ -369,120 +286,20 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">If other, please specify</label>
-                            <p class="mb-0">{{ $applicant->APL_How_Found_Other ?? 'Not provided' }}</p>
+                            <label class="form-label fw-bold">Would you like to subscribe to the Ministry's mailing list for updates on upcoming projects and programmes?</label>
+                            <p class="mb-0">{{ $applicant->APL_Subscribe == 'Y' ? 'Yes' : 'No' }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">I agree to have my photographs or images used by the MSYA for promotion on all media pages.</label>
+                            <p class="mb-0">{{ $applicant->APL_Photo_Consent == 'Y' ? 'Yes' : 'No' }}</p>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Would you like to be added to the Ministry of Sport and Youth
-                                Affairs' mailing list?</label>
-                            <p class="mb-0">
-                                {{ $applicant->APL_Subscribe_Mailing == 'Y' ? 'Yes' : ($applicant->APL_Subscribe_Mailing == 'N' ? 'No' : 'Not provided') }}
-                            </p>
+                        <div class="col-12 mb-3">
+                            <label class="form-label fw-bold">Declaration Acceptance</label>
+                            <p class="mb-0">{{ $applicant->APL_Accepts == 'Y' ? 'Applicant has read and accepted the declaration that the information provided is true and correct' : 'Not accepted' }}</p>
                         </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Consent to use your photo for promotional purposes</label>
-                            <p class="mb-0">
-                                {{ $applicant->APL_Photo_Consent == 'Y' ? 'Yes' : ($applicant->APL_Photo_Consent == 'N' ? 'No' : 'Not provided') }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- References Section -->
-        <section class="mb-4">
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Professional Recommender 1</h5>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Name:</strong> {{ $applicant->APL_Prof_Rec_FName }}
-                                {{ $applicant->APL_Prof_Rec_LName }}</p>
-                            <p><strong>Designation:</strong> {{ $applicant->APL_Prof_Rec_Designation }}</p>
-                            <p><strong>Phone:</strong> {{ $applicant->APL_Prof_Rec_Phone }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Professional Recommender 2</h5>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Name:</strong> {{ $applicant->APL_Prof_Rec_2_FName ?? 'Not provided' }}
-                                {{ $applicant->APL_Prof_Rec_2_LName ?? '' }}</p>
-                            <p><strong>Designation:</strong> {{ $applicant->APL_Prof_Rec_2_Designation ?? 'Not provided' }}
-                            </p>
-                            <p><strong>Phone:</strong> {{ $applicant->APL_Prof_Rec_2_Phone ?? 'Not provided' }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Documents Section -->
-        <section class="mb-4">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="mb-0">Required Documents</h4>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        @php
-                            $documentTypes = [
-                                'File_Birth_Certificate' => 'Birth Certificate',
-                                'File_National_ID' => 'National Identification',
-                                'File_Proof_Address' => 'Proof of Address',
-                                'File_Authorization_Letter' => 'Letter of Authorization',
-                                'File_Owner_ID' => 'Owner\'s ID',
-                                'File_Geriatric_Certificate' => 'Geriatric Care Certificate',
-                                'Files_Academic_Certificates' => 'Academic Certificates',
-                                'File_Character_Certificate' => 'Police Certificate of Character',
-                                'File_Recommender_Statement_1' => 'Recommender Statement 1',
-                                'File_Recommender_Statement_2' => 'Recommender Statement 2',
-                                'File_NIS_Card' => 'NIS Card',
-                            ];
-                        @endphp
-
-                        @foreach ($documentTypes as $type => $label)
-                            <div class="col-md-6 col-lg-4 mb-3">
-                                <div class="border rounded p-3">
-                                    <h6 class="fw-bold mb-2">{{ $label }}</h6>
-                                    @if ($uploads !== null)
-                                        @php $hasFiles = false; @endphp
-                                        @foreach ($uploads as $upload)
-                                            @if ($upload->UPD_Desc === $type)
-                                                @php $hasFiles = true; @endphp
-                                                <div class="mb-1">
-                                                    <a href="{{ asset($upload->UPD_FilePath) }}" target="_blank"
-                                                        class="text-decoration-none">
-                                                        <small>{{ $upload->UPD_DocName }}</small>
-                                                    </a>
-                                                </div>
-                                            @endif
-                                        @endforeach
-                                        @if (!$hasFiles)
-                                            <small class="text-muted">No documents uploaded</small>
-                                        @endif
-                                    @else
-                                        <small class="text-muted">No documents uploaded</small>
-                                    @endif
-
-                                    @if ($type === 'Certificate of Character' && $applicant->APL_CRN != null)
-                                        <div class="mt-2">
-                                            <small><strong>Receipt Number:</strong> {{ $applicant->APL_CRN }}</small>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        @endforeach
                     </div>
                 </div>
             </div>
@@ -530,8 +347,8 @@
                                     </tbody>
                                 </table>
                             </div>
+                        @endif
                     </div>
-                    @endif
 
                     @if ($chairman === 0)
                         <!-- Add Comments -->
@@ -540,11 +357,7 @@
                             <form action="{{ route('comment') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $applicant->APL_ID }}">
-                                <textarea name="comment" id="comment" class="form-control" rows="4">
-@if ($userComment !== null)
-{{ $userComment->COM_Comment }}
-@endif
-</textarea>
+                                <textarea name="comment" id="comment" class="form-control" rows="4">@if ($userComment !== null){{ $userComment->COM_Comment }}@endif</textarea>
                                 <div class="mt-2">
                                     <button type="submit" class="btn btn-primary">Submit Comment</button>
                                 </div>
@@ -562,29 +375,29 @@
                                 <input type="hidden" name="id" value="{{ $applicant->APL_ID }}">
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Evidence of Interest in Agriculture (0-6)</label>
-                                        <input required type="number" name="score_interest" id="score" type="text" class="form-control"
+                                        <label class="form-label">Evidence of Interest in Make Up Artistry (0-6)</label>
+                                        <input required type="number" name="score_interest" id="score" class="form-control"
                                             value="{{ $score->SCR_Score ?? '' }}"
                                             {{ $applicant->APL_Dup === 'Y' || $applicant->APL_Scored === 'Y' ? 'disabled' : '' }}>
                                         <span class="text-danger"><em id="scoreError"></em></span>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Social Situation (0-5)</label>
-                                        <input required type="number" name="score_social" id="score2" type="text" class="form-control"
+                                        <input required type="number" name="score_social" id="score2" class="form-control"
                                             value="{{ $score->SCR_Score_2 ?? '' }}"
                                             {{ $applicant->APL_Dup === 'Y' || $applicant->APL_Scored === 'Y' ? 'disabled' : '' }}>
                                         <span class="text-danger"><em id="score2Error"></em></span>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Education (0-6)</label>
-                                        <input required type="number" name="score_education" id="score3" type="text" class="form-control"
+                                        <input required type="number" name="score_education" id="score3" class="form-control"
                                             value="{{ $score->SCR_Score_3 ?? '' }}"
                                             {{ $applicant->APL_Dup === 'Y' || $applicant->APL_Scored === 'Y' ? 'disabled' : '' }}>
                                         <span class="text-danger"><em id="score3Error"></em></span>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Personal Attributes (0-3)</label>
-                                        <input required type="number" name="score_attributes" id="score4" type="text"
+                                        <input required type="number" name="score_attributes" id="score4"
                                             class="form-control" value="{{ $score->SCR_Score_4 ?? '' }}"
                                             {{ $applicant->APL_Dup === 'Y' || $applicant->APL_Scored === 'Y' ? 'disabled' : '' }}>
                                         <span class="text-danger"><em id="score4Error"></em></span>
@@ -595,61 +408,61 @@
                                         {{ $applicant->APL_Dup === 'Y' || $applicant->APL_Scored === 'Y' ? 'disabled' : '' }}>
                                         Submit Score
                                     </button>
+                                </div>
                             </form>
+                        @endif
+
+                        @if ($chairman != 0)
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Judge</th>
+                                            <th>Interest in Agriculture</th>
+                                            <th>Social Situation</th>
+                                            <th>Education</th>
+                                            <th>Personal Attributes</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if ($calculateScores !== null)
+                                            @foreach ($calculateScores as $com)
+                                                <tr>
+                                                    @if ($chairman === 1)
+                                                        <td><em>{{ $com->LGN_Name }}</em></td>
+                                                        <td><input class="chairmanScore form-control" type="text"
+                                                            value="{{ $com->SCR_Score }}" id="{{ $com->LGN_ID }}Score" required>
+                                                        </td>
+                                                        <td><input class="chairmanScore form-control" type="text"
+                                                            value="{{ $com->SCR_Score_2 }}"
+                                                            id="{{ $com->LGN_ID }}Score2" required></td>
+                                                        <td><input class="chairmanScore form-control" type="text"
+                                                            value="{{ $com->SCR_Score_3 }}"
+                                                            id="{{ $com->LGN_ID }}Score3" required></td>
+                                                        <td><input class="chairmanScore form-control" type="text"
+                                                            value="{{ $com->SCR_Score_4 }}"
+                                                            id="{{ $com->LGN_ID }}Score4" required></td>
+                                                        <td>
+                                                            <button class="btn btn-primary btn-sm"
+                                                                onClick="changeScores('{{ $com->APL_ID }}','{{ $com->LGN_ID }}')"
+                                                                {{ $applicant->APL_Dup === 'Y' || $applicant->APL_Scored === 'Y' ? 'disabled' : '' }}>
+                                                                Change Scores
+                                                            </button>
+                                                        </td>
+                                                    @endif
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endif
+
                     </div>
-                    @endif
-
-                    @if ($chairman != 0)
-                        <div class="table-responsive">
-                            <table class="table table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Judge</th>
-                                        <th>Interest in Agriculture</th>
-                                        <th>Social Situation</th>
-                                        <th>Education</th>
-                                        <th>Personal Attributes</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if ($calculateScores !== null)
-                                        @foreach ($calculateScores as $com)
-                                            <tr>
-                                                @if ($chairman === 1)
-                                                    <td><em>{{ $com->LGN_Name }}</em></td>
-                                                    <td><input class="chairmanScore form-control" type="text"
-                                                        value="{{ $com->SCR_Score }}" id="{{ $com->LGN_ID }}Score" required>
-                                                    </td>
-                                                    <td><input class="chairmanScore form-control" type="text"
-                                                        value="{{ $com->SCR_Score_2 }}"
-                                                        id="{{ $com->LGN_ID }}Score2" required></td>
-                                                    <td><input class="chairmanScore form-control" type="text"
-                                                        value="{{ $com->SCR_Score_3 }}"
-                                                        id="{{ $com->LGN_ID }}Score3" required></td>
-                                                    <td><input class="chairmanScore form-control" type="text"
-                                                        value="{{ $com->SCR_Score_4 }}"
-                                                        id="{{ $com->LGN_ID }}Score4" required></td>
-                                                    <td>
-                                                        <button class="btn btn-primary btn-sm"
-                                                            onClick="changeScores('{{ $com->APL_ID }}','{{ $com->LGN_ID }}')"
-                                                            {{ $applicant->APL_Dup === 'Y' || $applicant->APL_Scored === 'Y' ? 'disabled' : '' }}>
-                                                            Change Scores
-                                                        </button>
-                                                    </td>
-                                                @endif
-                                            </tr>
-                                        @endforeach
-                                    @endif
-                                </tbody>
-                            </table>
-                        </div>
-                    @endif
-
                 </div>
             </div>
-    </div>
-    </section>
+        </section>
 
     </div>
 @endsection
