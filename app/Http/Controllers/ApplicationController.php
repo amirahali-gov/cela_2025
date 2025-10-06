@@ -34,6 +34,8 @@ class ApplicationController extends Controller
     
     private $validatorRules = [
 
+        'APL_Will_Bring_Mirror' => 'required|string',
+        
         // Personal Information
         'APL_FName' => 'required|string|max:255',
         'APL_MName' => 'nullable|string|max:255',
@@ -41,6 +43,7 @@ class ApplicationController extends Controller
         'APL_Address_1' => 'required|string|max:255',
         'APL_Address_2' => 'required|string|max:255',
         'APL_Address_3' => 'required|string',
+        'APL_Address_3_Other' => 'required_if:APL_Address_3,Other|nullable|string|max:100',
         'APL_Gender' => 'required|string',
         'APL_DOB' => 'required|date',
         'APL_Age' => 'nullable|integer', // From form-fields.txt
@@ -48,100 +51,39 @@ class ApplicationController extends Controller
         'APL_APhone' => 'nullable|string|max:20',
         'APL_Email' => 'required|email|max:255',
         'APL_Nationality' => 'required|string|max:255', // From form-fields.txt
-        // 'APL_TT' => 'required|string', // NOT IN form-fields.txt
         
         // Identification
         'APL_ID_TYP' => 'required|string',
         'APL_ID_Number' => 'required|string|max:50',
         'APL_BIRTH_PIN' => 'required|string|max:50',
-        // 'APL_Has_NIS' => 'required|string|max:1', // NOT IN form-fields.txt
-        // 'APL_NIS_Number' => 'required_if:APL_Has_NIS,Y|nullable|string|max:55', // NOT IN form-fields.txt
-        
-        // Banking Information
-        // 'APL_BANK_Name' => 'required_if:APL_Has_Bank_Account,Y|string|max:255',
-        // 'APL_BANK_Other' => 'required_if:APL_BANK,Other|string|max:255',
-        // 'APL_BANK_ACC' => 'required_if:APL_Has_Bank_Account,Y|string|max:50',
-        // 'APL_Has_Bank_Account' => 'required|string|max:1', // NOT IN form-fields.txt
-        
-        // Location/Service
-        // 'APL_Service_Area' => 'required|string', // NOT IN form-fields.txt
         
         // Education and Qualifications
         'APL_HLOE' => 'required|string',
         'APL_HLOE_Specify' => 'required_if:APL_HLOE,Technical/Vocational|nullable|string|max:100',
         'APL_CSEC_Passes' => 'required_unless:APL_HLOE,Primary|nullable|integer', // From form-fields.txt
-        // 'APL_2_CXC_Passes' => 'required|string|max:1', // NOT IN form-fields.txt (has APL_CSEC_Passes instead)
-        // 'APL_Geriatric_Certif' => 'required|string|max:1', // NOT IN form-fields.txt
-        // 'APL_Graduate' => 'required_if:APL_Geriatric_Certif,Y|nullable|string|max:255', // NOT IN form-fields.txt
         
         // Employment
-        // 'APL_Employment_Status' => 'required|string|max:1', // NOT IN form-fields.txt
-        // 'APL_Job_Title' => 'required_if:APL_Employment_Status,Y|nullable|string|max:255', // NOT IN form-fields.txt
         'APL_Employment_Type' => 'required|string', // Modified from conditional requirement
         
-        // Programme and Attendance
+        // Programme Interest
         'APL_Programme' => 'required|string|max:255', // From form-fields.txt
         'APL_Attend' => 'required|string|max:255', // From form-fields.txt
         'APL_Attend_Explanation' => 'nullable|string|max:1000', // From form-fields.txt
-        
-        // Availability and Experience
-        // 'APL_Available_Weekdays' => 'required|string', // NOT IN form-fields.txt
         'APL_Experience' => 'required|string|max:1000',
         'APL_Experience_Details' => 'nullable|string|max:1000', // From form-fields.txt
-        
-        // Training and Motivation
-        // 'APL_Motivation_Expectations' => 'required|string|max:1000', // NOT IN form-fields.txt
-        // 'APL_Post_Training_Intent' => 'required|string', // NOT IN form-fields.txt
-        // 'APL_Post_Training_Other' => 'required_if:APL_Post_Training_Intent,Other|nullable|string|max:500', // NOT IN form-fields.txt
+        'APL_Num_Experience_Years' => 'required_if:APL_Experience,Y|nullable|string',
+        'APL_Future_Plans' => 'required|string|max:1000',
         
         // Consent and Communication
         'APL_Contact_Consent' => 'required|string', // From form-fields.txt
-        // 'APL_Consent_Followup' => 'required|string', // NOT IN form-fields.txt (has APL_Contact_Consent instead)
         'APL_How_Found_Programme' => 'required|string',
         'APL_How_Found_Other' => 'required_if:APL_How_Found_Programme,Other|nullable|string|max:100',
         'APL_Subscribe' => 'required|string', // From form-fields.txt
-        // 'APL_Subscribe_Mailing' => 'required|string', // NOT IN form-fields.txt (has APL_Subscribe instead)
         'APL_Photo_Consent' => 'required|string',
         
-        // References
-        // 'APL_Prof_Rec_FName' => 'required|string|max:255', // NOT IN form-fields.txt
-        // 'APL_Prof_Rec_LName' => 'required|string|max:255', // NOT IN form-fields.txt
-        // 'APL_Prof_Rec_Designation' => 'required|string|max:255', // NOT IN form-fields.txt
-        // 'APL_Prof_Rec_Phone' => 'required|string|max:20', // NOT IN form-fields.txt
-        // 'APL_Prof_Rec_2_FName' => 'required|string|max:255', // NOT IN form-fields.txt
-        // 'APL_Prof_Rec_2_LName' => 'required|string|max:255', // NOT IN form-fields.txt
-        // 'APL_Prof_Rec_2_Designation' => 'required|string|max:255', // NOT IN form-fields.txt
-        // 'APL_Prof_Rec_2_Phone' => 'required|string|max:20', // NOT IN form-fields.txt
-        
-        // Character and Documentation
-        // 'APL_Character_Selection' => 'required|string|max:25', // NOT IN form-fields.txt
-        // 'APL_CRN' => 'required_if:APL_Character_Selection,CRN|nullable|string|max:20', // NOT IN form-fields.txt
-        // 'File_Character_Certificate' => 'required_if:APL_Character_Selection,COC|file', // NOT IN form-fields.txt
-        
         // File uploads
-        // 'File_Birth_Certificate' => 'required|file',
-        // 'File_National_ID' => 'required|file',
-        // 'File_Proof_Address' => 'required|file',
-        // 'File_Authorization_Letter' => 'nullable|file',
-        // 'File_Owner_ID' => 'nullable|file',
-        // 'File_Geriatric_Certificate' => 'nullable|file',
-        // 'Files_Academic_Certificates' => 'nullable|array|min:1',
-        // 'Files_Academic_Certificates.*' => 'file',
-        // 'File_Recommender_Statement_1' => 'required|file',
-        // 'File_Recommender_Statement_2' => 'required|file',
-        // 'File_NIS_Card' => 'nullable|file',
-
-        // 'File_Birth_Certificate' => 'required',
-        // 'File_National_ID' => 'required',
-        // 'File_Proof_Address' => 'required',
-        // 'File_Authorization_Letter' => 'nullable',
-        // 'File_Owner_ID' => 'nullable',
-        // 'File_Geriatric_Certificate' => 'nullable',
-        // 'Files_Academic_Certificates' => 'nullable|array|min:1',
-        // 'Files_Academic_Certificates.*' => 'file',
-        // 'File_Recommender_Statement_1' => 'required',
-        // 'File_Recommender_Statement_2' => 'required',
-        // 'File_NIS_Card' => 'nullable',
+        'File_Birth_Certificate' => 'required',
+        'File_National_ID' => 'required',
         
         // Final acceptance
         'APL_Accepts' => 'required|in:Y'
@@ -293,6 +235,10 @@ class ApplicationController extends Controller
             
             // Final acceptance
             'APL_Accepts' => 'Acceptance of Terms',
+
+            'APL_Will_Bring_Mirror' => 'Agreement to bring mirror',
+            'APL_Num_Experience_Years' => 'Number of Experience Years',
+            'APL_Future_Plans' => 'Future Plans',
         ];
     }
 
@@ -540,6 +486,9 @@ class ApplicationController extends Controller
             $application->APL_Cycle = 3;
             $application->APL_Area = Area::where('Area_CC', $validated['APL_Address_3'])->value('Board');
             $application->APL_Age = Carbon::parse($validated['APL_DOB'])->age;
+            if($validated['APL_Address_3'] == 'Other'){
+                $application->APL_Address_3 = ucwords(strtolower($validated['APL_Address_3_Other']));
+            }
             $application->save();
             $applicantID = $application->APL_ID;
 

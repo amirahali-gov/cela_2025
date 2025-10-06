@@ -36,7 +36,7 @@ class TextArea extends Component
         
         return <<<'blade'
             <x-form.wrapper>
-                <label for="{{$id}}">{{$displayLabel}} @if($required) <x-form.required-label /> @endif</label>
+                <label for="{{$id}}">@if($required) <x-form.required-label /> @endif{{$displayLabel}}</label>
                 <textarea class="form-control" type="{{$type}}" name="{{$id}}" id="{{$id}}" placeholder="{{$placeholder}}" value="{{ old($id) }}" rows={{$rows}}>{{ old($id) }}</textarea>
                 <x-form.input-error-message id="{{$id}}" />
             </x-form.wrapper>

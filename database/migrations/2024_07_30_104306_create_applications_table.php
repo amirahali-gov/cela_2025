@@ -109,6 +109,10 @@ return new class extends Migration {
             $table->text('APL_Experience_Details')->nullable();
             $table->string('APL_Contact_Consent', 1)->nullable();
             $table->string('APL_Subscribe', 1)->nullable();
+
+            $table->string('APL_Will_Bring_Mirror', 1)->nullable();
+            $table->string('APL_Num_Experience_Years', 30)->nullable();
+            $table->string('APL_Future_Plans')->nullable();
             
             $table->timestamps();
         });

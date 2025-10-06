@@ -4,7 +4,7 @@
         <div class="row justify-content-center">
             <div class="col-4">
                 <a href="https://www.msya.gov.tt">
-                    <img src="{{ asset('images/msya-logo.png') }}" alt="GAPP Logo" class="img-fluid ">
+                    <img src="{{ asset('images/msya-logo.png') }}" alt="MSYA Logo" class="img-fluid ">
                 </a>
                 <hr>
                 <h1 class="text-2xl font-bold">Application is closed</h1>
@@ -12,7 +12,7 @@
                     closed.
                     Please visit our <a
                         href="https://www.msya.gov.tt/our-programmes/gapp-geriatric-adolescent-partnership-programme/">website</a> or
-                    email us at <a href="mailto:info@mydns.gov.tt">info@mydns.gov.tt</a> for more information.</p>
+                    email us at <a href="mailto:info@msya.gov.tt">info@msya.gov.tt</a> for more information.</p>
             </div>
         </div>
     </div>
