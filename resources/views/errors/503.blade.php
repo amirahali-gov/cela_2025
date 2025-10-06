@@ -12,7 +12,7 @@
                     closed.
                     Please visit our <a
                         href="https://www.msya.gov.tt/our-programmes/gapp-geriatric-adolescent-partnership-programme/">website</a> or
-                    email us at <a href="mailto:info@mydns.gov.tt">info@mydns.gov.tt</a> for more information.</p>
+                    email us at <a href="mailto:info@msya.gov.tt">info@msya.gov.tt</a> for more information.</p>
             </div>
         </div>
     </div>

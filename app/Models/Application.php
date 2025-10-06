@@ -98,6 +98,10 @@ class Application extends Model
         'File_Recommender_Statement_2',
         'File_NIS_Card',
         'APL_Accepts',
+
+        'APL_Will_Bring_Mirror',
+        'APL_Num_Experience_Years',
+        'APL_Future_Plans',
         
         // Additional fields from form-fields.txt
         'APL_Nationality',
