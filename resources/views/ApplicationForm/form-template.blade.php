@@ -7,7 +7,7 @@
     <div id="background-panel-bottom"></div>
 
     <div id="application-form" class="container-fluid">
-        
+
         <div id="form-panel">
             <img src="https://apps.msya.gov.tt/images/GAPP-2025-Banner.jpg" alt="Logo" class="img-fluid w-100 mb-4">
             <section>
@@ -35,7 +35,7 @@
                 </ul> -->
 
                 <!-- <strong><p>You must complete the entire form for your application to be eligible (or considered) for selection.</p></strong><br> -->
-                
+
                 @if(session('submissionError'))
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     {{ session('submissionError') }}
@@ -178,7 +178,7 @@
 
                     {{-- 9. CONTACT NUMBER --}}
                     <x-form.text-input id="APL_PPhone" label="Contact Number" placeholder="868-123-4567" />
-                
+
 
                     {{-- 10. ALTERNATIVE CONTACT NUMBER --}}
                     <x-form.text-input id="APL_APhone" label="Alternative Contact Number" :required="false" placeholder="868-123-4567" />
@@ -251,9 +251,9 @@
                     <div x-data="{ APL_Post_Training_Intent: '{{ old('APL_Post_Training_Intent', '') }}' }">
                         <x-form.column-2>
                             <x-slot name="col1">
-                                <x-form.select 
-                                    id="APL_Post_Training_Intent" 
-                                    label="After completing the 6 months National Service GAPP, do you intend to:" 
+                                <x-form.select
+                                    id="APL_Post_Training_Intent"
+                                    label="After completing the 6 months National Service GAPP, do you intend to:"
                                     :options="[
                                         ['Seek employment in Geriatric Care', 'Seek employment'],
                                         ['Continue studies in Healthcare', 'Continue studies'],
@@ -266,11 +266,11 @@
 
                             <x-slot name="col2">
                                 <div x-show="APL_Post_Training_Intent === 'Other'" x-cloak>
-                                    <x-form.text-input 
-                                        id="APL_Post_Training_Other" 
-                                        label="If other, please specify" 
-                                        :required="false" 
-                                        :questionNumber="false" 
+                                    <x-form.text-input
+                                        id="APL_Post_Training_Other"
+                                        label="If other, please specify"
+                                        :required="false"
+                                        :questionNumber="false"
                                     />
                                 </div>
                             </x-slot>
@@ -284,9 +284,9 @@
                     <div x-data="{ APL_How_Found_Programme: '{{ old('APL_How_Found_Programme', '') }}' }">
                         <x-form.column-2>
                             <x-slot name="col1">
-                                <x-form.select 
-                                    id="APL_How_Found_Programme" 
-                                    label="How did you find out about the programme?" 
+                                <x-form.select
+                                    id="APL_How_Found_Programme"
+                                    label="How did you find out about the programme?"
                                     :options="[
                                         ['Social Media', 'Social Media'],
                                         ['Television/Radio/Newspaper advertisements', 'TV/Radio/News'],
@@ -298,14 +298,14 @@
                                 />
                             </x-slot>
 
-                            
+
                             <x-slot name="col2">
                                 <div x-show="APL_How_Found_Programme === 'Other'" x-cloak>
-                                    <x-form.text-input 
-                                        id="APL_How_Found_Other" 
-                                        label="If other, please specify" 
-                                        :required="false" 
-                                        :questionNumber="false" 
+                                    <x-form.text-input
+                                        id="APL_How_Found_Other"
+                                        label="If other, please specify"
+                                        :required="false"
+                                        :questionNumber="false"
                                     />
                                 </div>
                             </x-slot>
@@ -357,21 +357,21 @@
                     <x-form.file-input id="File_Authorization_Letter" label="Letter of Authorization" :required="false" />
 
                     <x-form.file-input id="File_Owner_ID" label="Owner’s ID" :required="false" />
-                    
+
                     <x-form.file-input id="File_Geriatric_Certificate" label="Certificate in Geriatric Care/Professional Healthcare" :required="false"/>
 
                     <x-form.multi-file-input id="Files_Academic_Certificates" label="Upload Your Academic Certificates Here." :required="false"/>
-                    
+
                     <div x-data="{ APL_Character_Selection: '{{ old('APL_Character_Selection', '') }}' }">
                         <x-form.radio id="APL_Character_Selection" label="Please select either Certificate of Character or the Receipt Number to upload." :options="[
                             ['Certificate of Character', 'COC'],
                             ['Certificate of Character Receipt Number', 'CRN']
                         ]" x-model="APL_Character_Selection" />
-                        
+
                         <div x-show="APL_Character_Selection === 'CRN'" x-cloak>
                             <x-form.text-input id="APL_CRN" label="Certificate of Character Receipt Number" :required="true" :questionNumber="false" />
                         </div>
-                        
+
                         <div x-show="APL_Character_Selection === 'COC'" x-cloak>
                             <x-form.file-input id="File_Character_Certificate" label="Certificate of Character (or Receipt from TTPS)" :questionNumber="false" :required="true" />
                         </div>
