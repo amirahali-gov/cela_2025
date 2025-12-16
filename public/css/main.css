@@ -37,6 +37,10 @@ html, body {
   /* clip-path: polygon(100% 0, 36% 0, 48% 100%, 100% 100%); */
 }
 
+#sub-h1 {
+
+}
+
 /* --- Form container & card --- */
 #application-form {
   position: relative;

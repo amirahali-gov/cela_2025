@@ -14,20 +14,49 @@
                 </div>
                 <section>
                     <div class="text-center">
-                        <h1>Creative Faces</h1>
-                        <h2>“Youth Empowerment Through Makeup Artistry”</h2>
+                        <h1 id="sub-h1">National Service Programme</h1>
+                        <h1 >Civic Engagement Leadership Academy</h1>
+                        <h1 id="sub-h1">CELA</h1><br><br>
+                        <h2>A call for application for The Civic Engagement Leadership Academy (CELA)</h2>
                     </div><br>
 
                     <div>
-                        <p class="text-justify">The <strong>Ministry of Sport and Youth Affairs</strong>, in partnership
-                            with <strong>Sacha Cosmetics Ltd.</strong>,
-                            invites young people to join a <strong>two-day introductory workshop in Makeup
-                                Artistry</strong>—a creative,
-                            hands-on experience focused on developing new skills and
-                            confidence under professional mentorship. Participants must bring a <strong>freestanding
-                                tabletop mirror</strong>
-                            for use during the
-                            training.</p>
+
+                        <p>
+                            The <strong>Civic Engagement Leadership Academy (CELA)</strong> is a Six (6) month national
+                            service
+                            initiative by the National Service Programme in the Ministry of Sport and Youth Affairs
+                            (MSYA) <strong>designed to cultivate responsible, ethical, and service oriented young
+                                leaders</strong>
+                            across Trinidad and Tobago. <br><br>
+
+                            <strong>Requirements:</strong>
+                        <ul>
+                            <li>18 - 35 years</li>
+                            <li> National of Trinidad and Tobago</li>
+                            <li>Evidence of foundational literacy skills, such as a School Leaving Certificate or an
+                                equivalent qualification.</li>
+                            <li>Applicants must be available to provide up to a maximum of 72 hours of volunteer service, to
+                                be completed within a period not exceeding three (3) months, following the successful
+                                completion of the programme’s training component.</li>
+                            <li>All applicants must have access to a desktop or laptop computer with a reliable internet
+                                connection. The use of mobile phones is not recommended</li>
+                        </ul>
+
+                        <strong>Applicants must submit the following documents when applying:</strong><br><br>
+                        <ul>
+                            <li>Copy of Birth Certificate</li>
+                            <li>Copy of National Identification (ID Card, Passport)</li>
+                            <li>Two (2) Letters of Recommendation</li>
+                            <li>Proof of Address- Utility Bill OR Top section of Bank Statement (If the bill is not in
+                                your name, provide a Letter of Authorization from the homeowner, plus a copy of
+                                their ID, Passport or Driver's Permit. Accepted utility bills include Cable, Electricity,
+                                Water, Phone (landlines), and on premise Internet.)</li>
+                        </ul>
+                        </p>
+
+                        <p><strong>You must complete the entire form for your application to be eligible (or considered) for
+                                selection.</strong></p>
                     </div>
 
                     @if (session('submissionError'))
@@ -110,18 +139,38 @@
                         {{-- 4. GENDER --}}
                         <x-form.radio id="APL_Gender" label="Gender" :options="[['Male', 'M'], ['Female', 'F']]" />
 
-                        {{-- 5. DATE OF BIRTH --}}
+                        {{-- 5. EMAIL ADDRESS --}}
+                        <x-form.text-input id="APL_Email" label="Email Address" />
+
+                        {{-- 6. CONTACT NUMBER --}}
+                        <x-form.text-input id="APL_PPhone" label="Contact Number" placeholder="868-123-4567" />
+
+
+                        {{--  ALTERNATIVE CONTACT NUMBER --}}
+                        <x-form.text-input id="APL_APhone" label="Alternative Contact Number" :required="false"
+                            placeholder="868-123-4567" :questionNumber="false" />
+
+                        {{-- 7. DATE OF BIRTH --}}
                         <x-form.date-input id="APL_DOB" label="Date of Birth" />
 
-                        {{-- 6. AGE (Auto-calculated) --}}
-                        {{-- <div class="mb-4">
-                        <label for="APL_Age" class="form-label fw-bold">Age (Auto-calculated)</label>
-                        <input type="text" id="APL_Age" class="form-control" readonly>
-                    </div> --}}
 
-                        {{-- 7. EDUCATION & SKILLS BACKGROUND --}}
-                        <x-form.section-h1 id="EducationSkills">Education & Skills Background</x-form.section-h1>
+                        {{-- 8. I AM A NATIONAL OF TRINIDAD AND TOBAGO --}}
+                        <x-form.radio id="APL_National" label="I am a national of Trinidad and Tobago" :options="$yesNoOptions" />
 
+                        {{-- 9. IDENTIFICATION --}}
+                        <x-form.select id="APL_ID_TYP"
+                            label="Please provide the number for one of the following forms of identification."
+                            :options="[['National Identification Card', 'NID'], ['Passport', 'PP']]" />
+
+                        <x-form.text-input id="APL_ID_Number" label="Identification Number" :placeholder="20261612005"
+                            :questionNumber="false" />
+
+                        {{-- 10. BIRTH CERTIFICATE PIN NUMBER --}}
+                        <x-form.text-input id="APL_Birth_Pin" label="Birth Certificate Pin Number" :placeholder="45845154484" />
+
+                        <x-form.section-h1 id="PersonalInfo">Education & SKills Background</x-form.section-h1>
+
+                        {{-- 11. HIGHEST LEVEL OF EDUCATION (COMPLETED) --}}
                         <div x-data="{ education: '{{ old('APL_HLOE', '') }}' }">
                             <x-form.column-2>
                                 <x-slot name="col1">
@@ -144,7 +193,7 @@
                             </x-form.column-2>
                         </div>
 
-                        {{-- 8. Employment Status --}}
+                        {{-- 12. Employment Status --}}
                         {{-- Changes required fields from false to true --}}
                         <div x-data="{ APL_Employment_Status: '{{ old('APL_Employment_Status', '') }}' }">
                             <x-form.radio id="APL_Employment_Status" label="Are you Employed/Self-Employed?"
@@ -155,115 +204,72 @@
                                     <x-form.text-input id="APL_Job_Title" name="APL_Job_Title"
                                         label="Job Title (if applicable)" :required="true" :questionNumber="false" />
                                     <x-form.radio id="APL_Employment_Type" label="Employment Type" :options="[
-                                        ['Full-Time', 'Full-Time'],
-                                        ['Part-Time', 'Part-Time'],
+                                        ['Employed full time', 'Employed full time'],
+                                        ['Employed part time', 'Employed part time'],
                                         ['Self-Employed (Business Owner)', 'Self-Employed'],
-                                        ['Both Employed and Business Owner', 'Both'],
+                                        ['Both Employed and Business Owner', 'Both Employed and Business Owner'],
+                                        ['Student', 'Student'],
+                                        ['Unemployed', 'Unemployed'],
                                     ]"
                                         :required="true" :questionNumber="false" x-model="APL_Employment_Type" />
                                 </div>
                             </div>
                         </div>
 
-                        {{-- 9. CONTACT NUMBER --}}
-                        <x-form.text-input id="APL_PPhone" label="Contact Number" placeholder="868-123-4567" />
-
-
-                        {{-- 10. ALTERNATIVE CONTACT NUMBER --}}
-                        <x-form.text-input id="APL_APhone" label="Alternative Contact Number" :required="false"
-                            placeholder="868-123-4567" />
-
-                        {{-- 11. EMAIL ADDRESS --}}
-                        <x-form.text-input id="APL_Email" label="Email Address" />
-
-                        {{-- 12. IDENTIFICATION --}}
-                        <x-form.select id="APL_ID_TYP"
-                            label="Please provide the number for one of the following forms of identification."
-                            :options="[['National Identification Card', 'NID'], ['Passport', 'PP']]" />
-
-                        <x-form.text-input id="APL_ID_Number" label="Identification Number" :questionNumber="false" />
-
-                        {{-- 13. BIRTH CERTIFICATE PIN NUMBER --}}
-                        <x-form.text-input id="APL_BIRTH_PIN" label="Birth Certificate Pin Number" />
-
-                        {{-- 14. DO YOU HAVE A NATIONAL INSURANCE NUMBER (NIS)? --}}
-                        <div x-data="{ APL_Has_NIS: '{{ old('APL_Has_NIS', '') }}' }">
-                            <x-form.radio id="APL_Has_NIS" label="Do you have a National Insurance Number (NIS)?"
-                                :options="$yesNoOptions" x-model="APL_Has_NIS" />
-
-                            <div x-show="APL_Has_NIS == 'Y'" x-cloak class="mt-4">
-                                <x-form.text-input id="APL_NIS_Number" name="APL_NIS_Number"
-                                    label="Please enter your National Insurance Number (NIS)" :required="true"
-                                    :questionNumber="false" />
-                            </div>
-                        </div>
-
-                        {{-- 15. DO YOU HAVE A BANK ACCOUNT? --}}
-                        <x-form.radio id="APL_Has_Bank_Account" label="Do you have a Bank Account?" :options="$yesNoOptions" />
-
-                        {{-- 16. WHAT IS YOUR PREFERRED REGION FOR PLACEMENT? --}}
-                        <x-form.select id="APL_Service_Area" label="What is your preferred region for placement?"
+                        {{-- 13. WHICH FACILITY DO YOU PREFER TO ATTEND YOUR IN-PERSON TRAINING SESSIONS? --}}
+                        <x-form.radio id="APL_Training_Session"
+                            label="In person training sessions will be conducted at Youth Development Centre (YDC) facilities as part of the programme’s structured learning component.<br><br><strong>Which facility do you prefer to attend your in-person training sessions?</strong>"
                             :options="[
-                                ['Northern Region (Curepe to Carenage)', 'Northern Region (Curepe to Carenage)'],
-                                ['St Patrick Region (Icacos to Penal)', 'St Patrick Region (Icacos to Penal)'],
-                                ['Victoria (San Fernando to Princes Town)', 'Victoria (San Fernando to Princess Town)'],
-                                ['North East (St Augustine to Arima)', 'North East (St Augustine to Arima)'],
-                                ['East (Cumuto to Rio Claro)', 'East (Cumuto to Rio Claro)'],
-                                [
-                                    'Central (Caroni/Chaguanas/Couva to Claxton Bay)',
-                                    'Central (Caroni/Chaguanas/Couva to Claxton Bay)',
-                                ],
+                                ['St. James Youth Development Centre', 'St. James Youth Development Centre'],
+                                ['Los Bajos Youth Development Centre', 'Los Bajos Youth Development Centre'],
+                                ['California Youth Devel    							opment Centre', 'California Youth Development Centre'],
+                                ['National Racquet Centre, Tacarigua', 'National Racquet Centre, Tacarigua'],
+                                ['Tobago (Location to be confirmed)', 'Tobago'],
                             ]" />
 
-                        {{-- 17. I AM A NATIONAL OF TRINIDAD AND TOBAGO --}}
-                        <x-form.radio id="APL_TT" label="I am a national of Trinidad and Tobago." :options="$yesNoOptions" />
-
-                        {{-- 18. I POSSESS TWO CSEC PASSES OR MORE --}}
-                        <x-form.radio id="APL_2_CXC_Passes" label="I possess two (2) CXC/CSEC passes or more."
+                        {{-- 14. PLEASE INDICATE WHETHER YOU HOLD ANY CERTIFICATES OR DOCUMENTATION CONFIRMING VOLUNTEER INITIATIVE UNDERTAKE IN PREVIOUS YEARS --}}
+                        <x-form.radio id="APL_Volunteer_Certification"
+                            label="Please indicate whether you hold any certificates or documentation confirming volunteer initiatives undertaken in previous years"
                             :options="$yesNoOptions" />
-
-                        {{-- 19. I POSSESS A CERTIFICATE REFLECTING COMPETENCIES IN GERIATRIC CARE OR PROFESSIONAL HEALTHCARE --}}
-                        <div x-data="{ APL_Geriatric_Certif: '{{ old('APL_Geriatric_Certif', '') }}' }">
-                            <x-form.radio id="APL_Geriatric_Certif"
-                                label="I possess a certificate reflecting competencies in Geriatric Care or Professional Healthcare."
-                                :options="$yesNoOptions" x-model="APL_Geriatric_Certif" />
-
-                            <div x-show="APL_Geriatric_Certif == 'Y'" x-cloak class="mt-4">
-                                <x-form.text-input id="APL_Graduate"
-                                    label="From which institution did you receive your certification?" :required="true"
-                                    :questionNumber="false" />
-                            </div>
-                        </div>
 
                         <x-form.section-h1>Programme Interest</x-form.section-h1>
 
-                        {{-- 21. I AM AVAILABLE TO PROVIDE GERIATRIC CARE BETWEEN THE HOURS 8:00 AM - 4:00 PM MONDAYS TO FRIDAYS --}}
-                        <x-form.radio id="APL_Available_Weekdays"
-                            label="I am available to provide Geriatric Care between the hours 8:00 AM - 4:00 PM Mondays to Fridays (except Public Holidays), if successful."
-                            :options="$yesNoOptions" />
+                        {{-- 15. ARE YOU AVAILABLE TO ATTEND ALL SCHEDULED SESSIONS OF THE COURSE? --}}
+                        <x-form.radio id="APL_Attendance"
+                            label=" Are you able to attend all scheduled sessions of the course?" :options="$yesNoOptions" />
 
-                        {{-- 22. PLEASE OUTLINE YOUR EXPERIENCE IN PROVIDING GERIATRIC CARE SERVICES --}}
-                        <x-form.text-area id="APL_Experience"
-                            label="Please outline your experience in providing Geriatric Care Services."
+                        {{-- 16. I AM AVAILABLE TO PROVIDE UP TO A MAXIMUM OF 72 HOURS OF VOLUNTEER SERVICE --}}
+                        <x-form.radio id="APL_Can_Volunteer"
+                            label=" Are you able to attend all scheduled sessions of the course?" :options="$yesNoOptions" />
+
+                        {{-- 17. PLEASE OUTLINE YOUR EXPERIENCE IN VOLUNTEERISM --}}
+                        <x-form.text-area id="APL_Experience" label="Please outline your experience in Volunteerism."
                             :required="true" />
 
-                        {{-- 23. MOTIVATION & EXPECTATIONS --}}
+                        {{-- 18. MOTIVATION & EXPECTATIONS --}}
                         <x-form.text-area id="APL_Motivation_Expectations"
-                            label="Motivation & Expectations - Briefly describe why you are interested in joining the National Service GAPP."
+                            label="Motivation & Expectations - Briefly describe why you are interested in joining the National Service CELA Programme."
                             :required="true" />
 
                         <x-form.section-h1>Feedback</x-form.section-h1>
 
-                        {{-- 24. POST-TRAINING INSTRUCTIONS --}}
+                        {{-- 19. FEEDBACK --}}
                         <div x-data="{ APL_Post_Training_Intent: '{{ old('APL_Post_Training_Intent', '') }}' }">
                             <x-form.column-2>
                                 <x-slot name="col1">
                                     <x-form.select id="APL_Post_Training_Intent"
-                                        label="After completing the 6 months National Service GAPP, do you intend to:"
+                                        label="After completing the National Service CELA Programme, do you intend to:"
                                         :options="[
-                                            ['Seek employment in Geriatric Care', 'Seek employment'],
-                                            ['Continue studies in Healthcare', 'Continue studies'],
-                                            ['Start your own caregiving business', 'Start business'],
+                                            ['Seek employment in full-time or part-time', 'Seek employment'],
+                                            [
+                                                'Continue your academic career (University, Technical/Vocational training, short courses)',
+                                                'Continue studies',
+                                            ],
+                                            [
+                                                ' Startyour ownorganization (Community-Based Organisation or Non-Governmental Organisation)',
+                                                'Start organisation',
+                                            ],
+                                            ['Continue volunteering initiatives', 'Continue volunteering'],
                                             ['Other', 'Other'],
                                         ]" x-model="APL_Post_Training_Intent" />
                                 </x-slot>
@@ -277,12 +283,22 @@
                             </x-form.column-2>
                         </div>
 
-                        {{-- 25. CONSENT FOR LONG-TERM FOLLOW-UP --}}
+                        {{-- 20. HOW CONFIDENT ARE YOU IN ACHIEVING YOUR ACADEMIC/PROFESSIONAL GOAL WITHIN THE NEXT 12 MONTHS? --}}
+                        <x-form.radio id="APL_Volunteer_Confidence"
+                            label="How confident are you in achieving your academic/professional goal within the next 12 months?"
+                            :options="[
+                                ['Very Confident', 'Very Confident'],
+                                ['Confident', 'Confident'],
+                                ['Not Confident', 'Not Confident'],
+                                ['Unsure', 'Unsure'],
+                            ]" />
+
+                        {{-- 21. CONSENT FOR LONG-TERM FOLLOW-UP --}}
                         <x-form.radio id="APL_Consent_Followup"
                             label="I consent to be contacted by the Ministry of Sport and Youth Affairs' Monitoring & Evaluation Unit up to two (2) years after programme completion for tracer studies."
                             :options="$yesNoOptions" />
 
-                        {{-- 26. HOW DID YOU FIND OUT ABOUT THE PROGRAMME? --}}
+                        {{-- 2. HOW DID YOU FIND OUT ABOUT THE PROGRAMME? --}}
                         <div x-data="{ APL_How_Found_Programme: '{{ old('APL_How_Found_Programme', '') }}' }">
                             <x-form.column-2>
                                 <x-slot name="col1">
@@ -308,49 +324,58 @@
                         </div>
 
 
-                        {{-- 27. Would you like to subscribe to the ministry's mailing list --}}
+                        {{-- 23. Would you like to subscribe to the ministry's mailing list --}}
                         <x-form.radio id="APL_Subscribe_Mailing"
                             label="Would you like to subscribe to the Ministry's mailing list for updates on upcoming projects and programmes?"
                             :options="$yesNoOptions" />
 
-                        {{-- 28. I agree to have my photographs or images used by the MSYA --}}
+                        {{-- 24. I agree to have my photographs or images used by the MSYA --}}
                         <x-form.radio id="APL_Photo_Consent"
-                            label="I agree to have my photographs or images used by the MSYA for promotion of the National Service GAPP."
+                            label="I agree to have my photographs or images used by the MSYA for promotion of the National Service CELA Programme."
                             :options="$yesNoOptions" />
 
                         <x-form.section-h1>Recommender Information</x-form.section-h1>
 
-                        {{-- 29-31. PROFESSIONAL RECOMMENDER 1 --}}
+                        {{-- 25. PROFESSIONAL RECOMMENDER 1 --}}
                         <x-form.column-2>
                             <x-slot name="col1">
-                                <x-form.text-input id="APL_Prof_Rec_FName"
-                                    label="First Name of Professional Recommender 1" />
+                                <x-form.text-input id="APL_Rec1_FName" label="First Name of Professional Recommender 1"
+                                    value="{{ old('APL_Rec1_FName') }}" />
                             </x-slot>
                             <x-slot name="col2">
-                                <x-form.text-input id="APL_Prof_Rec_LName" label="Last Name of Professional Recommender 1"
+                                <x-form.text-input id="APL_Rec1_LName" label="Last Name of Professional Recommender 1"
                                     :questionNumber="false" />
                             </x-slot>
                         </x-form.column-2>
-                        <x-form.text-input id="APL_Prof_Rec_Designation"
-                            label="Designation of Professional Recommender 1" />
-                        <x-form.text-input id="APL_Prof_Rec_Phone" label="Contact Number of Professional Recommender 1"
+
+                        {{-- 26. RECOMMENDER DESIGNATION --}}
+                        <x-form.text-input id="APL_Rec1_Designation" label="Designation of Professional Recommender 1"
                             placeholder="868-123-4567" />
 
-                        {{-- 32-34. PROFESSIONAL RECOMMENDER 2 --}}
+                        {{-- 27. RECOMMENDER CONTACT NUMBER --}}
+                        <x-form.text-input id="APL_Rec1_Phone" label="Contact Number of Professional Recommender 1"
+                            placeholder="868-123-4567" />
+
+                        {{-- 28. PROFESSIONAL RECOMMENDER 2 --}}
                         <x-form.column-2>
                             <x-slot name="col1">
-                                <x-form.text-input id="APL_Prof_Rec_2_FName"
-                                    label="First Name of Professional Recommender 2" />
+                                <x-form.text-input id="APL_Rec2_FName" label="First Name of Professional Recommender 2"
+                                    value="{{ old('APL_Rec2_FName') }}" />
                             </x-slot>
                             <x-slot name="col2">
-                                <x-form.text-input id="APL_Prof_Rec_2_LName"
-                                    label="Last Name of Professional Recommender 2" :questionNumber="false" />
+                                <x-form.text-input id="APL_Rec2_LName" label="Last Name of Professional Recommender 2"
+                                    :questionNumber="false" />
                             </x-slot>
                         </x-form.column-2>
-                        <x-form.text-input id="APL_Prof_Rec_2_Designation"
-                            label="Designation of Professional Recommender 2" />
-                        <x-form.text-input id="APL_Prof_Rec_2_Phone" label="Contact Number of Professional Recommender 2"
+
+                        {{-- 29. RECOMMENDER DESIGNATION --}}
+                        <x-form.text-input id="APL_Rec2_Designation" label="Designation of Professional Recommender 2"
                             placeholder="868-123-4567" />
+
+                        {{-- 30. RECOMMENDER CONTACT NUMBER --}}
+                        <x-form.text-input id="APL_Rec2_Phone" label="Contact Number of Professional Recommender 2"
+                            placeholder="868-123-4567" />
+
 
                         <x-form.section-h1>Document Uploads</x-form.section-h1>
 
@@ -368,68 +393,12 @@
 
                         <x-form.file-input id="File_Owner_ID" label="Owner’s ID" :required="false" />
 
-                        <x-form.file-input id="File_Geriatric_Certificate"
-                            label="Certificate in Geriatric Care/Professional Healthcare" :required="false" />
-
                         <x-form.multi-file-input id="Files_Academic_Certificates"
                             label="Upload Your Academic Certificates Here." :required="false" />
-
-                        <div x-data="{ APL_Character_Selection: '{{ old('APL_Character_Selection', '') }}' }">
-                            <x-form.radio id="APL_Character_Selection"
-                                label="Please select either Certificate of Character or the Receipt Number to upload."
-                                :options="[
-                                    ['Certificate of Character', 'COC'],
-                                    ['Certificate of Character Receipt Number', 'CRN'],
-                                ]" x-model="APL_Character_Selection" />
-
-                            <div x-show="APL_Character_Selection === 'CRN'" x-cloak>
-                                <x-form.text-input id="APL_CRN" label="Certificate of Character Receipt Number"
-                                    :required="true" :questionNumber="false" />
-                            </div>
-
-                            <div x-show="APL_Character_Selection === 'COC'" x-cloak>
-                                <x-form.file-input id="File_Character_Certificate"
-                                    label="Certificate of Character (or Receipt from TTPS)" :questionNumber="false"
-                                    :required="true" />
-                            </div>
-                        </div>
 
                         <x-form.file-input id="File_Recommender_Statement_1" label="Recommender Statement 1" />
 
                         <x-form.file-input id="File_Recommender_Statement_2" label="Recommender Statement 2" />
-
-
-
-                        {{-- Optional Documents --}}
-                        <x-form.file-input id="File_NIS_Card" label="National Insurance Card (Optional)"
-                            :required="false" />
-
-                        <x-form.wrapper>
-                            <h1 class="fw-bold text-center">NOTE</h1>
-                            <hr>
-                            <p class="text-justify">
-                                Participants must be willing to sign a Participation Agreement and work to meet the learning
-                                objectives and requirements of the training. This form and information collected within is
-                                Confidential and intended for use by the Ministry of Sport and Youth Affairs. Your
-                                information will remain Private and Confidential and will not be used for other purposes
-                                other than the above mentioned.
-                            </p>
-                            <p class="text-justify">
-                                I hereby declare that the information given in this application is true and correct to the
-                                best of my knowledge and belief. If any information given in this application proves to be
-                                false or incorrect, I accept the consequences of automatic rejection of the submission and
-                                that I may be liable for any breach of the applicable Laws of the Republic of Trinidad and
-                                Tobago.
-                            </p>
-                        </x-form.wrapper>
-
-                        <x-form.radio id="APL_Accepts" label="I have read and accept the above" :options="$yesNoOptions" />
-
-                        <x-form.wrapper>
-                            <div class="d-grid gap-2 col-3 mx-auto">
-                                <input id="submit-button" type="submit" class="btn btn-danger" />
-                            </div>
-                        </x-form.wrapper>
                     </form>
                 </section>
             </div>

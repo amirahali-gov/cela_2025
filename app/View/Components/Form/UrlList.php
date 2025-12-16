@@ -33,7 +33,7 @@ class UrlList extends Component
         <x-form.wrapper>
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label for="{{$id}}" class="fw-bold">{{$displayLabel}} @if($required) <x-form.required-label /> @endif</label>
+                    <label for="{{$id}}" class="fw-bold">{!! $displayLabel !!} @if($required) <x-form.required-label /> @endif</label>
 
                     <!-- Add URL button on the left and input on the right -->
                     <div class="input-group">

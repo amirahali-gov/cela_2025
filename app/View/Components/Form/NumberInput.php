@@ -40,7 +40,7 @@ class NumberInput extends Component
                     <div class="col-12">
                         <label for="{{$id}}" class="fw-bold">
                             @if($required) <x-form.required-label /> @endif
-                            {{$displayLabel}}
+                            {!! $displayLabel !!}
                         </label>
                     </div>
                     <!-- Input field taking 6 columns -->
