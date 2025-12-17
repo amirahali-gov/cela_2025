@@ -116,15 +116,15 @@ class ApplicationController extends Controller
         /* =======================
         | File Uploads
         ======================= */
-        // 'File_Birth_Certificate'        => 'required|file',
-        // 'File_National_ID'              => 'required|file',
-        // 'File_Proof_Address'            => 'required|file',
+        'File_Birth_Certificate'        => 'required|file',
+        'File_National_ID'              => 'required|file',
+        'File_Proof_Address'            => 'required|file',
 
-    //     'File_Authorization_Letter'     => 'nullable|file',
-    //     'File_Owner_ID'                 => 'nullable|file',
-    //     'Files_Academic_Certificates'   => 'nullable',
-    //     'File_Recommender_Statement_1'  => 'required|file',
-    //     'File_Recommender_Statement_2'  => 'required|file',
+        'File_Authorization_Letter'     => 'nullable|file',
+        'File_Owner_ID'                 => 'nullable|file',
+        'Files_Academic_Certificates'   => 'nullable',
+        'File_Recommender_Statement_1'  => 'required|file',
+        'File_Recommender_Statement_2'  => 'required|file',
     ];
 
 
