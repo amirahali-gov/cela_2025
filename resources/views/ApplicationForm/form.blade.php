@@ -15,7 +15,7 @@
                 <section>
                     <div class="text-center">
                         <h1 id="sub-h1">National Service Programme</h1>
-                        <h1 >Civic Engagement Leadership Academy</h1>
+                        <h1>Civic Engagement Leadership Academy</h1>
                         <h1 id="sub-h1">CELA</h1><br><br>
                         <h2>A call for application for The Civic Engagement Leadership Academy (CELA)</h2>
                     </div><br>
@@ -266,7 +266,7 @@
                                                 'Continue studies',
                                             ],
                                             [
-                                                ' Startyour ownorganization (Community-Based Organisation or Non-Governmental Organisation)',
+                                                ' Start your ownorganization (Community-Based Organisation or Non-Governmental Organisation)',
                                                 'Start organisation',
                                             ],
                                             ['Continue volunteering initiatives', 'Continue volunteering'],
@@ -399,6 +399,13 @@
                         <x-form.file-input id="File_Recommender_Statement_1" label="Recommender Statement 1" />
 
                         <x-form.file-input id="File_Recommender_Statement_2" label="Recommender Statement 2" />
+
+                        <x-form.wrapper>
+                            <div class="d-grid gap-2 col-3 mx-auto">
+                                <input id="submit-button" type="submit" class="btn btn-success"
+                                    style="" />
+                            </div>
+                        </x-form.wrapper>
                     </form>
                 </section>
             </div>

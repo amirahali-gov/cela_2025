@@ -60,7 +60,21 @@ html, body {
 
 #submit-button {
     background-color: #990000 !important;
-    border-radius: 18px;
+    border-radius: 1.5rem;
+    color: white;
+    font-weight: bold;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform-origin: center bottom;
+}
+
+#save-draft {
+    background-color: #6c757d !important;
+    border-radius: 1.5rem;
     color: white;
     font-weight: bold;
     padding: 12px 30px;

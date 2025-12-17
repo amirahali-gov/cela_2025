@@ -28,6 +28,11 @@ Route::post('/apply', [ApplicationController::class, 'apply'])->name('applicatio
 Route::post('/upload', [ApplicationController::class, 'upload'])->name('application.upload');
 Route::delete('/files/{inputId}/{filename}', [ApplicationController::class, 'application.destroy']);
 
+
+// // Draft routes
+// Route::post('/application/save-draft', [ApplicationController::class, 'saveDraft'])->name('application.saveDraft');
+// Route::get('/application/resume/{token}', [ApplicationController::class, 'resume'])->name('application.resume');
+
 // Apply auth middleware to protected routes
 Route::prefix('committee')->group(function () {
     // Public routes (no auth required)
