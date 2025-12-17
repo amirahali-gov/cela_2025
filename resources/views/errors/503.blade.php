@@ -8,10 +8,10 @@
                 </a>
                 <hr>
                 <h1 class="text-2xl font-bold">Application is closed</h1>
-                <p class="text-lg">Thank you for your interest in the Creative Faces Application Programme. The application is currently
+                <p class="text-lg">Thank you for your interest in the Civic Engagement Leadership Academy 2025. The application is currently
                     closed.
                     Please visit our <a
-                        href="https://www.msya.gov.tt/our-programmes/gapp-geriatric-adolescent-partnership-programme/">website</a> or
+                        href="https://www.msya.gov.tt/our-programmes">website</a> or
                     email us at <a href="mailto:info@msya.gov.tt">info@msya.gov.tt</a> for more information.</p>
             </div>
         </div>
