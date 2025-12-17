@@ -125,6 +125,9 @@ class ApplicationController extends Controller
         // 'Files_Academic_Certificates'   => 'nullable',
         // 'File_Recommender_Statement_1'  => 'required|file',
         // 'File_Recommender_Statement_2'  => 'required|file',
+
+        // Final acceptance
+        'APL_Accepts' => 'required|in:Yes,No'
     ];
 
 
