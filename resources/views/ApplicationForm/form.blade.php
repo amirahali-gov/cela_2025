@@ -82,7 +82,7 @@
 
                 <section>
                     @php
-                        $yesNoOptions = [['Yes', 'Y'], ['No', 'N']];
+                        $yesNoOptions = [['Yes', 'Yes'], ['No', 'No']];
                         // Reset question counter for this form
                         \App\View\Components\Form\QuestionNumbering::reset();
                     @endphp
@@ -199,7 +199,7 @@
                             <x-form.radio id="APL_Employment_Status" label="Are you Employed/Self-Employed?"
                                 :options="$yesNoOptions" x-model="APL_Employment_Status" />
 
-                            <div x-show="APL_Employment_Status == 'Y'" x-cloak class="mt-4">
+                            <div x-show="APL_Employment_Status === 'Yes'" x-cloak class="mt-4">
                                 <div x-data="{ APL_Employment_Type: '{{ old('APL_Employment_Type', '') }}' }">
                                     <x-form.text-input id="APL_Job_Title" name="APL_Job_Title"
                                         label="Job Title (if applicable)" :required="true" :questionNumber="false" />
@@ -266,7 +266,7 @@
                                                 'Continue studies',
                                             ],
                                             [
-                                                ' Start your ownorganization (Community-Based Organisation or Non-Governmental Organisation)',
+                                                ' Start your own organization (Community-Based Organisation or Non-Governmental Organisation)',
                                                 'Start organisation',
                                             ],
                                             ['Continue volunteering initiatives', 'Continue volunteering'],
@@ -401,9 +401,29 @@
                         <x-form.file-input id="File_Recommender_Statement_2" label="Recommender Statement 2" />
 
                         <x-form.wrapper>
+                            <h1 class="fw-bold text-center">NOTE</h1>
+                            <hr>
+                            <p class="text-justify">
+                                learning objectives and requirements of the training programme. This form and
+                                information collected within is confidential and intended for use by the Ministry of
+                                Sport and Youth Affairs. Your information will remain Private and Confidential and
+                                will not be used for other purposes other than the above mentioned.
+                            </p>
+                            <p class="text-justify">
+                                I hereby declare that the information given in this application is true and correct to
+                                the best of my knowledge and belief. If any information given in this application
+                                proves to be false or incorrect, I accept the consequences of automatic rejection of
+                                the submission and I may be liable for any breach of the applicable laws of the
+                                Republic of Trinidad and Tobago.
+                            </p>
+                        </x-form.wrapper>
+
+                        <x-form.radio id="APL_Accepts" label="I have read and accept the above" :options="$yesNoOptions"
+                            :questionNumber="false" />
+
+                        <x-form.wrapper>
                             <div class="d-grid gap-2 col-3 mx-auto">
-                                <input id="submit-button" type="submit" class="btn btn-success"
-                                    style="" />
+                                <input id="submit-button" type="submit" class="btn btn-success" style="" />
                             </div>
                         </x-form.wrapper>
                     </form>

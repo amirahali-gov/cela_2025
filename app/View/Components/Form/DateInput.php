@@ -39,7 +39,7 @@ class DateInput extends Component
                     {{$displayLabel}}
                 </label>
                 <input class="form-control" type="date" name="{{$id}}" id="{{$id}}" placeholder="{{$placeholder}}" value="{{ old($id) }}">
-                <x-form.input-error-message id="{{$id}}" />
+                <x-form.input-error-message id="{{$id}}" /><br>
             </x-form.wrapper>
         blade;
     }

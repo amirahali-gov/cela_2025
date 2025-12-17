@@ -43,7 +43,7 @@ class ApplicationController extends Controller
 
         'APL_Address_1'    => 'required|string|max:255',
         'APL_Address_2'    => 'required|string|max:255',
-        'APL_Address_3'    => 'required|string',
+        'APL_Address_3'    => 'required|string|max:255',
 
         'APL_Gender'       => 'required|in:M,F',
         'APL_Email'        => 'required|email|max:255',
@@ -51,7 +51,7 @@ class ApplicationController extends Controller
         'APL_APhone'       => 'nullable|string|max:20',
 
         'APL_DOB'          => 'required|date',
-        'APL_National'     => 'required|in:Y,N',
+        'APL_National'     => 'required|in:Yes,No',
 
         /* =======================
         | Identification
@@ -69,18 +69,18 @@ class ApplicationController extends Controller
         /* =======================
         | Employment
         ======================= */
-        'APL_Employment_Status' => 'required|in:Y,N',
-        'APL_Job_Title'         => 'required_if:APL_Employment_Status,Y|nullable|string|max:255',
-        'APL_Employment_Type'   => 'required_if:APL_Employment_Status,Y|nullable|string|max:255',
+        'APL_Employment_Status' => 'required|in:Yes,No',
+        'APL_Job_Title'         => 'required_if:APL_Employment_Status,Yes|nullable|string|max:255',
+        'APL_Employment_Type'   => 'required_if:APL_Employment_Status,Yes|nullable|string|max:255',
 
         /* =======================
         | Programme & Training
         ======================= */
         'APL_Training_Session'        => 'required|string',
-        'APL_Volunteer_Certification' => 'required|in:Y,N',
+        'APL_Volunteer_Certification' => 'required|in:Yes,No',
 
-        'APL_Attendance'      => 'required|in:Y,N',
-        'APL_Can_Volunteer'   => 'required|in:Y,N',
+        'APL_Attendance'      => 'required|in:Yes,No',
+        'APL_Can_Volunteer'   => 'required|in:Yes,No',
 
         'APL_Experience'               => 'required|string|max:1000',
         'APL_Motivation_Expectations'  => 'required|string|max:1000',
@@ -92,13 +92,13 @@ class ApplicationController extends Controller
         'APL_Post_Training_Other'  => 'required_if:APL_Post_Training_Intent,Other|nullable|string|max:255',
 
         'APL_Volunteer_Confidence' => 'required|string',
-        'APL_Consent_Followup'     => 'required|in:Y,N',
+        'APL_Consent_Followup'     => 'required|in:Yes,No',
 
         'APL_How_Found_Programme'  => 'required|string',
         'APL_How_Found_Other'      => 'required_if:APL_How_Found_Programme,Other|nullable|string|max:255',
 
-        'APL_Subscribe_Mailing' => 'required|in:Y,N',
-        'APL_Photo_Consent'     => 'required|in:Y,N',
+        'APL_Subscribe_Mailing' => 'required|in:Yes,No',
+        'APL_Photo_Consent'     => 'required|in:Yes,No',
 
         /* =======================
         | Recommenders
@@ -116,15 +116,15 @@ class ApplicationController extends Controller
         /* =======================
         | File Uploads
         ======================= */
-        'File_Birth_Certificate'        => 'required|file',
-        'File_National_ID'              => 'required|file',
-        'File_Proof_Address'            => 'required|file',
+        // 'File_Birth_Certificate'        => 'required|file',
+        // 'File_National_ID'              => 'required|file',
+        // 'File_Proof_Address'            => 'required|file',
 
-        'File_Authorization_Letter'     => 'nullable|file',
-        'File_Owner_ID'                 => 'nullable|file',
-        'Files_Academic_Certificates'   => 'nullable',
-        'File_Recommender_Statement_1'  => 'required|file',
-        'File_Recommender_Statement_2'  => 'required|file',
+        // 'File_Authorization_Letter'     => 'nullable|file',
+        // 'File_Owner_ID'                 => 'nullable|file',
+        // 'Files_Academic_Certificates'   => 'nullable',
+        // 'File_Recommender_Statement_1'  => 'required|file',
+        // 'File_Recommender_Statement_2'  => 'required|file',
     ];
 
 
@@ -196,6 +196,9 @@ class ApplicationController extends Controller
             'Files_Academic_Certificates'  => 'Academic Certificates',
             'File_Recommender_Statement_1' => 'Recommender Statement 1',
             'File_Recommender_Statement_2' => 'Recommender Statement 2',
+
+            // Final acceptance 
+            'APL_Accepts' => 'Acceptance of Terms',
         ];
     }
 
@@ -341,16 +344,18 @@ class ApplicationController extends Controller
   
    public function apply(Request $request)
     {
-    $fileFields = [
-        'File_Birth_Certificate'       => 'single',
-        'File_National_ID'             => 'single',
-        'File_Proof_Address'           => 'single',
-        'File_Authorization_Letter'    => 'single',
-        'File_Owner_ID'                => 'single',
-        'Files_Academic_Certificates'  => 'multi',  // multiple files
-        'File_Recommender_Statement_1' => 'single',
-        'File_Recommender_Statement_2' => 'single',
-    ];
+
+        // dd($request->all());
+        $fileFields = [
+            'File_Birth_Certificate'       => 'single',
+            'File_National_ID'             => 'single',
+            'File_Proof_Address'           => 'single',
+            'File_Authorization_Letter'    => 'single',
+            'File_Owner_ID'                => 'single',
+            'Files_Academic_Certificates'  => 'multi',  // multiple files
+            'File_Recommender_Statement_1' => 'single',
+            'File_Recommender_Statement_2' => 'single',
+        ];
 
         $uploadedFilesSession = session()->get('uploadedFiles', []);
         $allInput = $request->all();
@@ -438,7 +443,7 @@ class ApplicationController extends Controller
                 }
             }
 
-            $application->APL_Cycle = 3;
+            $application->APL_Cycle = 1;
             $application->APL_Address_3 = Area::where('Area_CC', $validated['APL_Address_3'])->value('Board');
             $application->APL_Age = Carbon::parse($validated['APL_DOB'])->age;
             if($validated['APL_Address_3'] == 'Other'){
