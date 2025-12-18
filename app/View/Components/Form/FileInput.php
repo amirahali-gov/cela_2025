@@ -13,7 +13,7 @@ class FileInput extends Component
         public $label,
         public $accept = 'image/*,.pdf',
         public $required = true,
-        public $helperText = 'Please upload a valid image or PDF file. Size of image should not be more than 2MB.',
+        public $helperText = 'Please upload a valid image or PDF file. The image size should not exceed 2MB.',
         public $questionNumber = true
     ) {
         $this->displayLabel = QuestionNumbering::formatLabel($this->label, $this->questionNumber);

@@ -18,7 +18,7 @@ class MultiFileInput extends Component
         $label,
         $accept = 'image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx',
         $required = true,
-        $helperText = 'Please upload valid files. Maximum 2MB per file.',
+        $helperText = 'Please upload valid files. The image size should not exceed 2MB per file.',
         $questionNumber = true
     ) {
         $this->id = $id;

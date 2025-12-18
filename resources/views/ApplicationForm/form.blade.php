@@ -14,21 +14,31 @@
                 </div>
                 <section>
                     <div class="text-center">
-                        <h1 id="sub-h1">National Service Programme</h1>
-                        <h1>Civic Engagement Leadership Academy</h1>
+                        <h1 id="sub-h1">NATIONAL SERVICE PROGRAMME</h1>
+                        <h1>CIVIC ENGAGEMENT LEADERSHIP ACADEMY</h1>
                         <h1 id="sub-h1">CELA</h1><br><br>
-                        <h2>A call for application for The Civic Engagement Leadership Academy (CELA)</h2>
+                        <h2>A call for applications for The Civic Engagement Leadership Academy (CELA)</h2>
                     </div><br>
 
                     <div>
 
                         <p>
-                            The <strong>Civic Engagement Leadership Academy (CELA)</strong> is a Six (6) month national
-                            service
-                            initiative by the National Service Programme in the Ministry of Sport and Youth Affairs
-                            (MSYA) <strong>designed to cultivate responsible, ethical, and service oriented young
-                                leaders</strong>
-                            across Trinidad and Tobago. <br><br>
+                            The<strong> Civic Engagement Leadership Academy (CELA)</strong> is a flagship National Service
+                            initiative of the <strong>Ministry of Sport and Youth Affairs (MSYA)</strong> designed to
+                            develop a new generation
+                            of responsible, ethical, and service-oriented young leaders across Trinidad and Tobago.<br><br>
+                            CELA delivers a <strong>structured (6) six-month programme</strong> that integrates
+                            competency-based training,civic education, leadership development, and supervised volunteer
+                            service.
+                            Through <strong>a blended learning model</strong>, participants gain practical skills, civic
+                            awareness, and real-world experience
+                            that prepare them to contribute meaningfully to their communities and the nation.<br><br>
+                            By combining <strong>classroom learning, applied skill-building, and hands-on community
+                                engagement</strong>, CELA
+                            equips young people for <strong>active citizenship, community leadership, and improved
+                                employability</strong>,
+                            while fostering national pride, social responsibility, and a commitment to service.
+                            <br><br>
 
                             <strong>Requirements:</strong>
                         <ul>
@@ -51,7 +61,7 @@
                             <li>Proof of Address- Utility Bill OR Top section of Bank Statement (If the bill is not in
                                 your name, provide a Letter of Authorization from the homeowner, plus a copy of
                                 their ID, Passport or Driver's Permit. Accepted utility bills include Cable, Electricity,
-                                Water, Phone (landlines), and on premise Internet.)</li>
+                                Water, Phone (landlines), and on-premises Internet.)</li>
                         </ul>
                         </p>
 
@@ -204,8 +214,8 @@
                                     <x-form.text-input id="APL_Job_Title" name="APL_Job_Title"
                                         label="Job Title (if applicable)" :required="true" :questionNumber="false" />
                                     <x-form.radio id="APL_Employment_Type" label="Employment Type" :options="[
-                                        ['Employed full time', 'Employed full time'],
-                                        ['Employed part time', 'Employed part time'],
+                                        ['Employed full time', 'Employed full-time'],
+                                        ['Employed part time', 'Employed part-time'],
                                         ['Self-Employed (Business Owner)', 'Self-Employed'],
                                         ['Both Employed and Business Owner', 'Both Employed and Business Owner'],
                                         ['Student', 'Student'],
@@ -218,7 +228,7 @@
 
                         {{-- 13. WHICH FACILITY DO YOU PREFER TO ATTEND YOUR IN-PERSON TRAINING SESSIONS? --}}
                         <x-form.radio id="APL_Training_Session"
-                            label="In person training sessions will be conducted at Youth Development Centre (YDC) facilities as part of the programme’s structured learning component.<br><br><strong>Which facility do you prefer to attend your in-person training sessions?</strong>"
+                            label="In-person training sessions will be conducted at Youth Development Centre (YDC) facilities as part of the programme’s structured learning component.<br><br><strong>Which facility do you prefer to attend your in-person training sessions?</strong>"
                             :options="[
                                 ['St. James Youth Development Centre', 'St. James Youth Development Centre'],
                                 ['Los Bajos Youth Development Centre', 'Los Bajos Youth Development Centre'],
@@ -404,17 +414,18 @@
                             <h1 class="fw-bold text-center">NOTE</h1>
                             <hr>
                             <p class="text-justify">
-                                learning objectives and requirements of the training programme. This form and
-                                information collected within is confidential and intended for use by the Ministry of
-                                Sport and Youth Affairs. Your information will remain Private and Confidential and
-                                will not be used for other purposes other than the above mentioned.
+                                Participants must be willing to sign a Participation Agreement and to work to meet the
+                                training programme's learning objectives and requirements. This form and the information
+                                collected within are confidential and intended for use by the Ministry of Sport and Youth
+                                Affairs. Your information will remain Private and Confidential and will not be used for
+                                other purpose other than the above-mentioned.
                             </p>
                             <p class="text-justify">
-                                I hereby declare that the information given in this application is true and correct to
-                                the best of my knowledge and belief. If any information given in this application
-                                proves to be false or incorrect, I accept the consequences of automatic rejection of
-                                the submission and I may be liable for any breach of the applicable laws of the
-                                Republic of Trinidad and Tobago.
+                                I hereby declare that the information given in this application is true and correct to the
+                                best of my knowledge and belief. If any information provided in this application proves to
+                                be false or incorrect, I accept the consequences of automatic rejection of the submission,
+                                and I may be liable for any breach of the applicable laws of the Republic of Trinidad and
+                                Tobago.
                             </p>
                         </x-form.wrapper>
 

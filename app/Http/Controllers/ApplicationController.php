@@ -31,7 +31,7 @@ class ApplicationController extends Controller
 
         return view('ApplicationForm.form', compact('areas'));
     }
-    
+
     private $validatorRules = [
 
         /* =======================
@@ -127,7 +127,7 @@ class ApplicationController extends Controller
         // 'File_Recommender_Statement_2'  => 'required|file',
 
         // Final acceptance
-        'APL_Accepts' => 'required|in:Yes,No'
+        'APL_Accepts' => 'required|accepted',
     ];
 
 
@@ -200,8 +200,8 @@ class ApplicationController extends Controller
             'File_Recommender_Statement_1' => 'Recommender Statement 1',
             'File_Recommender_Statement_2' => 'Recommender Statement 2',
 
-            // Final acceptance 
-            'APL_Accepts' => 'Acceptance of Terms',
+            // Final acceptance
+            'APL_Accepts' => 'Terms and Conditions',
         ];
     }
 
@@ -265,7 +265,7 @@ class ApplicationController extends Controller
                         $upload['description'] ?? ''
                     );
 
-                    
+
                 }
             }
         }
@@ -292,7 +292,7 @@ class ApplicationController extends Controller
 
         return response()->json(['success' => true], 200);
     }
-    
+
 
     public function removeSessionFile(Request $request, $inputId, $filename)
     {
@@ -341,10 +341,10 @@ class ApplicationController extends Controller
         }
     }
 
-  
-  
-  
-  
+
+
+
+
    public function apply(Request $request)
     {
 
@@ -455,7 +455,7 @@ class ApplicationController extends Controller
             $application->save();
             $applicantID = $application->APL_ID;
 
-            
+
             $uploadData = [];
             foreach ($fileFields as $field => $type) {
                 if (isset($validated[$field])) {
@@ -464,7 +464,7 @@ class ApplicationController extends Controller
             }
             $this->uploadAllFiles($applicantID, $uploadData);
 
-  
+
             $textsLinks = json_decode($request->input('Texts_Links'), true);
             if (!empty($textsLinks)) {
                 $this->uploadAllLinks($applicantID, $textsLinks);
@@ -491,8 +491,8 @@ class ApplicationController extends Controller
 
             $name = "{$application->APL_FName} {$application->APL_LName}";
             Http::withHeaders([
-                'appID' => env('SWIFT_APP_ID'), 
-                'Authorization' => 'Bearer ' . env('SWIFT_TOKEN'), 
+                'appID' => env('SWIFT_APP_ID'),
+                'Authorization' => 'Bearer ' . env('SWIFT_TOKEN'),
             ])->post('https://swift.msya.gov.tt/api/general', [
                 'email' => $application->APL_Email,
                 'title' => 'Civic Engagement Leadership Academy 2025',
