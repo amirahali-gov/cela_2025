@@ -11,7 +11,7 @@ class Application extends Model
     use HasFactory;
 
     protected $primaryKey = 'APL_ID';
-    
+
     protected $table = 'applications';
 
         protected $fillable = [
@@ -37,9 +37,10 @@ class Application extends Model
         'APL_DOB',
         'APL_Age',
         'APL_National',
+        'APL_Birth_Pin',
         'APL_ID_TYP',
         'APL_ID_Number',
-        'APL_Birth_Pin',
+        'APL_CSEC_Passes',
         'APL_HLOE',
         'APL_HLOE_Specify',
         'APL_Employment_Status',
@@ -47,6 +48,7 @@ class Application extends Model
         'APL_Employment_Type',
         'APL_Training_Session',
         'APL_Volunteer_Certification',
+        'APL_Specialization',
         'APL_Attendance',
         'APL_Can_Volunteer',
         'APL_Experience',

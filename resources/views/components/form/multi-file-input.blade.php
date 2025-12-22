@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12">
                 <label for="{{ $id }}" class="fw-bold">
-                    {{ $displayLabel }}
+                    {!! $displayLabel !!}
                     @if($required) <x-form.required-label /> @endif
                 </label>
             </div>
@@ -23,7 +23,7 @@
             {{-- Combined files list --}}
             <ul class="list-group mt-2">
                 <template x-for="file in allFiles" :key="file.name">
-                    <li class="list-group-item d-flex justify-content-between align-items-center" 
+                    <li class="list-group-item d-flex justify-content-between align-items-center"
                         x-show="!deletedFiles.includes(file.name)">
                         <div class="d-flex align-items-center">
                             <img :src="file.icon" class="me-2" width="24" height="24">

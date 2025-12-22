@@ -29,7 +29,7 @@ class SectionH1 extends Component
         <style>
             h1.text-center.mt-4 {
                 font-size: 2rem;
-                color: #3f3f3fff;
+                color: #990000;
             }
         </style>
         blade;
