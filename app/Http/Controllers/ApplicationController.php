@@ -65,12 +65,10 @@ class ApplicationController extends Controller
         ======================= */
         'APL_HLOE'             => 'required|string',
         'APL_HLOE_Specify'     => 'required_if:APL_HLOE,Technical/Vocational|nullable|string|max:100',
-
+        'APL_CSEC_Passes'      => 'required|string',
         /* =======================
         | Employment
         ======================= */
-        'APL_Employment_Status' => 'required|in:Yes,No',
-        'APL_Job_Title'         => 'required_if:APL_Employment_Status,Yes|nullable|string|max:255',
         'APL_Employment_Type'   => 'required_if:APL_Employment_Status,Yes|nullable|string|max:255',
 
         /* =======================
@@ -78,6 +76,7 @@ class ApplicationController extends Controller
         ======================= */
         'APL_Training_Session'        => 'required|string',
         'APL_Volunteer_Certification' => 'required|in:Yes,No',
+        'APL_Specialization'         => 'required|string',
 
         'APL_Attendance'      => 'required|in:Yes,No',
         'APL_Can_Volunteer'   => 'required|in:Yes,No',
@@ -127,7 +126,7 @@ class ApplicationController extends Controller
         // 'File_Recommender_Statement_2'  => 'required|file',
 
         // Final acceptance
-        'APL_Accepts' => 'required|accepted',
+        'APL_Accepts' => 'required|in:Yes',
     ];
 
 
@@ -155,13 +154,13 @@ class ApplicationController extends Controller
             'APL_Birth_Pin'   => 'Birth Certificate PIN',
 
             /* Education & Employment */
+            'APL_CSEC_Passes'      => 'Number of CSEC Passes',
             'APL_HLOE'             => 'Highest Level of Education',
             'APL_HLOE_Specify'     => 'Education Specification',
-            'APL_Employment_Status'=> 'Employment Status',
-            'APL_Job_Title'        => 'Job Title',
             'APL_Employment_Type'  => 'Employment Type',
 
             /* Programme */
+            'APL_Specialization' => 'Programme Specialization',
             'APL_Training_Session'        => 'Preferred Training Facility',
             'APL_Volunteer_Certification' => 'Volunteer Certification',
             'APL_Attendance'              => 'Session Attendance',

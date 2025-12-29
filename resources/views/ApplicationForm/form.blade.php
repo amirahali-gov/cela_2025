@@ -217,15 +217,7 @@
                         </div>
 
                         {{-- Employment Status --}}
-                        <div x-data="{ APL_Employment_Status: '{{ old('APL_Employment_Status', '') }}' }">
-                            <x-form.radio id="APL_Employment_Status" label="Are you Employed/Self-Employed?"
-                                :options="$yesNoOptions" x-model="APL_Employment_Status" />
-
-                            <div x-show="APL_Employment_Status === 'Yes'" x-cloak class="mt-4">
-                                <div x-data="{ APL_Employment_Type: '{{ old('APL_Employment_Type', '') }}' }">
-                                    <x-form.text-input id="APL_Job_Title" name="APL_Job_Title"
-                                        label="Job Title (if applicable)" :required="true" :questionNumber="false" />
-                                    <x-form.radio id="APL_Employment_Type" label="Employment Type" :options="[
+                        <x-form.radio id="APL_Employment_Type" label="Employment Status" :options="[
                                         ['Employed full time', 'Employed full-time'],
                                         ['Employed part time', 'Employed part-time'],
                                         ['Self-Employed (Business Owner)', 'Self-Employed'],
@@ -234,13 +226,11 @@
                                         ['Unemployed', 'Unemployed'],
                                     ]"
                                         :required="true" :questionNumber="false" x-model="APL_Employment_Type" />
-                                </div>
-                            </div>
-                        </div>
+
 
                         {{-- WHICH FACILITY DO YOU PREFER TO ATTEND YOUR IN-PERSON TRAINING SESSIONS? --}}
                         <x-form.radio id="APL_Training_Session"
-                            label="Which facility would you prefer to attend your in-person training sessions?"
+                            label="In-person Training sessions will be conducted at Youth Development Centre (YDC) facilities as part of the programme’s structured learning component.<br><br>Which facility would you prefer to attend your in-person training sessions?"
                             :options="[
                                 ['St. James Youth Development Centre', 'St. James Youth Development Centre'],
                                 ['Los Bajos Youth Development Centre', 'Los Bajos Youth Development Centre'],
@@ -431,7 +421,7 @@
                         <x-form.file-input id="File_Authorization_Letter" label="Letter of Authorization"
                             :required="false" />
 
-                        <x-form.file-input id="File_Owner_ID" label="Owner’s ID" :required="false" />
+                        <x-form.file-input id="File_Owner_ID" label="Owner’s Identification" :required="false" />
 
                         <x-form.multi-file-input id="Files_Academic_Certificates"
                             label="Upload Your Academic Certificates Here. <span style='font-weight: 500 !important; color: #990000;'> (Multiple files are allowed)</span>" :required="false" />
