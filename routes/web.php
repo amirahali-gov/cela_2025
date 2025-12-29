@@ -16,17 +16,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::prefix(env('APP_NAME'))->group(function () {
-//     Route::get('/', [ApplicationController::class, 'getFormView'])->name('application.view');
-//     Route::post('/apply', [ApplicationController::class, 'apply'])->name('application.apply');
-//     Route::post('/upload', [ApplicationController::class, 'upload'])->name('application.upload');
-// });
+Route::prefix(env('APP_NAME'))->group(function () {
+    Route::get('/', [ApplicationController::class, 'getFormView'])->name('application.view');
+    Route::post('/test', [ApplicationController::class, 'test'])->name('application.test');
+    Route::post('/apply', [ApplicationController::class, 'apply'])->name('application.apply');
+    Route::post('/upload', [ApplicationController::class, 'upload'])->name('application.upload');
+    Route::delete('/files/{inputId}/{filename}', [ApplicationController::class, 'application.destroy']);
+});
 
-Route::get('/', [ApplicationController::class, 'getFormView'])->name('application.view');
-Route::post('/test', [ApplicationController::class, 'test'])->name('application.test');
-Route::post('/apply', [ApplicationController::class, 'apply'])->name('application.apply');
-Route::post('/upload', [ApplicationController::class, 'upload'])->name('application.upload');
-Route::delete('/files/{inputId}/{filename}', [ApplicationController::class, 'application.destroy']);
+/** Localhost Routes - to be ignored in production and development */
+
+// Route::get('/', [ApplicationController::class, 'getFormView'])->name('application.view');
+// Route::post('/test', [ApplicationController::class, 'test'])->name('application.test');
+// Route::post('/apply', [ApplicationController::class, 'apply'])->name('application.apply');
+// Route::post('/upload', [ApplicationController::class, 'upload'])->name('application.upload');
+// Route::delete('/files/{inputId}/{filename}', [ApplicationController::class, 'application.destroy']);
 
 
 // // Draft routes
@@ -42,7 +46,7 @@ Route::prefix('committee')->group(function () {
     Route::get('/login', [CommitteeController::class, 'index'])->name('committee.login')->middleware('guest');
     Route::post('/login', [CommitteeController::class, 'login'])->name('login');
     Route::post('/logout', [CommitteeController::class, 'logout'])->name('logout');
-    
+
     // Protected routes (auth required)
     Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [CommitteeController::class, 'dashboard'])->name('committee.dashboard');
