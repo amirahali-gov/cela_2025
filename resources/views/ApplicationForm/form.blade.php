@@ -95,6 +95,7 @@
 
                     @if ($errors->isNotEmpty())
                         <div id="error-summary" style="height: 200px; overflow-y:scroll;">
+                            <h4 class="alert-heading">Please fix the following errors:</h4>
                             @foreach ($errors->messages() as $key => $error)
                                 @php $error = $error[0]; @endphp
                                 <div class="alert alert-warning alert-dismissible" role="alert">
