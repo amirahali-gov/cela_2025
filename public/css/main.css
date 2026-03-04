@@ -1,5 +1,7 @@
 :root {
+    --cela-navy-light: #364ebb;
     --cela-navy: #2E3E84;
+    --cela-navy-dark: #25316a;
     --cela-orange: #F28C28;
     --cela-dark-orange: #e15e25;
     --cela-light-bg: #F4F6FA;
@@ -33,10 +35,11 @@ h1 {
   content: "";
   position: absolute;
   inset: -12vh 0 0 0;              /* overshoot so no gaps on tall screens */
+  /* background-color: var(--cela-navy); */
   background: linear-gradient(
       to bottom,
-      var(--cela-navy) 25%,
-      var(--cela-light-bg) 100%
+      var(--cela-navy-dark) 25%,
+      var(--cela-navy-light) 100%
   );
 }
 
@@ -48,11 +51,11 @@ h1 {
   content: "";
   position: absolute;
   inset: 0 0 -12vh 0;
-  background: linear-gradient(
+  /* background: linear-gradient(
       to bottom,
       var(--cela-navy) 7%,
       var(--cela-light-bg) 100%
-  );
+  ); */
 }
 
 #sub-h1 {
@@ -136,7 +139,7 @@ h1 {
 
 /* Headings inside the form card */
 #form-panel h1 {
-    font-weight: 700;
+    font-weight: 300
     margin-bottom: 0.25rem;
 }
 
@@ -177,7 +180,7 @@ body {
     min-height: 100%;
     background: var(--cela-light-bg); /* soft canvas behind the panels */
 }
-}
+
 
 h1.text-center.text-danger.mt-4 {
     font-size: 2rem;
@@ -260,13 +263,6 @@ td, th {
     margin-bottom: 1rem;
 }
 
-
-#background-panel-top{
-
-}
-#background-panel-bottom {
-
-}
 
 #form-panel {
     padding: 5%;
