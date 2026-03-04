@@ -10,14 +10,14 @@
 
             <div id="form-panel">
                 <div class="container text-center">
-                    <img src="{{ asset('images/msya-logo.png') }}" alt="Logo" class="img-fluid w-25 mb-4" />
+                    <img src="{{ asset('images/CELA_Logo.png') }}" alt="Logo" class="img-fluid w-25 mb-4" />
                 </div>
                 <section>
                     <div class="text-center">
                         <h1 id="sub-h1">NATIONAL SERVICE PROGRAMME</h1>
                         <h1>Civic Engagement Leadership Academy</h1>
                         <h1>CELA</h1><br><br>
-                        <h2>A call for applications for The Civic Engagement Leadership Academy (CELA)</h2>
+                        <h2><strong>A call for applications for The Civic Engagement Leadership Academy (CELA)</strong></h2>
                     </div><br>
 
                     <div>

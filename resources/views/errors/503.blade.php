@@ -8,7 +8,7 @@
                 </a>
                 <hr>
                 <h1 class="text-2xl font-bold">Application is closed</h1>
-                <p class="text-lg">Thank you for your interest in the Civic Engagement Leadership Academy 2025. The application is currently
+                <p class="text-lg">Thank you for your interest in the Civic Engagement Leadership Academy 2026. The application is currently
                     closed.
                     Please visit our <a
                         href="https://www.msya.gov.tt/our-programmes">website</a> or

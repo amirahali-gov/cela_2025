@@ -1,3 +1,10 @@
+:root {
+    --cela-navy: #2E3E84;
+    --cela-orange: #F28C28;
+    --cela-dark-orange: #e15e25;
+    --cela-light-bg: #F4F6FA;
+}
+
 /* --- Two-tone angled background --- */
 html, body {
 
@@ -10,17 +17,23 @@ html, body {
   pointer-events: none; /* purely decorative */
 }
 
+h1 {
+    color: var(--cela-dark-orange);
+}
+
 #background-panel-top {
   top: 0;
-  height: 20vh;
+  height: 30%;
 }
 #background-panel-top::before {
   content: "";
   position: absolute;
   inset: -12vh 0 0 0;              /* overshoot so no gaps on tall screens */
-  background: #000;             /* top color (tweak to taste) */
-  /* Angled slab from the left/top */
-  /* clip-path: polygon(0 0, 68% 0, 56% 100%, 0% 100%); */
+  background: linear-gradient(
+      to bottom,
+      var(--cela-navy) 25%,
+      var(--cela-light-bg) 100%
+  );
 }
 
 #background-panel-bottom {
@@ -30,15 +43,16 @@ html, body {
 #background-panel-bottom::before {
   content: "";
   position: absolute;
-  inset: 0 0 -12vh 0;              /* overshoot bottom */
-  background: #990000a1;
-  /* background: #d1a24a;             bottom color (tweak to taste) */
-  /* Angled slab from the right/bottom */
-  /* clip-path: polygon(100% 0, 36% 0, 48% 100%, 100% 100%); */
+  inset: 0 0 -12vh 0;
+  background: linear-gradient(
+      to bottom,
+      var(--cela-navy) 7%,
+      var(--cela-light-bg) 100%
+  );
 }
 
 #sub-h1 {
-    color: #990000;
+    color: var(--cela-navy);
 }
 
 /* --- Form container & card --- */
@@ -59,7 +73,7 @@ html, body {
 }
 
 #submit-button {
-    background-color: #990000 !important;
+    background-color: #2E3E84 !important;
     border-radius: 1.5rem;
     color: white;
     font-weight: bold;
@@ -157,7 +171,7 @@ body {
     font-family: "Nunito", sans-serif;
     margin: 0;
     min-height: 100%;
-    background: #f6f8fb; /* soft canvas behind the panels */
+    background: var(--cela-light-bg); /* soft canvas behind the panels */
 }
 }
 
