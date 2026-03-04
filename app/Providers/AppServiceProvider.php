@@ -30,5 +30,9 @@ class AppServiceProvider extends ServiceProvider
         // if(str_contains(env('APP_URL'), "http")) {
         //     URL::forceScheme('https');
         // }
+
+        if (app()->environment('production') || app()->environment('development')) {
+            URL::forceRootUrl('https://jedi.msya.gov.tt/' . env('APP_NAME'));
+        }
     }
 }
