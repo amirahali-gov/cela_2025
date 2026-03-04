@@ -31,11 +31,14 @@ class AppServiceProvider extends ServiceProvider
         //     URL::forceScheme('https');
         // }
 
-        if (app()->environment('production') || app()->environment('development')) {
+        if (app()->environment('development')) {
+            URL::forceRootUrl('https://jedi.msya.gov.tt/' . env('APP_NAME'));
+        }
+        elseif (app()->environment('production')) {
             URL::forceRootUrl('https://apps.msya.gov.tt/' . env('APP_NAME'));
         }
-        elseif (app()->environment('development')) {
-            URL::forceRootUrl('https://jedi.msya.gov.tt/' . env('APP_NAME'));
+        else {
+            URL::forceRootUrl(env('APP_URL'));
         }
 
         // if (env('APP_ENV') === 'development') {
