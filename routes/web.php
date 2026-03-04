@@ -16,21 +16,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix(env('APP_NAME'))->group(function () {
-    Route::get('/', [ApplicationController::class, 'getFormView'])->name('application.view');
-    Route::post('/test', [ApplicationController::class, 'test'])->name('application.test');
-    Route::post('/apply', [ApplicationController::class, 'apply'])->name('application.apply');
-    Route::post('/upload', [ApplicationController::class, 'upload'])->name('application.upload');
-    Route::delete('/files/{inputId}/{filename}', [ApplicationController::class, 'application.destroy']);
-});
+// Route::prefix(env('APP_NAME'))->group(function () {
+//     Route::get('/', [ApplicationController::class, 'getFormView'])->name('application.view');
+//     Route::post('/test', [ApplicationController::class, 'test'])->name('application.test');
+//     Route::post('/apply', [ApplicationController::class, 'apply'])->name('application.apply');
+//     Route::post('/upload', [ApplicationController::class, 'upload'])->name('application.upload');
+//     Route::delete('/files/{inputId}/{filename}', [ApplicationController::class, 'application.destroy']);
+// });
 
 /** Localhost Routes - to be ignored in production and development */
 
-// Route::get('/', [ApplicationController::class, 'getFormView'])->name('application.view');
-// Route::post('/test', [ApplicationController::class, 'test'])->name('application.test');
-// Route::post('/apply', [ApplicationController::class, 'apply'])->name('application.apply');
-// Route::post('/upload', [ApplicationController::class, 'upload'])->name('application.upload');
-// Route::delete('/files/{inputId}/{filename}', [ApplicationController::class, 'application.destroy']);
+Route::get('/', [ApplicationController::class, 'getFormView'])->name('application.view');
+Route::post('/test', [ApplicationController::class, 'test'])->name('application.test');
+Route::post('/apply', [ApplicationController::class, 'apply'])->name('application.apply');
+Route::post('/upload', [ApplicationController::class, 'upload'])->name('application.upload');
+Route::delete('/files/{inputId}/{filename}', [ApplicationController::class, 'application.destroy']);
 
 
 // // Draft routes
