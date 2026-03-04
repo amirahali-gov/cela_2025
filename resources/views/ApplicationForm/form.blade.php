@@ -80,7 +80,7 @@
                         </div>
                     @endif
 
-                    @if ($errors->isNotEmpty())
+                    {{-- @if ($errors->isNotEmpty())
                         <div style="height: 200px; overflow-y:scroll;">
                             @foreach ($errors->messages() as $key => $error)
                                 @php $error = $error[0]; @endphp
@@ -91,6 +91,25 @@
                                 </div>
                             @endforeach
                         </div>
+                    @endif --}}
+
+                    @if ($errors->isNotEmpty())
+                        <div id="error-summary" style="height: 200px; overflow-y:scroll;">
+                            @foreach ($errors->messages() as $key => $error)
+                                @php $error = $error[0]; @endphp
+                                <div class="alert alert-warning alert-dismissible" role="alert">
+                                    <a href="#{{ $key }}">{{ $error }}</a>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                document.getElementById('error-summary').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            });
+                        </script>
                     @endif
                 </section>
 

@@ -34,99 +34,64 @@ class ApplicationController extends Controller
 
     private $validatorRules = [
 
-        /* =======================
-        | Personal Information
-        ======================= */
+        /* Personal Information */
         'APL_FName'        => 'required|string|max:255',
         'APL_MName'        => 'nullable|string|max:255',
         'APL_LName'        => 'required|string|max:255',
-
         'APL_Address_1'    => 'required|string|max:255',
         'APL_Address_2'    => 'required|string|max:255',
         'APL_Address_3'    => 'required|string|max:255',
-
         'APL_Gender'       => 'required|in:M,F',
         'APL_Email'        => 'required|email|max:255',
         'APL_PPhone'       => 'required|string|max:20',
         'APL_APhone'       => 'nullable|string|max:20',
-
         'APL_DOB'          => 'required|date',
-        'APL_National'     => 'required|in:Yes,No',
+        'APL_National'     => 'required|in:Y,N',              // ← was in:Yes,No
 
-        /* =======================
-        | Identification
-        ======================= */
+        /* Identification */
         'APL_ID_TYP'       => 'required|in:NID,PP',
         'APL_ID_Number'    => 'required|string|max:50',
         'APL_Birth_Pin'    => 'required|string|max:50',
 
-        /* =======================
-        | Education & Skills
-        ======================= */
-        'APL_HLOE'             => 'required|string',
-        'APL_HLOE_Specify'     => 'required_if:APL_HLOE,Technical/Vocational|nullable|string|max:100',
-        'APL_CSEC_Passes'      => 'required|string',
-        /* =======================
-        | Employment
-        ======================= */
-        'APL_Employment_Type'   => 'required_if:APL_Employment_Status,Yes|nullable|string|max:255',
+        /* Education & Skills */
+        'APL_CSEC_Passes'  => 'required|string',
+        'APL_HLOE'         => 'required|string',
+        'APL_HLOE_Specify' => 'required_if:APL_HLOE,Technical/Vocational|nullable|string|max:100',
 
-        /* =======================
-        | Programme & Training
-        ======================= */
+        /* Employment */
+        'APL_Employment_Type' => 'required|string|max:255',   // ← removed required_if:APL_Employment_Status
+
+        /* Programme & Training */
+        'APL_Specialization'          => 'required|string',
         'APL_Training_Session'        => 'required|string',
-        'APL_Volunteer_Certification' => 'required|in:Yes,No',
-        'APL_Specialization'         => 'required|string',
+        'APL_Volunteer_Certification' => 'required|in:Y,N',   // ← was in:Yes,No
+        'APL_Attendance'              => 'required|in:Y,N',   // ← was in:Yes,No
+        'APL_Can_Volunteer'           => 'required|in:Y,N',   // ← was in:Yes,No
+        'APL_Experience'              => 'required|string|max:1000',
+        'APL_Motivation_Expectations' => 'required|string|max:1000',
 
-        'APL_Attendance'      => 'required|in:Yes,No',
-        'APL_Can_Volunteer'   => 'required|in:Yes,No',
-
-        'APL_Experience'               => 'required|string|max:1000',
-        'APL_Motivation_Expectations'  => 'required|string|max:1000',
-
-        /* =======================
-        | Feedback
-        ======================= */
+        /* Feedback */
         'APL_Post_Training_Intent' => 'required|string',
         'APL_Post_Training_Other'  => 'required_if:APL_Post_Training_Intent,Other|nullable|string|max:255',
-
         'APL_Volunteer_Confidence' => 'required|string',
-        'APL_Consent_Followup'     => 'required|in:Yes,No',
-
+        'APL_Consent_Followup'     => 'required|in:Y,N',      // ← was in:Yes,No
         'APL_How_Found_Programme'  => 'required|string',
         'APL_How_Found_Other'      => 'required_if:APL_How_Found_Programme,Other|nullable|string|max:255',
+        'APL_Subscribe_Mailing'    => 'required|in:Y,N',      // ← was in:Yes,No
+        'APL_Photo_Consent'        => 'required|in:Y,N',      // ← was in:Yes,No
 
-        'APL_Subscribe_Mailing' => 'required|in:Yes,No',
-        'APL_Photo_Consent'     => 'required|in:Yes,No',
+        /* Recommenders */
+        'APL_Rec1_FName'       => 'required|string|max:255',
+        'APL_Rec1_LName'       => 'required|string|max:255',
+        'APL_Rec1_Designation' => 'required|string|max:255',
+        'APL_Rec1_Phone'       => 'required|string|max:20',
+        'APL_Rec2_FName'       => 'required|string|max:255',
+        'APL_Rec2_LName'       => 'required|string|max:255',
+        'APL_Rec2_Designation' => 'required|string|max:255',
+        'APL_Rec2_Phone'       => 'required|string|max:20',
 
-        /* =======================
-        | Recommenders
-        ======================= */
-        'APL_Rec1_FName'        => 'required|string|max:255',
-        'APL_Rec1_LName'        => 'required|string|max:255',
-        'APL_Rec1_Designation'  => 'required|string|max:255',
-        'APL_Rec1_Phone'        => 'required|string|max:20',
-
-        'APL_Rec2_FName'        => 'required|string|max:255',
-        'APL_Rec2_LName'        => 'required|string|max:255',
-        'APL_Rec2_Designation'  => 'required|string|max:255',
-        'APL_Rec2_Phone'        => 'required|string|max:20',
-
-        /* =======================
-        | File Uploads
-        ======================= */
-        // 'File_Birth_Certificate'        => 'required|file',
-        // 'File_National_ID'              => 'required|file',
-        // 'File_Proof_Address'            => 'required|file',
-
-        // 'File_Authorization_Letter'     => 'nullable|file',
-        // 'File_Owner_ID'                 => 'nullable|file',
-        // 'Files_Academic_Certificates'   => 'nullable',
-        // 'File_Recommender_Statement_1'  => 'required|file',
-        // 'File_Recommender_Statement_2'  => 'required|file',
-
-        // Final acceptance
-        'APL_Accepts' => 'required|in:Yes',
+        /* Final acceptance */
+        'APL_Accepts' => 'required|in:Y',                     // ← was in:Yes
     ];
 
 
