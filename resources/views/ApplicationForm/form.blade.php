@@ -10,7 +10,7 @@
 
             <div id="form-panel">
                 <div class="container text-center">
-                    <img style="max-width:30vh; height: auto;" src="{{ asset('images/CELA_Logo.png') }}" alt="Logo" class="img-fluid w-25 mb-4" />
+                    <img style="min-width:30vh; height: auto;" src="{{ asset('images/CELA_Logo.png') }}" alt="Logo" class="img-fluid w-25 mb-4" />
                 </div>
                 <section>
                     <div class="text-center">
